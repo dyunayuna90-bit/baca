@@ -5,15 +5,15 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
     <title>M3 Expressive Reader</title>
     
-    <script src="[https://cdn.tailwindcss.com](https://cdn.tailwindcss.com)"></script>
-    <script src="[https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.16.105/pdf.min.js](https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.16.105/pdf.min.js)"></script>
-    <script src="[https://cdnjs.cloudflare.com/ajax/libs/localforage/1.10.0/localforage.min.js](https://cdnjs.cloudflare.com/ajax/libs/localforage/1.10.0/localforage.min.js)"></script>
-    <script src="[https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js](https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js)"></script>
-    <script src="[https://unpkg.com/lucide@latest](https://unpkg.com/lucide@latest)"></script>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.16.105/pdf.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/localforage/1.10.0/localforage.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
 
-    <link rel="preconnect" href="[https://fonts.googleapis.com](https://fonts.googleapis.com)">
-    <link rel="preconnect" href="[https://fonts.gstatic.com](https://fonts.gstatic.com)" crossorigin>
-    <link href="[https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Lora:ital,wght@0,400;0,500;1,400&family=Space+Mono&display=swap](https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Lora:ital,wght@0,400;0,500;1,400&family=Space+Mono&display=swap)" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Lora:ital,wght@0,400;0,500;1,400&family=Space+Mono&display=swap" rel="stylesheet">
 
     <style id="dynamic-theme"></style>
 
@@ -41,13 +41,8 @@
     </script>
     
     <style>
-        /* FIX TOTAL UNTUK VIEWPORT MOBILE & URL BAR MENGHILANG */
         html, body {
-            height: 100dvh;
-            width: 100vw;
-            position: fixed;
-            inset: 0;
-            overflow: hidden;
+            height: 100dvh; width: 100vw; position: fixed; inset: 0; overflow: hidden;
             background-color: var(--md-sys-color-background); color: var(--md-sys-color-on-background);
             transition: background-color 0.3s ease, color 0.3s ease; -webkit-tap-highlight-color: transparent;
         }
@@ -190,11 +185,11 @@
         </div>
     </div>
 
-    <!-- Modals (Theme) 15 Colors! -->
+    <!-- Modals (Theme) -->
     <div id="color-modal" class="hidden modal-overlay fixed inset-0 bg-black/60 z-[100] flex items-end justify-center opacity-0">
         <div class="modal-content bg-m3-surface w-full max-w-md rounded-t-[32px] p-6 pb-12 transform translate-y-full" id="color-sheet">
             <div class="w-12 h-1.5 bg-m3-onSurfaceVariant/30 rounded-full mx-auto mb-6"></div>
-            <h3 class="text-2xl font-bold mb-6 text-m3-onSurface">Pilih Tema M3 (15 Palet)</h3>
+            <h3 class="text-2xl font-bold mb-6 text-m3-onSurface">Pilih Tema M3</h3>
             <div class="grid grid-cols-5 gap-4 mb-4">
                 <button onclick="setTheme('purple')" class="btn-morph w-12 h-12 bg-[#6750A4] shadow-md"></button>
                 <button onclick="setTheme('green')" class="btn-morph w-12 h-12 bg-[#006C4C] shadow-md"></button>
@@ -233,8 +228,9 @@
     </div>
 
     <script>
-        pdfjsLib.GlobalWorkerOptions.workerSrc = '[https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.16.105/pdf.worker.min.js](https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.16.105/pdf.worker.min.js)';
+        pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.16.105/pdf.worker.min.js';
 
+        // Tema Palette
         const M3_PALETTES = {
             purple: { light: `--md-sys-color-primary:#6750A4;--md-sys-color-on-primary:#FFFFFF;--md-sys-color-primary-container:#EADDFF;--md-sys-color-on-primary-container:#21005D;--md-sys-color-secondary-container:#E8DEF8;--md-sys-color-on-secondary-container:#1D192B;--md-sys-color-tertiary-container:#FFD8E4;--md-sys-color-on-tertiary-container:#31111D;--md-sys-color-background:#FFFBFE;--md-sys-color-on-background:#1C1B1F;--md-sys-color-surface:#FFFBFE;--md-sys-color-on-surface:#1C1B1F;--md-sys-color-surface-variant:#E7E0EC;--md-sys-color-on-surface-variant:#49454F;`, dark: `--md-sys-color-primary:#D0BCFF;--md-sys-color-on-primary:#381E72;--md-sys-color-primary-container:#4F378B;--md-sys-color-on-primary-container:#EADDFF;--md-sys-color-secondary-container:#4A4458;--md-sys-color-on-secondary-container:#E8DEF8;--md-sys-color-tertiary-container:#633B48;--md-sys-color-on-tertiary-container:#FFD8E4;--md-sys-color-background:#1C1B1E;--md-sys-color-on-background:#E6E1E5;--md-sys-color-surface:#1C1B1E;--md-sys-color-on-surface:#E6E1E5;--md-sys-color-surface-variant:#49454F;--md-sys-color-on-surface-variant:#CAC4D0;` },
             green: { light: `--md-sys-color-primary:#006C4C;--md-sys-color-on-primary:#FFFFFF;--md-sys-color-primary-container:#89F8D6;--md-sys-color-on-primary-container:#002114;--md-sys-color-secondary-container:#CCE8DB;--md-sys-color-on-secondary-container:#052016;--md-sys-color-tertiary-container:#BEEAF6;--md-sys-color-on-tertiary-container:#001F29;--md-sys-color-background:#FBFDF9;--md-sys-color-on-background:#191C1A;--md-sys-color-surface:#FBFDF9;--md-sys-color-on-surface:#191C1A;--md-sys-color-surface-variant:#DBE5DF;--md-sys-color-on-surface-variant:#404943;`, dark: `--md-sys-color-primary:#6CDBBA;--md-sys-color-on-primary:#003825;--md-sys-color-primary-container:#005138;--md-sys-color-on-primary-container:#89F8D6;--md-sys-color-secondary-container:#334B3F;--md-sys-color-on-secondary-container:#CCE8DB;--md-sys-color-tertiary-container:#204D59;--md-sys-color-on-tertiary-container:#BEEAF6;--md-sys-color-background:#191C1A;--md-sys-color-on-background:#E1E3DF;--md-sys-color-surface:#191C1A;--md-sys-color-on-surface:#E1E3DF;--md-sys-color-surface-variant:#404943;--md-sys-color-on-surface-variant:#BFC9C3;` },
@@ -336,33 +332,38 @@
                     let bgStyle = ""; let textOverlay = ""; let baseClass = "";
                     if(book.coverBase64) {
                         bgStyle = `background-image: url('${book.coverBase64}'); background-size: cover; background-position: top center;`;
-                        baseClass = "text-white"; textOverlay = `<div class="absolute inset-0 bg-gradient-to-b from-black/70 via-black/20 to-black/90 rounded-inherit pointer-events-none z-0"></div>`;
+                        baseClass = "text-white"; 
+                        // Gradien dipindah ke bawah biar teks judul yang di bawah kebaca jelas
+                        textOverlay = `<div class="absolute inset-x-0 bottom-0 h-[80%] bg-gradient-to-t from-black/95 via-black/50 to-transparent rounded-b-inherit pointer-events-none z-0"></div>`;
                     } else {
                         const colors = ['bg-m3-primaryContainer text-m3-onPrimaryContainer', 'bg-m3-secondaryContainer text-m3-onSecondaryContainer', 'bg-m3-surfaceVariant text-m3-onSurfaceVariant'];
                         baseClass = colors[index % 3];
                     }
 
-                    card.className = `${baseClass} ${shape} p-4 aspect-[3/4] relative cursor-pointer shadow-md card-morph flex flex-col justify-between overflow-hidden group`;
+                    card.className = `${baseClass} ${shape} p-4 aspect-[3/4] relative cursor-pointer shadow-md card-morph flex flex-col justify-between group`;
                     card.style = bgStyle;
+                    // Posisi Judul dipindah ke bawah
                     card.innerHTML = `
                         ${textOverlay}
                         <div class="relative z-10 flex flex-col h-full justify-between">
-                            <div>
-                                <div class="absolute top-0 right-0 flex gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
+                            <div class="flex justify-end w-full">
+                                <div class="flex gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
                                     <button onclick="openEditModal('${book.id}', event)" class="p-2 bg-black/40 backdrop-blur-sm rounded-full text-white hover:bg-black/60 btn-morph"><i data-lucide="edit-3" class="w-4 h-4"></i></button>
                                     <button onclick="deleteBook('${book.id}', event)" class="p-2 bg-red-500/80 backdrop-blur-sm rounded-full text-white hover:bg-red-600 btn-morph"><i data-lucide="trash-2" class="w-4 h-4"></i></button>
                                 </div>
-                                ${book.coverBase64 ? '' : '<i data-lucide="book" class="w-8 h-8 mb-4 opacity-80"></i>'}
-                                <h3 class="font-bold text-lg leading-tight mt-2 line-clamp-4 break-words drop-shadow-md">${book.title}</h3>
-                                <span class="inline-block mt-1 text-[0.65rem] font-mono px-2 py-0.5 bg-black/30 rounded-full text-white/90 uppercase tracking-widest backdrop-blur-sm">${book.type}</span>
                             </div>
-                            <div class="mt-4">
-                                <div class="flex justify-between text-[0.7rem] font-bold opacity-90 mb-1">
-                                    <span>${book.pages} Hal</span>
-                                    <span>${progress}%</span>
-                                </div>
-                                <div class="h-1.5 w-full bg-white/20 rounded-full overflow-hidden">
-                                    <div class="h-full bg-current rounded-full" style="width: ${progress}%"></div>
+                            <div class="mt-auto flex flex-col">
+                                ${book.coverBase64 ? '' : '<i data-lucide="book" class="w-8 h-8 mb-2 opacity-80"></i>'}
+                                <h3 class="font-bold text-lg leading-tight mt-1 line-clamp-3 break-all drop-shadow-md text-white">${book.title}</h3>
+                                <span class="inline-block mt-2 mb-3 text-[0.65rem] font-mono px-2 py-0.5 bg-black/50 rounded-full text-white/90 uppercase tracking-widest backdrop-blur-sm self-start">${book.type}</span>
+                                <div class="w-full">
+                                    <div class="flex justify-between text-[0.7rem] font-bold opacity-90 mb-1 text-white">
+                                        <span>${book.pages} Hal</span>
+                                        <span>${progress}%</span>
+                                    </div>
+                                    <div class="h-1.5 w-full bg-white/30 rounded-full overflow-hidden">
+                                        <div class="h-full bg-white rounded-full" style="width: ${progress}%"></div>
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -546,7 +547,7 @@
                 textContent.items.forEach(item => {
                     const str = item.str.trim(); if (str === '') return;
                     const yPos = item.transform[5];
-                    // Jaring pemusnah sekat ditarik jadi 10% atas bawah biar lebih aman
+                    // Jaring pemusnah sekat ditarik jadi 10%
                     if (yPos < pageHeight * 0.10 || yPos > pageHeight * 0.90) return;
                     if (/^\d+$/.test(str) || str.toLowerCase() === bookTitle.toLowerCase()) return;
                     allItems.push({ text: item.str, height: item.transform[0], y: yPos });
@@ -562,7 +563,6 @@
                 if (lastY !== -1 && Math.abs(item.y - lastY) > avgHeight * 1.5) {
                     if (currentPar.trim() !== "") { 
                         const lastChar = currentPar.trim().slice(-1);
-                        // Tambahan tanda baca yang dianggap penutup kalimat
                         if (['.', '?', '!', '"', '”', '’', ':'].includes(lastChar)) { parsedNodes.push({ tag: 'p', text: currentPar.trim() }); currentPar = ""; } 
                         else { currentPar += " "; }
                     }
@@ -641,6 +641,25 @@
             const stack = base.split('/'); stack.pop(); const parts = relative.split('/');
             for (const part of parts) { if (part === '.') continue; if (part === '..') stack.pop(); else stack.push(part); }
             return stack.join('/');
+        }
+
+        // --- SERVICE WORKER BUAT NGE-CACHE CDN (Biar ga hancur lagi kalo sinyal jelek) ---
+        if ('serviceWorker' in navigator) {
+            const swCode = `
+            const CACHE_NAME = 'm3-reader-v4';
+            self.addEventListener('install', (e) => e.waitUntil(caches.open(CACHE_NAME).then(c => c.addAll([
+                '/',
+                'https://cdn.tailwindcss.com',
+                'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.16.105/pdf.min.js',
+                'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.16.105/pdf.worker.min.js',
+                'https://cdnjs.cloudflare.com/ajax/libs/localforage/1.10.0/localforage.min.js',
+                'https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js',
+                'https://unpkg.com/lucide@latest'
+            ]))));
+            self.addEventListener('fetch', (e) => e.respondWith(caches.match(e.request).then(r => r || fetch(e.request))));
+            `;
+            const blob = new Blob([swCode], {type: 'application/javascript'});
+            navigator.serviceWorker.register(URL.createObjectURL(blob)).catch(err=>console.log(err));
         }
 
         loadLibrary();
