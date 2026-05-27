@@ -7,34 +7,12 @@
     <title>M3 Expressive Reader</title>
     
     <script src="https://cdn.tailwindcss.com"></script>
-    <!-- Pakai PDF.js versi LTS yang lebih enteng buat HP -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.16.105/pdf.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/localforage/1.10.0/localforage.min.js"></script>
     <script src="https://unpkg.com/lucide@latest"></script>
-    <script src="https://cdn.jsdelivr.net/npm/@material/material-color-utilities@0.2.7/dist/index.browser.min.js"></script>
 
     <style id="dynamic-theme">
-        /* Default Theme fallback (akan ditimpa JS) */
-        :root {
-            --md-sys-color-primary: #6750A4; --md-sys-color-on-primary: #FFFFFF;
-            --md-sys-color-primary-container: #EADDFF; --md-sys-color-on-primary-container: #21005D;
-            --md-sys-color-secondary-container: #E8DEF8; --md-sys-color-on-secondary-container: #1D192B;
-            --md-sys-color-tertiary: #7D5260; --md-sys-color-tertiary-container: #FFD8E4;
-            --md-sys-color-on-tertiary-container: #31111D;
-            --md-sys-color-background: #FFFBFE; --md-sys-color-on-background: #1C1B1F;
-            --md-sys-color-surface: #FFFBFE; --md-sys-color-on-surface: #1C1B1F;
-            --md-sys-color-surface-variant: #E7E0EC; --md-sys-color-on-surface-variant: #49454F;
-        }
-        .dark {
-            --md-sys-color-primary: #D0BCFF; --md-sys-color-on-primary: #381E72;
-            --md-sys-color-primary-container: #4F378B; --md-sys-color-on-primary-container: #EADDFF;
-            --md-sys-color-secondary-container: #4A4458; --md-sys-color-on-secondary-container: #E8DEF8;
-            --md-sys-color-tertiary: #EFB8C8; --md-sys-color-tertiary-container: #633B48;
-            --md-sys-color-on-tertiary-container: #FFD8E4;
-            --md-sys-color-background: #1C1B1F; --md-sys-color-on-background: #E6E1E5;
-            --md-sys-color-surface: #1C1B1F; --md-sys-color-on-surface: #E6E1E5;
-            --md-sys-color-surface-variant: #49454F; --md-sys-color-on-surface-variant: #CAC4D0;
-        }
+        /* Base Theme (Purple) will be injected here instantly by JS */
     </style>
 
     <script>
@@ -77,28 +55,24 @@
         
         /* M3 Expressive Button Morphing Animation */
         .btn-morph {
-            transition: all 0.4s cubic-bezier(0.2, 0, 0, 1);
-            border-radius: 28px; /* Default FAB radius */
+            transition: all 0.3s cubic-bezier(0.2, 0, 0, 1);
+            border-radius: 28px;
         }
         .btn-morph:active {
-            /* Saat dipencet, bentuk memanjang dan sudutnya jadi lebih tajam (kotak) */
             transform: scale(0.9) stretch(1.1);
             border-radius: 12px;
             background-color: var(--md-sys-color-primary);
             color: var(--md-sys-color-on-primary);
         }
 
-        /* Card Morphing */
         .card-morph {
-            transition: all 0.5s cubic-bezier(0.2, 0, 0, 1);
+            transition: all 0.4s cubic-bezier(0.2, 0, 0, 1);
         }
         .card-morph:active {
-            transform: scale(0.96);
-            /* Saat dipencet, semua sudut membulat ekstrem */
+            transform: scale(0.95);
             border-radius: 40px !important; 
         }
 
-        /* Progress Bar Animation */
         .progress-fill {
             transition: width 0.3s cubic-bezier(0.4, 0, 0.2, 1);
         }
@@ -115,17 +89,17 @@
                     <p id="library-count" class="text-m3-onSurfaceVariant text-lg font-medium">0 Dokumen</p>
                 </div>
                 <div class="flex gap-2">
-                    <button id="theme-toggle" class="btn-morph p-4 bg-m3-surfaceVariant text-m3-onSurfaceVariant shadow-sm">
-                        <i data-lucide="moon" id="theme-icon"></i>
+                    <button id="theme-toggle" class="btn-morph p-4 bg-m3-surfaceVariant text-m3-onSurfaceVariant shadow-sm flex items-center justify-center">
+                        <!-- Ikon diinjeksi via JS biar ga nabrak -->
                     </button>
-                    <button id="color-picker-btn" class="btn-morph p-4 bg-m3-primaryContainer text-m3-onPrimaryContainer shadow-sm">
+                    <button id="color-picker-btn" class="btn-morph p-4 bg-m3-primaryContainer text-m3-onPrimaryContainer shadow-sm flex items-center justify-center">
                         <i data-lucide="palette"></i>
                     </button>
                 </div>
             </div>
         </header>
 
-        <!-- Loading State (Diperbaiki dengan Real-Time Progress) -->
+        <!-- Loading State -->
         <div id="loading-state" class="hidden mb-8 p-6 bg-m3-secondaryContainer text-m3-onSecondaryContainer rounded-[32px] shadow-sm transform transition-all">
             <div class="flex justify-between items-end mb-3">
                 <p id="loading-text" class="font-medium text-lg leading-tight">Menyiapkan Mesin...</p>
@@ -134,7 +108,7 @@
             <div class="h-4 w-full bg-black/10 dark:bg-white/10 rounded-full overflow-hidden relative shadow-inner">
                 <div id="loading-bar" class="absolute h-full w-0 bg-m3-primary progress-fill rounded-full"></div>
             </div>
-            <p id="loading-subtext" class="text-sm mt-3 opacity-80 text-center">Jangan tutup aplikasi...</p>
+            <p id="loading-subtext" class="text-sm mt-3 opacity-80 text-center truncate">Mohon tunggu...</p>
         </div>
 
         <div id="book-grid" class="grid grid-cols-1 md:grid-cols-2 gap-4"></div>
@@ -144,7 +118,6 @@
             <p class="text-2xl font-medium text-center tracking-tight">Perpustakaan Kosong.</p>
         </div>
 
-        <!-- FAB dengan Animasi Morphing -->
         <div class="fixed bottom-8 right-8 z-50">
             <input type="file" id="pdf-upload" accept="application/pdf" class="hidden">
             <label for="pdf-upload" class="btn-morph flex items-center justify-center w-20 h-20 bg-m3-tertiaryContainer text-m3-onTertiaryContainer shadow-xl cursor-pointer">
@@ -155,7 +128,7 @@
 
     <!-- VIEW: READER -->
     <div id="reader-view" class="hidden h-screen flex-col bg-m3-bg text-m3-onBg">
-        <div class="flex items-center justify-between p-4 bg-m3-surfaceVariant text-m3-onSurfaceVariant rounded-b-[32px] shadow-sm z-10">
+        <div class="flex items-center justify-between p-4 bg-m3-surfaceVariant text-m3-onSurfaceVariant rounded-b-[32px] shadow-sm z-10 shrink-0">
             <button id="btn-back" class="btn-morph p-3 bg-m3-surface">
                 <i data-lucide="arrow-left"></i>
             </button>
@@ -171,85 +144,118 @@
     </div>
 
     <!-- Color Picker Modal -->
-    <div id="color-modal" class="hidden fixed inset-0 bg-black/50 backdrop-blur-sm z-[100] flex items-end justify-center">
+    <div id="color-modal" class="hidden fixed inset-0 bg-black/50 backdrop-blur-sm z-[100] flex items-end justify-center transition-opacity">
         <div class="bg-m3-surface w-full max-w-md rounded-t-[32px] p-6 pb-12 transition-transform transform translate-y-full duration-300" id="color-sheet">
             <div class="w-12 h-1.5 bg-m3-onSurfaceVariant/30 rounded-full mx-auto mb-6"></div>
-            <h3 class="text-2xl font-medium mb-6 text-m3-onSurface">Tema Ekspresif</h3>
+            <h3 class="text-2xl font-medium mb-6 text-m3-onSurface">Pilih Tema</h3>
             <div class="grid grid-cols-5 gap-4">
-                <button onclick="generateTheme('#6750A4')" class="btn-morph w-14 h-14 bg-[#6750A4] shadow-md"></button>
-                <button onclick="generateTheme('#006A60')" class="btn-morph w-14 h-14 bg-[#006A60] shadow-md"></button>
-                <button onclick="generateTheme('#8C4A60')" class="btn-morph w-14 h-14 bg-[#8C4A60] shadow-md"></button>
-                <button onclick="generateTheme('#415F91')" class="btn-morph w-14 h-14 bg-[#415F91] shadow-md"></button>
-                <button onclick="generateTheme('#B86F2D')" class="btn-morph w-14 h-14 bg-[#B86F2D] shadow-md"></button>
+                <button onclick="setTheme('purple')" class="btn-morph w-14 h-14 bg-[#6750A4] shadow-md"></button>
+                <button onclick="setTheme('green')" class="btn-morph w-14 h-14 bg-[#006C4C] shadow-md"></button>
+                <button onclick="setTheme('rose')" class="btn-morph w-14 h-14 bg-[#984061] shadow-md"></button>
+                <button onclick="setTheme('blue')" class="btn-morph w-14 h-14 bg-[#0061A4] shadow-md"></button>
+                <button onclick="setTheme('orange')" class="btn-morph w-14 h-14 bg-[#8F4C38] shadow-md"></button>
             </div>
-            <button onclick="closeColorModal()" class="btn-morph w-full mt-8 py-4 bg-m3-primaryContainer text-m3-onPrimaryContainer font-medium text-lg">Selesai</button>
+            <button onclick="closeColorModal()" class="btn-morph w-full mt-8 py-4 bg-m3-primaryContainer text-m3-onPrimaryContainer font-medium text-lg">Tutup</button>
         </div>
     </div>
 
-    <!-- LOGIC -->
+    <!-- JS ENGINE - BUG FIXES -->
     <script>
-        // Pakai versi yang sama dengan CDN script di atas
+        // 1. Inisialisasi Aman PDF Worker
         pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.16.105/pdf.worker.min.js';
+
+        // 2. Kamus Warna M3 Pre-Kalkulasi (Cepat, Anti-Crash)
+        const M3_PALETTES = {
+            purple: {
+                light: `--md-sys-color-primary:#6750A4;--md-sys-color-on-primary:#FFFFFF;--md-sys-color-primary-container:#EADDFF;--md-sys-color-on-primary-container:#21005D;--md-sys-color-secondary-container:#E8DEF8;--md-sys-color-on-secondary-container:#1D192B;--md-sys-color-tertiary-container:#FFD8E4;--md-sys-color-on-tertiary-container:#31111D;--md-sys-color-background:#FFFBFE;--md-sys-color-on-background:#1C1B1F;--md-sys-color-surface:#FFFBFE;--md-sys-color-on-surface:#1C1B1F;--md-sys-color-surface-variant:#E7E0EC;--md-sys-color-on-surface-variant:#49454F;`,
+                dark: `--md-sys-color-primary:#D0BCFF;--md-sys-color-on-primary:#381E72;--md-sys-color-primary-container:#4F378B;--md-sys-color-on-primary-container:#EADDFF;--md-sys-color-secondary-container:#4A4458;--md-sys-color-on-secondary-container:#E8DEF8;--md-sys-color-tertiary-container:#633B48;--md-sys-color-on-tertiary-container:#FFD8E4;--md-sys-color-background:#1C1B1E;--md-sys-color-on-background:#E6E1E5;--md-sys-color-surface:#1C1B1E;--md-sys-color-on-surface:#E6E1E5;--md-sys-color-surface-variant:#49454F;--md-sys-color-on-surface-variant:#CAC4D0;`
+            },
+            green: {
+                light: `--md-sys-color-primary:#006C4C;--md-sys-color-on-primary:#FFFFFF;--md-sys-color-primary-container:#89F8D6;--md-sys-color-on-primary-container:#002114;--md-sys-color-secondary-container:#CCE8DB;--md-sys-color-on-secondary-container:#052016;--md-sys-color-tertiary-container:#BEEAF6;--md-sys-color-on-tertiary-container:#001F29;--md-sys-color-background:#FBFDF9;--md-sys-color-on-background:#191C1A;--md-sys-color-surface:#FBFDF9;--md-sys-color-on-surface:#191C1A;--md-sys-color-surface-variant:#DBE5DF;--md-sys-color-on-surface-variant:#404943;`,
+                dark: `--md-sys-color-primary:#6CDBBA;--md-sys-color-on-primary:#003825;--md-sys-color-primary-container:#005138;--md-sys-color-on-primary-container:#89F8D6;--md-sys-color-secondary-container:#334B3F;--md-sys-color-on-secondary-container:#CCE8DB;--md-sys-color-tertiary-container:#204D59;--md-sys-color-on-tertiary-container:#BEEAF6;--md-sys-color-background:#191C1A;--md-sys-color-on-background:#E1E3DF;--md-sys-color-surface:#191C1A;--md-sys-color-on-surface:#E1E3DF;--md-sys-color-surface-variant:#404943;--md-sys-color-on-surface-variant:#BFC9C3;`
+            },
+            rose: {
+                light: `--md-sys-color-primary:#984061;--md-sys-color-on-primary:#FFFFFF;--md-sys-color-primary-container:#FFD9E2;--md-sys-color-on-primary-container:#3E001D;--md-sys-color-secondary-container:#FFD9E2;--md-sys-color-on-secondary-container:#2B151C;--md-sys-color-tertiary-container:#FFD8CA;--md-sys-color-on-tertiary-container:#321204;--md-sys-color-background:#FFFBFF;--md-sys-color-on-background:#201A1B;--md-sys-color-surface:#FFFBFF;--md-sys-color-on-surface:#201A1B;--md-sys-color-surface-variant:#F4DDDF;--md-sys-color-on-surface-variant:#524346;`,
+                dark: `--md-sys-color-primary:#FFB1C8;--md-sys-color-on-primary:#5E1133;--md-sys-color-primary-container:#7B294A;--md-sys-color-on-primary-container:#FFD9E2;--md-sys-color-secondary-container:#5C3F46;--md-sys-color-on-secondary-container:#FFD9E2;--md-sys-color-tertiary-container:#653B2A;--md-sys-color-on-tertiary-container:#FFD8CA;--md-sys-color-background:#201A1B;--md-sys-color-on-background:#ECE0E1;--md-sys-color-surface:#201A1B;--md-sys-color-on-surface:#ECE0E1;--md-sys-color-surface-variant:#524346;--md-sys-color-on-surface-variant:#D7C1C4;`
+            },
+            blue: {
+                light: `--md-sys-color-primary:#0061A4;--md-sys-color-on-primary:#FFFFFF;--md-sys-color-primary-container:#D1E4FF;--md-sys-color-on-primary-container:#001D36;--md-sys-color-secondary-container:#D7E3F7;--md-sys-color-on-secondary-container:#101C2B;--md-sys-color-tertiary-container:#E2E2FF;--md-sys-color-on-tertiary-container:#191637;--md-sys-color-background:#FDFBFF;--md-sys-color-on-background:#1A1C1E;--md-sys-color-surface:#FDFBFF;--md-sys-color-on-surface:#1A1C1E;--md-sys-color-surface-variant:#DFE2EB;--md-sys-color-on-surface-variant:#43474E;`,
+                dark: `--md-sys-color-primary:#9ECAFF;--md-sys-color-on-primary:#003258;--md-sys-color-primary-container:#00497D;--md-sys-color-on-primary-container:#D1E4FF;--md-sys-color-secondary-container:#3B4858;--md-sys-color-on-secondary-container:#D7E3F7;--md-sys-color-tertiary-container:#423F62;--md-sys-color-on-tertiary-container:#E2E2FF;--md-sys-color-background:#1A1C1E;--md-sys-color-on-background:#E2E2E6;--md-sys-color-surface:#1A1C1E;--md-sys-color-on-surface:#E2E2E6;--md-sys-color-surface-variant:#43474E;--md-sys-color-on-surface-variant:#C3C7CF;`
+            },
+            orange: {
+                light: `--md-sys-color-primary:#8F4C38;--md-sys-color-on-primary:#FFFFFF;--md-sys-color-primary-container:#FFDBD1;--md-sys-color-on-primary-container:#3A0B01;--md-sys-color-secondary-container:#FFDBD1;--md-sys-color-on-secondary-container:#2C150F;--md-sys-color-tertiary-container:#F7D8B7;--md-sys-color-on-tertiary-container:#271600;--md-sys-color-background:#FFF8F6;--md-sys-color-on-background:#221A18;--md-sys-color-surface:#FFF8F6;--md-sys-color-on-surface:#221A18;--md-sys-color-surface-variant:#F5DED8;--md-sys-color-on-surface-variant:#53433F;`,
+                dark: `--md-sys-color-primary:#FFB5A0;--md-sys-color-on-primary:#561F0F;--md-sys-color-primary-container:#723523;--md-sys-color-on-primary-container:#FFDBD1;--md-sys-color-secondary-container:#5D3F37;--md-sys-color-on-secondary-container:#FFDBD1;--md-sys-color-tertiary-container:#524029;--md-sys-color-on-tertiary-container:#F7D8B7;--md-sys-color-background:#221A18;--md-sys-color-on-background:#EAE0DD;--md-sys-color-surface:#221A18;--md-sys-color-on-surface:#EAE0DD;--md-sys-color-surface-variant:#53433F;--md-sys-color-on-surface-variant:#D8C2BC;`
+            }
+        };
 
         const DOM = {
             lib: document.getElementById('library-view'), read: document.getElementById('reader-view'),
             grid: document.getElementById('book-grid'), empty: document.getElementById('empty-state'),
             load: document.getElementById('loading-state'), loadTxt: document.getElementById('loading-text'),
             loadBar: document.getElementById('loading-bar'), loadPct: document.getElementById('loading-percent'),
-            loadSub: document.getElementById('loading-subtext'),
-            file: document.getElementById('pdf-upload'), backBtn: document.getElementById('btn-back'),
-            inner: document.getElementById('reader-inner'), title: document.getElementById('reader-title'),
-            count: document.getElementById('library-count'), colorBtn: document.getElementById('color-picker-btn'),
-            colorModal: document.getElementById('color-modal'), colorSheet: document.getElementById('color-sheet'),
+            loadSub: document.getElementById('loading-subtext'), file: document.getElementById('pdf-upload'), 
+            backBtn: document.getElementById('btn-back'), inner: document.getElementById('reader-inner'), 
+            title: document.getElementById('reader-title'), count: document.getElementById('library-count'), 
+            colorBtn: document.getElementById('color-picker-btn'), colorModal: document.getElementById('color-modal'), 
+            colorSheet: document.getElementById('color-sheet'), themeToggle: document.getElementById('theme-toggle')
         };
 
         let library = [];
-        lucide.createIcons();
 
-        // --- THEME ENGINE ---
+        // 3. Engine Tema Dirombak Total (Aman dari DOM konflik)
         let isDark = localStorage.getItem('theme') === 'dark';
-        let currentColor = localStorage.getItem('m3-color') || '#6750A4';
+        let currentThemeKey = localStorage.getItem('m3-key') || 'purple';
 
-        function generateTheme(sourceColorHex) {
-            currentColor = sourceColorHex;
-            localStorage.setItem('m3-color', sourceColorHex);
-            const theme = materialColorUtilities.themeFromSourceColor(materialColorUtilities.argbFromHex(sourceColorHex));
-            const scheme = isDark ? theme.schemes.dark : theme.schemes.light;
-            const toHex = (argb) => materialColorUtilities.hexFromArgb(argb);
+        function applyThemeToDOM() {
+            // Pasang dark mode class
+            document.documentElement.classList.toggle('dark', isDark);
+            
+            // Render CSS Variables berdasarkan mode dan warna
+            const mode = isDark ? 'dark' : 'light';
+            const cssString = `:root { ${M3_PALETTES[currentThemeKey][mode]} }`;
+            document.getElementById('dynamic-theme').innerHTML = cssString;
 
-            const css = `
-                :root {
-                    --md-sys-color-primary: ${toHex(scheme.primary)}; --md-sys-color-on-primary: ${toHex(scheme.onPrimary)};
-                    --md-sys-color-primary-container: ${toHex(scheme.primaryContainer)}; --md-sys-color-on-primary-container: ${toHex(scheme.onPrimaryContainer)};
-                    --md-sys-color-secondary-container: ${toHex(scheme.secondaryContainer)}; --md-sys-color-on-secondary-container: ${toHex(scheme.onSecondaryContainer)};
-                    --md-sys-color-tertiary: ${toHex(scheme.tertiary)}; --md-sys-color-tertiary-container: ${toHex(scheme.tertiaryContainer)};
-                    --md-sys-color-on-tertiary-container: ${toHex(scheme.onTertiaryContainer)};
-                    --md-sys-color-background: ${toHex(scheme.background)}; --md-sys-color-on-background: ${toHex(scheme.onBackground)};
-                    --md-sys-color-surface: ${toHex(scheme.surface)}; --md-sys-color-on-surface: ${toHex(scheme.onSurface)};
-                    --md-sys-color-surface-variant: ${toHex(scheme.surfaceVariant)}; --md-sys-color-on-surface-variant: ${toHex(scheme.onSurfaceVariant)};
-                }
-            `;
-            document.getElementById('dynamic-theme').innerHTML = css;
-            closeColorModal();
+            // Injeksi ulang icon biar gak crash gara2 tergantikan lucide
+            DOM.themeToggle.innerHTML = `<i data-lucide="${isDark ? 'sun' : 'moon'}"></i>`;
+            lucide.createIcons();
+            
+            localStorage.setItem('theme', isDark ? 'dark' : 'light');
+            localStorage.setItem('m3-key', currentThemeKey);
         }
 
-        const applyThemeMode = () => {
-            document.documentElement.classList.toggle('dark', isDark);
-            document.getElementById('theme-icon').setAttribute('data-lucide', isDark ? 'sun' : 'moon');
-            lucide.createIcons();
-            localStorage.setItem('theme', isDark ? 'dark' : 'light');
-            generateTheme(currentColor);
+        window.setTheme = function(key) {
+            currentThemeKey = key;
+            applyThemeToDOM();
+            closeColorModal();
         };
-        applyThemeMode();
 
-        document.getElementById('theme-toggle').addEventListener('click', () => { isDark = !isDark; applyThemeMode(); });
-        DOM.colorBtn.addEventListener('click', () => { DOM.colorModal.classList.remove('hidden'); requestAnimationFrame(() => DOM.colorSheet.classList.remove('translate-y-full')); });
-        function closeColorModal() { DOM.colorSheet.classList.add('translate-y-full'); setTimeout(() => DOM.colorModal.classList.add('hidden'), 300); }
+        DOM.themeToggle.addEventListener('click', () => {
+            isDark = !isDark;
+            applyThemeToDOM();
+        });
 
-        // --- APP LOGIC ---
+        DOM.colorBtn.addEventListener('click', () => {
+            DOM.colorModal.classList.remove('hidden');
+            // Sedikit jeda buat animasi naik
+            requestAnimationFrame(() => DOM.colorSheet.classList.remove('translate-y-full'));
+        });
+
+        window.closeColorModal = function() {
+            DOM.colorSheet.classList.add('translate-y-full');
+            setTimeout(() => DOM.colorModal.classList.add('hidden'), 300);
+        };
+
+        // Eksekusi tema pertama kali
+        applyThemeToDOM();
+
+        // 4. Logika Utama App (Library & Reader)
         async function loadLibrary() {
-            try { library = await localforage.getItem('pdf_lib_v3') || []; renderLibrary(); } 
-            catch (e) { console.error("Gagal load library", e); }
+            try { 
+                library = await localforage.getItem('pdf_data') || []; 
+                renderLibrary(); 
+            } catch (e) { 
+                console.error("LocalForage Error:", e); 
+            }
         }
 
         function renderLibrary() {
@@ -257,18 +263,20 @@
             DOM.count.textContent = `${library.length} Dokumen`;
             
             if (library.length === 0) {
-                DOM.empty.classList.remove('hidden'); DOM.grid.classList.add('hidden');
+                DOM.empty.classList.remove('hidden'); 
+                DOM.grid.classList.add('hidden');
             } else {
-                DOM.empty.classList.add('hidden'); DOM.grid.classList.remove('hidden');
+                DOM.empty.classList.add('hidden'); 
+                DOM.grid.classList.remove('hidden');
+                
                 library.forEach((book, index) => {
                     const card = document.createElement('div');
-                    // Pola Geometri asimetris murni
                     const shape = index % 2 === 0 ? 'rounded-tl-[48px] rounded-br-[48px] rounded-tr-xl rounded-bl-xl' : 'rounded-tr-[48px] rounded-bl-[48px] rounded-tl-xl rounded-br-xl';
                     const color = index % 3 === 0 ? 'bg-m3-primaryContainer text-m3-onPrimaryContainer' : (index % 3 === 1 ? 'bg-m3-secondaryContainer text-m3-onSecondaryContainer' : 'bg-m3-surfaceVariant text-m3-onSurfaceVariant');
 
                     card.className = `${color} ${shape} p-8 relative cursor-pointer shadow-sm card-morph`;
                     card.innerHTML = `
-                        <button onclick="deleteBook('${book.id}', event)" class="absolute top-4 right-4 p-3 bg-black/10 dark:bg-white/10 rounded-full hover:bg-black/20 btn-morph">
+                        <button onclick="deleteBook('${book.id}', event)" class="absolute top-4 right-4 p-3 bg-black/10 dark:bg-white/10 rounded-full hover:bg-black/20 btn-morph z-10">
                             <i data-lucide="trash-2" class="w-5 h-5"></i>
                         </button>
                         <i data-lucide="book-open" class="w-10 h-10 mb-6 opacity-80"></i>
@@ -282,16 +290,18 @@
             }
         }
 
-        async function deleteBook(id, event) {
+        window.deleteBook = async function(id, event) {
             event.stopPropagation();
+            if(!confirm("Yakin hapus buku ini?")) return;
             library = library.filter(b => b.id !== id);
-            await localforage.setItem('pdf_lib_v3', library);
+            await localforage.setItem('pdf_data', library);
             renderLibrary();
-        }
+        };
 
         function openBook(book) {
             DOM.lib.classList.add('hidden');
-            DOM.read.classList.remove('hidden'); DOM.read.classList.add('flex');
+            DOM.read.classList.remove('hidden'); 
+            DOM.read.classList.add('flex');
             DOM.title.textContent = book.title;
             DOM.inner.innerHTML = '';
             
@@ -307,25 +317,24 @@
         }
 
         DOM.backBtn.addEventListener('click', () => {
-            DOM.read.classList.add('hidden'); DOM.read.classList.remove('flex'); DOM.lib.classList.remove('hidden');
+            DOM.read.classList.add('hidden'); 
+            DOM.read.classList.remove('flex'); 
+            DOM.lib.classList.remove('hidden');
         });
 
-        // --- PDF EXTRACTION SUPER ENGINE ---
+        // 5. Engine Ekstraksi PDF (Dibikin lebih kebal)
         DOM.file.addEventListener('change', async (e) => {
             const file = e.target.files[0];
             if (!file) return;
 
-            // Tampilkan UI Loading
             DOM.load.classList.remove('hidden');
-            DOM.loadBar.style.width = '0%';
+            DOM.loadBar.style.width = '5%';
             DOM.loadPct.textContent = '0%';
             DOM.loadTxt.textContent = `Membaca File PDF...`;
             DOM.loadSub.textContent = file.name;
 
             try {
                 const arrayBuffer = await file.arrayBuffer();
-                
-                // Gunakan loadingTask untuk penanganan file yang lebih aman
                 const loadingTask = pdfjsLib.getDocument({ data: arrayBuffer });
                 const pdf = await loadingTask.promise;
                 const numPages = pdf.numPages;
@@ -334,13 +343,13 @@
 
                 let allItems = []; 
                 
-                // Looping ekstrak per halaman dengan jeda supaya UI ga hang
                 for (let i = 1; i <= numPages; i++) {
                     const percent = Math.round((i / numPages) * 100);
                     
-                    // Update UI (kasih setTimeout 0 buat maksa browser render UI)
-                    await new Promise(resolve => setTimeout(resolve, 0));
-                    DOM.loadTxt.textContent = `Ekstrak Hal ${i} dari ${numPages}`;
+                    // Jeda UI Update
+                    await new Promise(r => setTimeout(r, 10));
+                    
+                    DOM.loadTxt.textContent = `Mengekstrak Halaman ${i}`;
                     DOM.loadBar.style.width = `${percent}%`;
                     DOM.loadPct.textContent = `${percent}%`;
 
@@ -352,26 +361,21 @@
                             if (item.str.trim() === '') return;
                             allItems.push({
                                 text: item.str,
-                                height: item.transform[0], // Skala Y Font
-                                y: item.transform[5]       // Posisi Y
+                                height: item.transform[0],
+                                y: item.transform[5]
                             });
                         });
-                    } catch (pageErr) {
-                        console.warn(`Gagal baca halaman ${i}`, pageErr);
-                        // Lanjut halaman berikutnya walau 1 halaman gagal
+                    } catch (e) {
+                        console.warn(`Hal ${i} dilewati (error)`, e);
                     }
                 }
 
                 DOM.loadTxt.textContent = "Menyusun Tipografi...";
                 DOM.loadBar.style.width = `100%`;
-                await new Promise(resolve => setTimeout(resolve, 50)); // Jeda biar animasi full dulu
+                await new Promise(r => setTimeout(r, 50));
 
-                // Jika pdf isinya cuma gambar (hasil scan)
-                if(allItems.length === 0) {
-                    throw new Error("Tidak ada teks yang bisa dibaca. Apakah ini PDF hasil scan/gambar?");
-                }
+                if(allItems.length === 0) throw new Error("PDF kosong atau hanya berisi gambar (hasil scan).");
 
-                // Kalkulasi rata-rata tinggi font
                 let totalHeight = 0;
                 allItems.forEach(i => totalHeight += i.height);
                 const avgHeight = totalHeight / allItems.length;
@@ -410,7 +414,6 @@
                 
                 if (currentParagraph.trim() !== "") parsedNodes.push({ tag: 'p', text: currentParagraph.trim() });
 
-                // Bersihkan H1/H2 yang kepisah
                 let cleanedNodes = [];
                 for(let i=0; i<parsedNodes.length; i++) {
                     let curr = parsedNodes[i];
@@ -432,20 +435,20 @@
                 };
 
                 library.push(newBook);
-                await localforage.setItem('pdf_lib_v3', library);
+                await localforage.setItem('pdf_data', library);
                 renderLibrary();
 
             } catch (err) {
                 alert(`Gagal: ${err.message}`);
-                console.error("PDF Parsing Error:", err);
             } finally {
                 setTimeout(() => {
                     DOM.load.classList.add('hidden');
-                    DOM.file.value = ''; // Reset input file biar bisa upload file yg sama
+                    DOM.file.value = ''; 
                 }, 1000);
             }
         });
 
+        // Gas jalanin!
         loadLibrary();
     </script>
 </body>
