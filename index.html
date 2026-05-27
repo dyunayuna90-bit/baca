@@ -1,0 +1,455 @@
+```html
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>M3 Expressive Reader</title>
+    
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Pakai PDF.js versi LTS yang lebih enteng buat HP -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.16.105/pdf.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/localforage/1.10.0/localforage.min.js"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@material/material-color-utilities@0.2.7/dist/index.browser.min.js"></script>
+
+    <style id="dynamic-theme">
+        /* Default Theme fallback (akan ditimpa JS) */
+        :root {
+            --md-sys-color-primary: #6750A4; --md-sys-color-on-primary: #FFFFFF;
+            --md-sys-color-primary-container: #EADDFF; --md-sys-color-on-primary-container: #21005D;
+            --md-sys-color-secondary-container: #E8DEF8; --md-sys-color-on-secondary-container: #1D192B;
+            --md-sys-color-tertiary: #7D5260; --md-sys-color-tertiary-container: #FFD8E4;
+            --md-sys-color-on-tertiary-container: #31111D;
+            --md-sys-color-background: #FFFBFE; --md-sys-color-on-background: #1C1B1F;
+            --md-sys-color-surface: #FFFBFE; --md-sys-color-on-surface: #1C1B1F;
+            --md-sys-color-surface-variant: #E7E0EC; --md-sys-color-on-surface-variant: #49454F;
+        }
+        .dark {
+            --md-sys-color-primary: #D0BCFF; --md-sys-color-on-primary: #381E72;
+            --md-sys-color-primary-container: #4F378B; --md-sys-color-on-primary-container: #EADDFF;
+            --md-sys-color-secondary-container: #4A4458; --md-sys-color-on-secondary-container: #E8DEF8;
+            --md-sys-color-tertiary: #EFB8C8; --md-sys-color-tertiary-container: #633B48;
+            --md-sys-color-on-tertiary-container: #FFD8E4;
+            --md-sys-color-background: #1C1B1F; --md-sys-color-on-background: #E6E1E5;
+            --md-sys-color-surface: #1C1B1F; --md-sys-color-on-surface: #E6E1E5;
+            --md-sys-color-surface-variant: #49454F; --md-sys-color-on-surface-variant: #CAC4D0;
+        }
+    </style>
+
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        m3: {
+                            primary: 'var(--md-sys-color-primary)',
+                            onPrimary: 'var(--md-sys-color-on-primary)',
+                            primaryContainer: 'var(--md-sys-color-primary-container)',
+                            onPrimaryContainer: 'var(--md-sys-color-on-primary-container)',
+                            secondaryContainer: 'var(--md-sys-color-secondary-container)',
+                            onSecondaryContainer: 'var(--md-sys-color-on-secondary-container)',
+                            tertiaryContainer: 'var(--md-sys-color-tertiary-container)',
+                            onTertiaryContainer: 'var(--md-sys-color-on-tertiary-container)',
+                            bg: 'var(--md-sys-color-background)',
+                            onBg: 'var(--md-sys-color-on-background)',
+                            surface: 'var(--md-sys-color-surface)',
+                            onSurface: 'var(--md-sys-color-on-surface)',
+                            surfaceVariant: 'var(--md-sys-color-surface-variant)',
+                            onSurfaceVariant: 'var(--md-sys-color-on-surface-variant)',
+                        }
+                    },
+                    borderRadius: { '4xl': '32px', '5xl': '48px' },
+                    fontFamily: { sans: ['system-ui', 'sans-serif'], serif: ['Georgia', 'serif'] }
+                }
+            }
+        }
+    </script>
+    
+    <style>
+        body {
+            background-color: var(--md-sys-color-background);
+            color: var(--md-sys-color-on-background);
+            transition: background-color 0.4s ease, color 0.4s ease;
+            -webkit-tap-highlight-color: transparent;
+        }
+        
+        /* M3 Expressive Button Morphing Animation */
+        .btn-morph {
+            transition: all 0.4s cubic-bezier(0.2, 0, 0, 1);
+            border-radius: 28px; /* Default FAB radius */
+        }
+        .btn-morph:active {
+            /* Saat dipencet, bentuk memanjang dan sudutnya jadi lebih tajam (kotak) */
+            transform: scale(0.9) stretch(1.1);
+            border-radius: 12px;
+            background-color: var(--md-sys-color-primary);
+            color: var(--md-sys-color-on-primary);
+        }
+
+        /* Card Morphing */
+        .card-morph {
+            transition: all 0.5s cubic-bezier(0.2, 0, 0, 1);
+        }
+        .card-morph:active {
+            transform: scale(0.96);
+            /* Saat dipencet, semua sudut membulat ekstrem */
+            border-radius: 40px !important; 
+        }
+
+        /* Progress Bar Animation */
+        .progress-fill {
+            transition: width 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+    </style>
+</head>
+<body class="min-h-screen font-sans">
+
+    <!-- VIEW: LIBRARY -->
+    <div id="library-view" class="block p-6">
+        <header class="pt-10 pb-8">
+            <div class="flex justify-between items-center mb-6">
+                <div>
+                    <h1 class="text-5xl font-medium tracking-tighter mb-2 text-m3-onBg">Baca.</h1>
+                    <p id="library-count" class="text-m3-onSurfaceVariant text-lg font-medium">0 Dokumen</p>
+                </div>
+                <div class="flex gap-2">
+                    <button id="theme-toggle" class="btn-morph p-4 bg-m3-surfaceVariant text-m3-onSurfaceVariant shadow-sm">
+                        <i data-lucide="moon" id="theme-icon"></i>
+                    </button>
+                    <button id="color-picker-btn" class="btn-morph p-4 bg-m3-primaryContainer text-m3-onPrimaryContainer shadow-sm">
+                        <i data-lucide="palette"></i>
+                    </button>
+                </div>
+            </div>
+        </header>
+
+        <!-- Loading State (Diperbaiki dengan Real-Time Progress) -->
+        <div id="loading-state" class="hidden mb-8 p-6 bg-m3-secondaryContainer text-m3-onSecondaryContainer rounded-[32px] shadow-sm transform transition-all">
+            <div class="flex justify-between items-end mb-3">
+                <p id="loading-text" class="font-medium text-lg leading-tight">Menyiapkan Mesin...</p>
+                <p id="loading-percent" class="font-bold text-xl">0%</p>
+            </div>
+            <div class="h-4 w-full bg-black/10 dark:bg-white/10 rounded-full overflow-hidden relative shadow-inner">
+                <div id="loading-bar" class="absolute h-full w-0 bg-m3-primary progress-fill rounded-full"></div>
+            </div>
+            <p id="loading-subtext" class="text-sm mt-3 opacity-80 text-center">Jangan tutup aplikasi...</p>
+        </div>
+
+        <div id="book-grid" class="grid grid-cols-1 md:grid-cols-2 gap-4"></div>
+
+        <div id="empty-state" class="flex flex-col items-center justify-center mt-32 opacity-40">
+            <i data-lucide="book-dashed" class="w-24 h-24 mb-6"></i>
+            <p class="text-2xl font-medium text-center tracking-tight">Perpustakaan Kosong.</p>
+        </div>
+
+        <!-- FAB dengan Animasi Morphing -->
+        <div class="fixed bottom-8 right-8 z-50">
+            <input type="file" id="pdf-upload" accept="application/pdf" class="hidden">
+            <label for="pdf-upload" class="btn-morph flex items-center justify-center w-20 h-20 bg-m3-tertiaryContainer text-m3-onTertiaryContainer shadow-xl cursor-pointer">
+                <i data-lucide="plus" class="w-8 h-8"></i>
+            </label>
+        </div>
+    </div>
+
+    <!-- VIEW: READER -->
+    <div id="reader-view" class="hidden h-screen flex-col bg-m3-bg text-m3-onBg">
+        <div class="flex items-center justify-between p-4 bg-m3-surfaceVariant text-m3-onSurfaceVariant rounded-b-[32px] shadow-sm z-10">
+            <button id="btn-back" class="btn-morph p-3 bg-m3-surface">
+                <i data-lucide="arrow-left"></i>
+            </button>
+            <span id="reader-title" class="font-medium truncate px-4 flex-1 text-center text-lg">Judul</span>
+            <button class="btn-morph p-3">
+                <i data-lucide="bookmark"></i>
+            </button>
+        </div>
+
+        <div id="reader-content" class="flex-1 overflow-y-auto px-6 py-10 pb-40">
+            <div id="reader-inner" class="max-w-2xl mx-auto space-y-6"></div>
+        </div>
+    </div>
+
+    <!-- Color Picker Modal -->
+    <div id="color-modal" class="hidden fixed inset-0 bg-black/50 backdrop-blur-sm z-[100] flex items-end justify-center">
+        <div class="bg-m3-surface w-full max-w-md rounded-t-[32px] p-6 pb-12 transition-transform transform translate-y-full duration-300" id="color-sheet">
+            <div class="w-12 h-1.5 bg-m3-onSurfaceVariant/30 rounded-full mx-auto mb-6"></div>
+            <h3 class="text-2xl font-medium mb-6 text-m3-onSurface">Tema Ekspresif</h3>
+            <div class="grid grid-cols-5 gap-4">
+                <button onclick="generateTheme('#6750A4')" class="btn-morph w-14 h-14 bg-[#6750A4] shadow-md"></button>
+                <button onclick="generateTheme('#006A60')" class="btn-morph w-14 h-14 bg-[#006A60] shadow-md"></button>
+                <button onclick="generateTheme('#8C4A60')" class="btn-morph w-14 h-14 bg-[#8C4A60] shadow-md"></button>
+                <button onclick="generateTheme('#415F91')" class="btn-morph w-14 h-14 bg-[#415F91] shadow-md"></button>
+                <button onclick="generateTheme('#B86F2D')" class="btn-morph w-14 h-14 bg-[#B86F2D] shadow-md"></button>
+            </div>
+            <button onclick="closeColorModal()" class="btn-morph w-full mt-8 py-4 bg-m3-primaryContainer text-m3-onPrimaryContainer font-medium text-lg">Selesai</button>
+        </div>
+    </div>
+
+    <!-- LOGIC -->
+    <script>
+        // Pakai versi yang sama dengan CDN script di atas
+        pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.16.105/pdf.worker.min.js';
+
+        const DOM = {
+            lib: document.getElementById('library-view'), read: document.getElementById('reader-view'),
+            grid: document.getElementById('book-grid'), empty: document.getElementById('empty-state'),
+            load: document.getElementById('loading-state'), loadTxt: document.getElementById('loading-text'),
+            loadBar: document.getElementById('loading-bar'), loadPct: document.getElementById('loading-percent'),
+            loadSub: document.getElementById('loading-subtext'),
+            file: document.getElementById('pdf-upload'), backBtn: document.getElementById('btn-back'),
+            inner: document.getElementById('reader-inner'), title: document.getElementById('reader-title'),
+            count: document.getElementById('library-count'), colorBtn: document.getElementById('color-picker-btn'),
+            colorModal: document.getElementById('color-modal'), colorSheet: document.getElementById('color-sheet'),
+        };
+
+        let library = [];
+        lucide.createIcons();
+
+        // --- THEME ENGINE ---
+        let isDark = localStorage.getItem('theme') === 'dark';
+        let currentColor = localStorage.getItem('m3-color') || '#6750A4';
+
+        function generateTheme(sourceColorHex) {
+            currentColor = sourceColorHex;
+            localStorage.setItem('m3-color', sourceColorHex);
+            const theme = materialColorUtilities.themeFromSourceColor(materialColorUtilities.argbFromHex(sourceColorHex));
+            const scheme = isDark ? theme.schemes.dark : theme.schemes.light;
+            const toHex = (argb) => materialColorUtilities.hexFromArgb(argb);
+
+            const css = `
+                :root {
+                    --md-sys-color-primary: ${toHex(scheme.primary)}; --md-sys-color-on-primary: ${toHex(scheme.onPrimary)};
+                    --md-sys-color-primary-container: ${toHex(scheme.primaryContainer)}; --md-sys-color-on-primary-container: ${toHex(scheme.onPrimaryContainer)};
+                    --md-sys-color-secondary-container: ${toHex(scheme.secondaryContainer)}; --md-sys-color-on-secondary-container: ${toHex(scheme.onSecondaryContainer)};
+                    --md-sys-color-tertiary: ${toHex(scheme.tertiary)}; --md-sys-color-tertiary-container: ${toHex(scheme.tertiaryContainer)};
+                    --md-sys-color-on-tertiary-container: ${toHex(scheme.onTertiaryContainer)};
+                    --md-sys-color-background: ${toHex(scheme.background)}; --md-sys-color-on-background: ${toHex(scheme.onBackground)};
+                    --md-sys-color-surface: ${toHex(scheme.surface)}; --md-sys-color-on-surface: ${toHex(scheme.onSurface)};
+                    --md-sys-color-surface-variant: ${toHex(scheme.surfaceVariant)}; --md-sys-color-on-surface-variant: ${toHex(scheme.onSurfaceVariant)};
+                }
+            `;
+            document.getElementById('dynamic-theme').innerHTML = css;
+            closeColorModal();
+        }
+
+        const applyThemeMode = () => {
+            document.documentElement.classList.toggle('dark', isDark);
+            document.getElementById('theme-icon').setAttribute('data-lucide', isDark ? 'sun' : 'moon');
+            lucide.createIcons();
+            localStorage.setItem('theme', isDark ? 'dark' : 'light');
+            generateTheme(currentColor);
+        };
+        applyThemeMode();
+
+        document.getElementById('theme-toggle').addEventListener('click', () => { isDark = !isDark; applyThemeMode(); });
+        DOM.colorBtn.addEventListener('click', () => { DOM.colorModal.classList.remove('hidden'); requestAnimationFrame(() => DOM.colorSheet.classList.remove('translate-y-full')); });
+        function closeColorModal() { DOM.colorSheet.classList.add('translate-y-full'); setTimeout(() => DOM.colorModal.classList.add('hidden'), 300); }
+
+        // --- APP LOGIC ---
+        async function loadLibrary() {
+            try { library = await localforage.getItem('pdf_lib_v3') || []; renderLibrary(); } 
+            catch (e) { console.error("Gagal load library", e); }
+        }
+
+        function renderLibrary() {
+            DOM.grid.innerHTML = '';
+            DOM.count.textContent = `${library.length} Dokumen`;
+            
+            if (library.length === 0) {
+                DOM.empty.classList.remove('hidden'); DOM.grid.classList.add('hidden');
+            } else {
+                DOM.empty.classList.add('hidden'); DOM.grid.classList.remove('hidden');
+                library.forEach((book, index) => {
+                    const card = document.createElement('div');
+                    // Pola Geometri asimetris murni
+                    const shape = index % 2 === 0 ? 'rounded-tl-[48px] rounded-br-[48px] rounded-tr-xl rounded-bl-xl' : 'rounded-tr-[48px] rounded-bl-[48px] rounded-tl-xl rounded-br-xl';
+                    const color = index % 3 === 0 ? 'bg-m3-primaryContainer text-m3-onPrimaryContainer' : (index % 3 === 1 ? 'bg-m3-secondaryContainer text-m3-onSecondaryContainer' : 'bg-m3-surfaceVariant text-m3-onSurfaceVariant');
+
+                    card.className = `${color} ${shape} p-8 relative cursor-pointer shadow-sm card-morph`;
+                    card.innerHTML = `
+                        <button onclick="deleteBook('${book.id}', event)" class="absolute top-4 right-4 p-3 bg-black/10 dark:bg-white/10 rounded-full hover:bg-black/20 btn-morph">
+                            <i data-lucide="trash-2" class="w-5 h-5"></i>
+                        </button>
+                        <i data-lucide="book-open" class="w-10 h-10 mb-6 opacity-80"></i>
+                        <h3 class="font-medium text-2xl leading-tight mb-2 line-clamp-3">${book.title}</h3>
+                        <p class="text-sm opacity-70 mt-4 font-medium">${book.pages} Halaman</p>
+                    `;
+                    card.onclick = () => openBook(book);
+                    DOM.grid.appendChild(card);
+                });
+                lucide.createIcons();
+            }
+        }
+
+        async function deleteBook(id, event) {
+            event.stopPropagation();
+            library = library.filter(b => b.id !== id);
+            await localforage.setItem('pdf_lib_v3', library);
+            renderLibrary();
+        }
+
+        function openBook(book) {
+            DOM.lib.classList.add('hidden');
+            DOM.read.classList.remove('hidden'); DOM.read.classList.add('flex');
+            DOM.title.textContent = book.title;
+            DOM.inner.innerHTML = '';
+            
+            book.nodes.forEach(node => {
+                const el = document.createElement(node.tag);
+                el.textContent = node.text;
+                if (node.tag === 'h1') el.className = "text-4xl font-medium tracking-tight mt-12 mb-6 text-m3-onBg leading-tight";
+                else if (node.tag === 'h2') el.className = "text-2xl font-medium mt-10 mb-4 text-m3-onBg opacity-90";
+                else el.className = "font-serif text-[1.15rem] leading-[1.8] text-m3-onSurface opacity-85 text-justify mb-5";
+                DOM.inner.appendChild(el);
+            });
+            DOM.read.querySelector('#reader-content').scrollTop = 0;
+        }
+
+        DOM.backBtn.addEventListener('click', () => {
+            DOM.read.classList.add('hidden'); DOM.read.classList.remove('flex'); DOM.lib.classList.remove('hidden');
+        });
+
+        // --- PDF EXTRACTION SUPER ENGINE ---
+        DOM.file.addEventListener('change', async (e) => {
+            const file = e.target.files[0];
+            if (!file) return;
+
+            // Tampilkan UI Loading
+            DOM.load.classList.remove('hidden');
+            DOM.loadBar.style.width = '0%';
+            DOM.loadPct.textContent = '0%';
+            DOM.loadTxt.textContent = `Membaca File PDF...`;
+            DOM.loadSub.textContent = file.name;
+
+            try {
+                const arrayBuffer = await file.arrayBuffer();
+                
+                // Gunakan loadingTask untuk penanganan file yang lebih aman
+                const loadingTask = pdfjsLib.getDocument({ data: arrayBuffer });
+                const pdf = await loadingTask.promise;
+                const numPages = pdf.numPages;
+                
+                if(numPages === 0) throw new Error("Dokumen kosong");
+
+                let allItems = []; 
+                
+                // Looping ekstrak per halaman dengan jeda supaya UI ga hang
+                for (let i = 1; i <= numPages; i++) {
+                    const percent = Math.round((i / numPages) * 100);
+                    
+                    // Update UI (kasih setTimeout 0 buat maksa browser render UI)
+                    await new Promise(resolve => setTimeout(resolve, 0));
+                    DOM.loadTxt.textContent = `Ekstrak Hal ${i} dari ${numPages}`;
+                    DOM.loadBar.style.width = `${percent}%`;
+                    DOM.loadPct.textContent = `${percent}%`;
+
+                    try {
+                        const page = await pdf.getPage(i);
+                        const textContent = await page.getTextContent();
+                        
+                        textContent.items.forEach(item => {
+                            if (item.str.trim() === '') return;
+                            allItems.push({
+                                text: item.str,
+                                height: item.transform[0], // Skala Y Font
+                                y: item.transform[5]       // Posisi Y
+                            });
+                        });
+                    } catch (pageErr) {
+                        console.warn(`Gagal baca halaman ${i}`, pageErr);
+                        // Lanjut halaman berikutnya walau 1 halaman gagal
+                    }
+                }
+
+                DOM.loadTxt.textContent = "Menyusun Tipografi...";
+                DOM.loadBar.style.width = `100%`;
+                await new Promise(resolve => setTimeout(resolve, 50)); // Jeda biar animasi full dulu
+
+                // Jika pdf isinya cuma gambar (hasil scan)
+                if(allItems.length === 0) {
+                    throw new Error("Tidak ada teks yang bisa dibaca. Apakah ini PDF hasil scan/gambar?");
+                }
+
+                // Kalkulasi rata-rata tinggi font
+                let totalHeight = 0;
+                allItems.forEach(i => totalHeight += i.height);
+                const avgHeight = totalHeight / allItems.length;
+                
+                let parsedNodes = [];
+                let currentParagraph = "";
+                let lastY = -1;
+
+                allItems.forEach(item => {
+                    if (lastY !== -1 && Math.abs(item.y - lastY) > avgHeight * 1.5) {
+                        if (currentParagraph.trim() !== "") {
+                            parsedNodes.push({ tag: 'p', text: currentParagraph.trim() });
+                            currentParagraph = "";
+                        }
+                    }
+
+                    if (item.height > avgHeight * 1.5) {
+                        if (currentParagraph.trim() !== "") {
+                             parsedNodes.push({ tag: 'p', text: currentParagraph.trim() });
+                             currentParagraph = "";
+                        }
+                        parsedNodes.push({ tag: 'h1', text: item.text.trim() });
+                    } 
+                    else if (item.height > avgHeight * 1.2) {
+                        if (currentParagraph.trim() !== "") {
+                             parsedNodes.push({ tag: 'p', text: currentParagraph.trim() });
+                             currentParagraph = "";
+                        }
+                        parsedNodes.push({ tag: 'h2', text: item.text.trim() });
+                    }
+                    else {
+                        currentParagraph += item.text + " ";
+                    }
+                    lastY = item.y;
+                });
+                
+                if (currentParagraph.trim() !== "") parsedNodes.push({ tag: 'p', text: currentParagraph.trim() });
+
+                // Bersihkan H1/H2 yang kepisah
+                let cleanedNodes = [];
+                for(let i=0; i<parsedNodes.length; i++) {
+                    let curr = parsedNodes[i];
+                    if (cleanedNodes.length > 0) {
+                        let prev = cleanedNodes[cleanedNodes.length-1];
+                        if (curr.tag === prev.tag && (curr.tag === 'h1' || curr.tag === 'h2')) {
+                            prev.text += " " + curr.text;
+                            continue;
+                        }
+                    }
+                    cleanedNodes.push(curr);
+                }
+
+                const newBook = {
+                    id: Date.now().toString(),
+                    title: file.name.replace('.pdf', ''),
+                    nodes: cleanedNodes,
+                    pages: numPages
+                };
+
+                library.push(newBook);
+                await localforage.setItem('pdf_lib_v3', library);
+                renderLibrary();
+
+            } catch (err) {
+                alert(`Gagal: ${err.message}`);
+                console.error("PDF Parsing Error:", err);
+            } finally {
+                setTimeout(() => {
+                    DOM.load.classList.add('hidden');
+                    DOM.file.value = ''; // Reset input file biar bisa upload file yg sama
+                }, 1000);
+            }
+        });
+
+        loadLibrary();
+    </script>
+</body>
+</html>
+
+
+```
