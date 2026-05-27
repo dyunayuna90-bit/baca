@@ -1,8 +1,14 @@
+```html
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+    
+    <!-- PWA Meta Tags -->
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="theme-color" content="#1C1B1E">
     <title>Baca.</title>
     
     <script src="https://cdn.tailwindcss.com"></script>
@@ -44,6 +50,29 @@
                 }
             }
         }
+
+        // PWA Dynamic Manifest Injection (Bypassing external file requirement)
+        // "display": "standalone" is the core logic that removes the browser search bar.
+        const manifestObj = {
+            name: "Baca. Reader",
+            short_name: "Baca.",
+            description: "Local Offline Reader",
+            start_url: "./",
+            display: "standalone", 
+            background_color: "#1C1B1E",
+            theme_color: "#6750A4",
+            icons: [{
+                src: "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%236750A4' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z'/%3E%3Cpath d='M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z'/%3E%3C/svg%3E",
+                sizes: "192x192 512x512",
+                type: "image/svg+xml",
+                purpose: "any maskable"
+            }]
+        };
+        const manifestBlob = new Blob([JSON.stringify(manifestObj)], {type: 'application/json'});
+        const manifestLink = document.createElement('link');
+        manifestLink.rel = 'manifest';
+        manifestLink.href = URL.createObjectURL(manifestBlob);
+        document.head.appendChild(manifestLink);
     </script>
     
     <style>
@@ -117,10 +146,11 @@
         </div>
 
         <div class="fixed bottom-8 right-6 z-50">
-            <input type="file" id="doc-upload" accept="application/pdf,.epub" class="hidden">
-            <label for="doc-upload" class="btn-morph flex items-center justify-center w-16 h-16 bg-m3-tertiaryContainer text-m3-onTertiaryContainer shadow-xl cursor-pointer">
+            <!-- Directly triggers the file input. Removed the extra modal menu for simplicity. -->
+            <button onclick="document.getElementById('doc-upload').click();" class="btn-morph flex items-center justify-center w-16 h-16 bg-m3-tertiaryContainer text-m3-onTertiaryContainer shadow-xl cursor-pointer">
                 <i data-lucide="plus" class="w-8 h-8"></i>
-            </label>
+            </button>
+            <input type="file" id="doc-upload" accept=".epub,.pdf" class="hidden">
         </div>
     </div>
 
@@ -161,7 +191,6 @@
                 <div id="reader-inner" class="max-w-4xl mx-auto reader-text-container space-y-5"></div>
             </div>
 
-            <!-- side panel overlay -->
             <div id="side-panel-overlay" class="hidden absolute inset-0 bg-transparent z-30" onclick="history.back()"></div>
 
             <div id="toc-panel" class="side-panel absolute right-0 top-0 bottom-0 w-72 bg-m3-surfaceVariant shadow-2xl p-6 transform translate-x-full opacity-0 z-40 overflow-y-auto">
@@ -211,36 +240,34 @@
         </div>
     </div>
 
-
     <!-- Modals -->
-
-    <!-- Welcome Modal (First Time User) -->
+    <!-- Welcome Modal (Formal English & Specific PWA/Format Instructions) -->
     <div id="welcome-modal" class="hidden modal-overlay fixed inset-0 bg-black/80 z-[200] flex items-center justify-center p-4 opacity-0">
         <div class="bg-m3-surface w-full max-w-md rounded-[32px] overflow-hidden flex flex-col scale-95 transition-transform max-h-[90vh] border border-m3-surfaceVariant" id="welcome-sheet">
             <div class="p-6 overflow-y-auto">
-                <h2 class="text-3xl font-bold text-m3-onSurface mb-2">Welcome</h2>
-                <p class="text-m3-onSurfaceVariant mb-6">Let's get acquainted with your new document reader.</p>
+                <h2 class="text-3xl font-bold text-m3-onSurface mb-2">Welcome to Baca.</h2>
+                <p class="text-m3-onSurfaceVariant mb-6">Please read these instructions to ensure the optimal reading experience.</p>
                 
                 <div class="flex flex-col gap-4">
-                    <div class="bg-m3-surfaceVariant p-5 rounded-3xl pb-6">
-                        <i data-lucide="file-text" class="text-m3-primary mb-3 w-8 h-8"></i>
-                        <h3 class="font-bold mb-1">Supported Formats</h3>
-                        <p class="text-sm opacity-80">Currently supports reading EPUB and PDF books natively. Everything is stored and processed locally on your device for absolute privacy.</p>
+                    <div class="bg-m3-surfaceVariant p-5 rounded-3xl pb-6 border-l-4 border-m3-primary">
+                        <i data-lucide="smartphone" class="text-m3-primary mb-3 w-8 h-8"></i>
+                        <h3 class="font-bold mb-1">Native App Installation</h3>
+                        <p class="text-sm opacity-80 leading-relaxed">For a seamless, full-screen experience without the browser search bar, please tap the <b>three-dot menu</b> in your Chrome browser (top right corner) and select <b>"Install app"</b> or <b>"Add to Home screen"</b>.</p>
                     </div>
                     <div class="bg-m3-surfaceVariant p-5 rounded-3xl pb-6">
-                        <i data-lucide="hourglass" class="text-m3-primary mb-3 w-8 h-8"></i>
-                        <h3 class="font-bold mb-1">Performance Notice</h3>
-                        <p class="text-sm opacity-80">Since heavy processing is performed in your browser, uploading large books may cause a temporary lag. Please be patient while the engine extracts your content!</p>
+                        <i data-lucide="file-warning" class="text-m3-primary mb-3 w-8 h-8"></i>
+                        <h3 class="font-bold mb-1">Format Limitations</h3>
+                        <p class="text-sm opacity-80 leading-relaxed"><b>PDF Files:</b> Our engine strictly extracts text. <u>Images within PDFs will be ignored and discarded.</u><br><br><b>EPUB Files:</b> Fully supported, including illustrations and structure.</p>
                     </div>
                     <div class="bg-m3-surfaceVariant p-5 rounded-3xl pb-6">
-                        <i data-lucide="github" class="text-m3-primary mb-3 w-8 h-8"></i>
-                        <h3 class="font-bold mb-1">Feedback & Support</h3>
-                        <p class="text-sm opacity-80">Encountered an issue or have a feature request? Feel free to report them in our GitHub Issues tracker.</p>
+                        <i data-lucide="shield-check" class="text-m3-primary mb-3 w-8 h-8"></i>
+                        <h3 class="font-bold mb-1">Total Privacy</h3>
+                        <p class="text-sm opacity-80 leading-relaxed">All document processing and rendering occurs locally within your device's memory. No data is transmitted externally.</p>
                     </div>
                 </div>
             </div>
             <div class="p-4 bg-m3-surface border-t border-m3-surfaceVariant">
-                <button onclick="closeWelcome()" class="w-full py-4 bg-m3-primary text-m3-onPrimary rounded-full font-bold btn-morph shadow-md text-lg tracking-wide">Baca.</button>
+                <button onclick="closeWelcome()" class="w-full py-4 bg-m3-primary text-m3-onPrimary rounded-full font-bold btn-morph shadow-md text-lg tracking-wide">Acknowledge</button>
             </div>
         </div>
     </div>
@@ -251,7 +278,6 @@
             <div class="w-12 h-1.5 bg-m3-onSurfaceVariant/30 rounded-full mx-auto mb-6"></div>
             <h3 class="text-2xl font-bold mb-6 text-m3-onSurface">Settings</h3>
             
-            <!-- New Dark Mode Toggle -->
             <div class="flex items-center justify-between mb-2 bg-m3-surfaceVariant p-1 pl-5 rounded-full shadow-sm cursor-pointer" onclick="toggleThemeState()">
                 <span class="font-bold text-sm tracking-wide" id="theme-label-text">Light Mode</span>
                 <div class="relative w-[72px] h-10 rounded-full bg-m3-onSurfaceVariant/20 transition-colors" id="theme-switch-bg">
@@ -287,16 +313,11 @@
                 <button onclick="setTheme('monochrome')" class="btn-morph w-full aspect-square rounded-2xl bg-[#5E5E5E] shadow-sm"></button>
             </div>
 
-            <h4 class="text-sm font-bold opacity-70 mb-3 px-1">Support Developer</h4>
-            <a href="https://saweria.co/Densl" target="_blank" class="flex items-center justify-center gap-2 bg-[#FFD700] hover:bg-[#F2C900] text-black w-full py-4 rounded-2xl font-bold mb-4 btn-morph shadow-md transition-colors">
-                <i data-lucide="coffee"></i> Donate via Saweria
-            </a>
-
             <button onclick="history.back()" class="btn-morph w-full mt-2 py-4 bg-m3-surfaceVariant text-m3-onSurfaceVariant font-bold text-lg">Close</button>
         </div>
     </div>
 
-    <!-- Book Options Bottom Sheet (Triggered by Long Press) -->
+    <!-- Book Options Modal -->
     <div id="b-opt-modal" class="hidden modal-overlay fixed inset-0 bg-black/60 z-[100] flex items-end justify-center opacity-0 p-4 pb-8">
         <div class="modal-content bg-m3-surface w-full max-w-sm rounded-[32px] p-6 transform translate-y-full border border-m3-surfaceVariant" id="b-opt-sheet">
             <div class="w-12 h-1.5 bg-m3-onSurfaceVariant/30 rounded-full mx-auto mb-6"></div>
@@ -309,7 +330,7 @@
         </div>
     </div>
 
-    <!-- Modal Edit Book Data -->
+    <!-- Edit Book Data Modal -->
     <div id="edit-modal" class="hidden modal-overlay fixed inset-0 bg-black/60 z-[120] flex items-center justify-center opacity-0 p-4">
         <div class="modal-content bg-m3-surface w-full max-w-sm rounded-[32px] p-6 transform scale-95 border border-m3-surfaceVariant" id="edit-sheet">
             <h3 class="text-2xl font-bold mb-4 text-m3-onSurface">Edit Details</h3>
@@ -319,7 +340,7 @@
             <input type="text" id="edit-book-title" class="w-full bg-m3-surfaceVariant text-m3-onSurfaceVariant p-4 rounded-2xl mb-5 font-medium outline-none focus:ring-2 focus:ring-m3-primary">
             
             <label class="text-sm font-bold opacity-70 block mb-2">Cover Image (Gallery)</label>
-            <input type="file" id="edit-book-cover" accept="image/*" class="w-full text-sm mb-5 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-m3-primaryContainer file:text-m3-onPrimaryContainer hover:file:bg-m3-primaryContainer/80">
+            <input type="file" id="edit-book-cover" accept="image/*" class="w-full text-sm mb-5 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-m3-primaryContainer file:text-m3-onPrimaryContainer hover:file:bg-m3-primaryContainer/80 z-10 relative">
             
             <label class="text-sm font-bold opacity-70 block mb-2">Card Shape</label>
             <div class="grid grid-cols-2 gap-2 mb-6">
@@ -340,7 +361,6 @@
     <script>
         pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.16.105/pdf.worker.min.js';
 
-        // Tema Palette
         const M3_PALETTES = {
             purple: { light: `--md-sys-color-primary:#6750A4;--md-sys-color-on-primary:#FFFFFF;--md-sys-color-primary-container:#EADDFF;--md-sys-color-on-primary-container:#21005D;--md-sys-color-secondary-container:#E8DEF8;--md-sys-color-on-secondary-container:#1D192B;--md-sys-color-tertiary-container:#FFD8E4;--md-sys-color-on-tertiary-container:#31111D;--md-sys-color-background:#FFFBFE;--md-sys-color-on-background:#1C1B1F;--md-sys-color-surface:#FFFBFE;--md-sys-color-on-surface:#1C1B1F;--md-sys-color-surface-variant:#E7E0EC;--md-sys-color-on-surface-variant:#49454F;`, dark: `--md-sys-color-primary:#D0BCFF;--md-sys-color-on-primary:#381E72;--md-sys-color-primary-container:#4F378B;--md-sys-color-on-primary-container:#EADDFF;--md-sys-color-secondary-container:#4A4458;--md-sys-color-on-secondary-container:#E8DEF8;--md-sys-color-tertiary-container:#633B48;--md-sys-color-on-tertiary-container:#FFD8E4;--md-sys-color-background:#1C1B1E;--md-sys-color-on-background:#E6E1E5;--md-sys-color-surface:#1C1B1E;--md-sys-color-on-surface:#E6E1E5;--md-sys-color-surface-variant:#49454F;--md-sys-color-on-surface-variant:#CAC4D0;` },
             green: { light: `--md-sys-color-primary:#006C4C;--md-sys-color-on-primary:#FFFFFF;--md-sys-color-primary-container:#89F8D6;--md-sys-color-on-primary-container:#002114;--md-sys-color-secondary-container:#CCE8DB;--md-sys-color-on-secondary-container:#052016;--md-sys-color-tertiary-container:#BEEAF6;--md-sys-color-on-tertiary-container:#001F29;--md-sys-color-background:#FBFDF9;--md-sys-color-on-background:#191C1A;--md-sys-color-surface:#FBFDF9;--md-sys-color-on-surface:#191C1A;--md-sys-color-surface-variant:#DBE5DF;--md-sys-color-on-surface-variant:#404943;`, dark: `--md-sys-color-primary:#6CDBBA;--md-sys-color-on-primary:#003825;--md-sys-color-primary-container:#005138;--md-sys-color-on-primary-container:#89F8D6;--md-sys-color-secondary-container:#334B3F;--md-sys-color-on-secondary-container:#CCE8DB;--md-sys-color-tertiary-container:#204D59;--md-sys-color-on-tertiary-container:#BEEAF6;--md-sys-color-background:#191C1A;--md-sys-color-on-background:#E1E3DF;--md-sys-color-surface:#191C1A;--md-sys-color-on-surface:#E1E3DF;--md-sys-color-surface-variant:#404943;--md-sys-color-on-surface-variant:#BFC9C3;` },
@@ -374,7 +394,7 @@
         };
 
         let library = []; let activeBookId = null; let observer = null; let activePanel = null;
-        let activeOptsId = null; // for book options menu
+        let activeOptsId = null; 
         
         window.addEventListener('popstate', (e) => {
             if (!document.getElementById('b-opt-modal').classList.contains('hidden')) { _closeModalAction('b-opt-modal', 'b-opt-sheet', false); }
@@ -399,6 +419,14 @@
             }
             document.getElementById('dynamic-theme').innerHTML = `:root { ${rootVars} }`;
             
+            // Meta theme color update for PWA standalone UI
+            const metaTheme = document.querySelector('meta[name="theme-color"]');
+            if(metaTheme) {
+                if(isDark && isAmoled) metaTheme.setAttribute("content", "#000000");
+                else if (isDark) metaTheme.setAttribute("content", "#1C1B1E");
+                else metaTheme.setAttribute("content", "#FFFBFE");
+            }
+
             const bg = document.getElementById('theme-switch-bg');
             const knob = document.getElementById('theme-switch-knob');
             const icon = document.getElementById('theme-switch-icon');
@@ -495,8 +523,8 @@
         
         applyThemeToDOM();
 
-        // First Time Intro
-        if (!localStorage.getItem('first_time_seen')) {
+        // First Time User (Shows Welcome Modal)
+        if (!localStorage.getItem('first_time_seen_v2')) {
             setTimeout(() => {
                 const m = document.getElementById('welcome-modal'); const s = document.getElementById('welcome-sheet');
                 m.classList.remove('hidden'); requestAnimationFrame(() => { m.classList.remove('opacity-0'); s.classList.remove('scale-95'); });
@@ -506,7 +534,7 @@
             const m = document.getElementById('welcome-modal'); const s = document.getElementById('welcome-sheet');
             s.classList.add('scale-95'); m.classList.add('opacity-0');
             setTimeout(() => m.classList.add('hidden'), 300);
-            localStorage.setItem('first_time_seen', 'true');
+            localStorage.setItem('first_time_seen_v2', 'true'); // Flag it as seen
         };
 
         let typoPrefs = JSON.parse(localStorage.getItem('typo_prefs')) || { size: '1.2rem', align: 'left', font: 'Lora' };
@@ -519,7 +547,7 @@
             else if(typoPrefs.font === 'Playfair Display') fontCss = "'Playfair Display', serif";
             else if(typoPrefs.font === 'Space Mono') fontCss = "'Space Mono', monospace";
             else if(typoPrefs.font === 'Inter') fontCss = "'Inter', sans-serif";
-            else fontCss = "'Lora', serif"; // Default
+            else fontCss = "'Lora', serif";
 
             document.documentElement.style.setProperty('--reader-font', fontCss);
             localStorage.setItem('typo_prefs', JSON.stringify(typoPrefs)); syncTypoUI();
@@ -533,29 +561,7 @@
         applyTypo();
 
         async function loadLibrary() { try { library = await localforage.getItem('pdf_epub_master') || []; renderLibrary(); } catch (e) { console.error(e); } }
-
-        // Long Press Logic
-        let pressTimer = null; let isMoving = false; let pressTriggered = false;
-        window.startPress = function(id) {
-            isMoving = false; pressTriggered = false;
-            pressTimer = setTimeout(() => {
-                if (!isMoving) { pressTriggered = true; window.openBookOptions(id); }
-            }, 600);
-        };
-        window.cancelPress = function() { isMoving = true; clearTimeout(pressTimer); };
-        window.endPress = function(id, e) {
-            clearTimeout(pressTimer);
-            if (!isMoving && !pressTriggered) {
-                // Ensure no modals are currently open overlaying the books.
-                if (document.getElementById('b-opt-modal').classList.contains('hidden') && document.getElementById('edit-modal').classList.contains('hidden')) {
-                    const book = library.find(b => b.id === id);
-                    if(book) openBook(book);
-                }
-            }
-            pressTriggered = false;
-            if(e) e.preventDefault(); // prevent ghost clicks
-        };
-
+        
         function renderLibrary(filterText = "") {
             DOM.grid.innerHTML = '';
             let filteredLib = library;
@@ -585,7 +591,6 @@
                         baseClass = colors[index % 3];
                     }
 
-                    // Attach gesture handlers natively
                     let pressTimer = null;
                     let isPressing = false;
                     let hasLongPressed = false;
@@ -657,7 +662,7 @@
             if(confirm("Delete this book permanently?")) {
                 library = library.filter(b => b.id !== activeOptsId); 
                 await localforage.setItem('pdf_epub_master', library); 
-                history.back(); // close options modal
+                history.back(); 
                 setTimeout(() => renderLibrary(DOM.globalSearch.value), 350);
             }
         };
@@ -669,11 +674,10 @@
             document.getElementById('edit-book-title').value = book.title; 
             document.getElementById('edit-book-cover').value = '';
             
-            // Set shape selection
             window.selectShape(book.shape || 'default');
 
-            history.back(); // Close option sheet
-            setTimeout(() => { openModal('edit-modal', 'edit-sheet', true); }, 400); // Wait for transition then open edit sheet
+            history.back(); 
+            setTimeout(() => { openModal('edit-modal', 'edit-sheet', true); }, 400); 
         }
         
         window.selectShape = function(shape) {
@@ -735,7 +739,6 @@
                         hCounter++; currentHeadingId = el.id; 
                         el.className = node.tag === 'h1' ? "text-3xl font-bold tracking-tight mt-12 mb-6 text-m3-primary leading-snug break-words" : "text-xl font-bold mt-10 mb-4 text-m3-onSurfaceVariant border-b border-m3-surfaceVariant pb-2 break-words";
                         const tocItem = document.createElement('button'); tocItem.id = `toc-btn-${el.id}`;
-                        // Setup transitions and classes for active highlight style later
                         tocItem.className = `text-left text-sm p-3 rounded-2xl hover:bg-m3-surface transition-all duration-300 ${node.tag==='h1'?'font-bold text-m3-primary':'ml-4 opacity-80'}`;
                         tocItem.textContent = node.text;
                         tocItem.onclick = () => { el.scrollIntoView({ behavior: 'smooth', block: 'start' }); history.back(); };
@@ -864,15 +867,15 @@
             try {
                 if (ext === 'pdf') await handlePdf(file, bookTitle);
                 else if (ext === 'epub') await handleEpub(file, bookTitle);
-                else throw new Error("Format not supported.");
-            } catch (err) { alert(`Failed: ${err.message}`); console.error(err); } 
+                else throw new Error("Only PDF and EPUB files are supported.");
+            } catch (err) { alert(`Import Failed: ${err.message}`); console.error(err); } 
             finally { setTimeout(() => { DOM.load.classList.add('hidden'); DOM.file.value = ''; }, 500); }
         });
 
         async function handlePdf(file, bookTitle) {
-            DOM.loadTxt.textContent = `Parsing PDF...`;
+            DOM.loadTxt.textContent = `Opening PDF...`;
             const arrayBuffer = await file.arrayBuffer(); const pdf = await pdfjsLib.getDocument({ data: arrayBuffer }).promise; const numPages = pdf.numPages;
-            if(numPages === 0) throw new Error("Empty Book");
+            if(numPages === 0) throw new Error("Document is empty.");
             let allItems = []; let coverBase64 = null;
             
             try {
@@ -898,8 +901,8 @@
                     allItems.push({ text: item.str, height: item.transform[0], y: yPos });
                 });
             }
-            DOM.loadTxt.textContent = "Rendering Layout..."; await new Promise(r => setTimeout(r, 50));
-            if(allItems.length === 0) throw new Error("Contains only images.");
+            DOM.loadTxt.textContent = "Formatting Text..."; await new Promise(r => setTimeout(r, 50));
+            if(allItems.length === 0) throw new Error("This PDF only contains images. Text extraction failed.");
 
             const avgHeight = allItems.reduce((acc, i) => acc + i.height, 0) / allItems.length;
             let parsedNodes = [], currentPar = "", lastY = -1;
@@ -936,11 +939,11 @@
         }
 
         async function handleEpub(file, bookTitle) {
-            DOM.loadTxt.textContent = "Extracting ZIP..."; DOM.loadBar.style.width = '10%'; DOM.loadPct.textContent = '10%';
+            DOM.loadTxt.textContent = "Extracting EPUB..."; DOM.loadBar.style.width = '10%'; DOM.loadPct.textContent = '10%';
             const zip = await JSZip.loadAsync(file);
             const containerData = await zip.file("META-INF/container.xml").async("string");
             const containerDom = new DOMParser().parseFromString(containerData, "text/xml");
-            const rootfile = containerDom.querySelector("rootfile"); if (!rootfile) throw new Error("Invalid EPUB.");
+            const rootfile = containerDom.querySelector("rootfile"); if (!rootfile) throw new Error("Invalid or corrupted EPUB file.");
             const opfPath = rootfile.getAttribute("full-path"); const basePath = opfPath.includes('/') ? opfPath.substring(0, opfPath.lastIndexOf('/') + 1) : '';
 
             DOM.loadTxt.textContent = "Analyzing Structure...";
@@ -987,25 +990,36 @@
             return stack.join('/');
         }
 
+        // Service Worker Setup for PWA functionality
         if ('serviceWorker' in navigator) {
             const swCode = `
-            const CACHE_NAME = 'm3-reader-v5';
-            self.addEventListener('install', (e) => e.waitUntil(caches.open(CACHE_NAME).then(c => c.addAll([
-                '/',
-                'https://cdn.tailwindcss.com',
-                'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.16.105/pdf.min.js',
-                'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.16.105/pdf.worker.min.js',
-                'https://cdnjs.cloudflare.com/ajax/libs/localforage/1.10.0/localforage.min.js',
-                'https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js',
-                'https://unpkg.com/lucide@latest'
-            ]))));
-            self.addEventListener('fetch', (e) => e.respondWith(caches.match(e.request).then(r => r || fetch(e.request))));
+            const CACHE_NAME = 'baca-pwa-v2';
+            self.addEventListener('install', (e) => {
+                self.skipWaiting();
+                e.waitUntil(caches.open(CACHE_NAME).then(c => c.addAll([
+                    '/',
+                    'https://cdn.tailwindcss.com',
+                    'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.16.105/pdf.min.js',
+                    'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.16.105/pdf.worker.min.js',
+                    'https://cdnjs.cloudflare.com/ajax/libs/localforage/1.10.0/localforage.min.js',
+                    'https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js',
+                    'https://unpkg.com/lucide@latest'
+                ])));
+            });
+            self.addEventListener('fetch', (e) => {
+                e.respondWith(caches.match(e.request).then(r => r || fetch(e.request)));
+            });
             `;
             const blob = new Blob([swCode], {type: 'application/javascript'});
-            navigator.serviceWorker.register(URL.createObjectURL(blob)).catch(err=>console.log(err));
+            navigator.serviceWorker.register(URL.createObjectURL(blob)).then(() => {
+                console.log("PWA Service Worker registered.");
+            }).catch(err => console.log("SW Error:", err));
         }
 
         loadLibrary();
     </script>
 </body>
 </html>
+
+
+```
