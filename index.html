@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
     
+    <!-- PWA Meta Tags -->
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <meta name="theme-color" content="#1C1B1E">
@@ -57,17 +58,17 @@
             transition: background-color 0.4s ease, color 0.4s ease; -webkit-tap-highlight-color: transparent;
         }
         
-        /* Tombol & Card Standar */
-        .btn-morph { transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1), background-color 0.3s, border-radius 0.4s; border-radius: 99px; }
+        /* MATERIAL 3 EXPRESSIVE ANIMATIONS */
+        .btn-morph { transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1); border-radius: 99px; }
         .btn-morph:active { transform: scale(0.85); border-radius: 12px; background-color: var(--md-sys-color-primary); color: var(--md-sys-color-on-primary); }
         
         .card-morph { transition: transform 0.5s cubic-bezier(0.34, 1.56, 0.64, 1), border-radius 0.4s ease; user-select: none; -webkit-user-select: none; }
         .card-morph:active { transform: scale(0.92); border-radius: 16px !important; }
         
-        .fab-expressive { transition: transform 0.5s cubic-bezier(0.34, 1.56, 0.64, 1), border-radius 0.4s; border-radius: 50%; }
+        .fab-expressive { transition: all 0.5s cubic-bezier(0.34, 1.56, 0.64, 1); border-radius: 50%; }
         .fab-expressive:active { transform: scale(0.85); border-radius: 12px; background-color: var(--md-sys-color-primaryContainer); color: var(--md-sys-color-on-primaryContainer); }
 
-        /* Kapsul Menu Ekstra */
+        /* Kapsul Melar */
         .capsule-group { display: flex; gap: 4px; width: 100%; transition: all 0.4s cubic-bezier(0.2, 0, 0, 1); }
         .capsule-btn { 
             flex: 1; display: flex; justify-content: center; align-items: center;
@@ -79,65 +80,25 @@
             background-color: var(--md-sys-color-primary); color: var(--md-sys-color-on-primary); 
         }
 
-        /* --- SISTEM ANTI-JITTER HEADER SCROLL --- */
-        #main-header { 
-            transition: padding 0.4s ease-in-out, box-shadow 0.4s ease; 
-        }
-        .scrolled-header { 
-            padding-top: 1rem !important; 
-            box-shadow: 0 2px 10px rgba(0,0,0,0.05); 
-        }
-        
-        /* MURNI MORPHING: Menggunakan kurva ease-in-out datar (tanpa bounce/pantulan sama sekali) */
-        #header-top-wrapper {
-            display: grid;
-            grid-template-rows: 1fr;
-            transition: grid-template-rows 0.4s ease-in-out, margin-bottom 0.4s ease-in-out;
-            margin-bottom: 1.5rem;
-        }
-        .hide-top #header-top-wrapper {
-            grid-template-rows: 0fr;
-            margin-bottom: 0;
-        }
-        
-        #header-top-inner { 
-            min-height: 0; 
-            overflow: hidden; 
-            transition: opacity 0.3s ease-in-out, transform 0.4s ease-in-out;
-            transform-origin: left top;
-            opacity: 1;
-            transform: translateY(0);
-        }
-        .hide-top #header-top-inner {
-            opacity: 0;
-            transform: translateY(-20px);
-        }
-
-        /* --- KAPSUL SEARCH MELAR EKSPRESIF --- */
+        /* Search Expressive Row */
         .search-row {
             display: flex; align-items: center; gap: 0.75rem; width: 100%;
             transition: gap 0.5s cubic-bezier(0.2, 0, 0, 1);
         }
         .search-capsule {
             flex-grow: 1; display: flex; align-items: center;
-            transition: background-color 0.4s; /* Tidak mengubah border lagi */
+            transition: background-color 0.4s;
         }
         .btn-settings {
             max-width: 60px; overflow: hidden; flex-shrink: 0;
             transition: all 0.5s cubic-bezier(0.2, 0, 0, 1);
         }
-        /* Saat search bar dipencet (class ditambahkan via JS) */
+        /* State Saat Di klik */
         .search-active { gap: 0px !important; }
         .search-active .btn-settings {
-            max-width: 0px !important;
-            padding-left: 0 !important; 
-            padding-right: 0 !important;
-            opacity: 0 !important; 
-            transform: scale(0.5);
-            border: none;
+            max-width: 0px !important; padding-left: 0 !important; padding-right: 0 !important;
+            opacity: 0 !important; transform: scale(0.5); border: none;
         }
-        /* Style input In-Book Search melar */
-        #inbook-search-input { transition: all 0.5s cubic-bezier(0.2, 0, 0, 1); }
 
         /* Modal & UI lainnya */
         .modal-overlay { transition: opacity 0.3s ease; }
@@ -171,63 +132,62 @@
 </head>
 <body class="font-sans flex flex-col relative">
 
-    <div id="library-view" class="absolute inset-0 flex flex-col overflow-hidden transition-transform duration-500 origin-bottom bg-m3-bg z-10 w-full">
+    <div id="library-view" class="absolute inset-0 flex flex-col overflow-hidden bg-m3-bg z-10 w-full transition-transform duration-500 origin-bottom">
         
-        <header id="main-header" class="pt-10 pb-4 px-5 sticky top-0 bg-m3-bg z-40 w-full">
-            <div class="flex flex-col w-full" id="header-wrapper">
-                
-                <div id="header-top-wrapper" class="w-full">
-                    <div id="header-top-inner" class="flex justify-between items-start w-full">
-                        <div>
-                            <h1 class="text-5xl font-bold tracking-tighter mb-1 text-m3-onBg">Baca.</h1>
-                            <p id="library-count" class="text-m3-onSurfaceVariant text-sm font-bold">0 Books</p>
-                        </div>
-                    </div>
+        <!-- HEADER DENGAN TRANSFORM MURNI (ANTI JITTER) -->
+        <header id="main-header" class="absolute top-0 left-0 right-0 z-40 bg-m3-bg transition-transform duration-300 ease-out" style="transform: translateY(0);">
+            <div id="title-area" class="pt-10 pb-3 px-5">
+                <h1 class="text-5xl font-bold tracking-tighter mb-1 text-m3-onBg">Baca.</h1>
+                <p id="library-count" class="text-m3-onSurfaceVariant text-sm font-bold">0 Books</p>
+            </div>
+            
+            <div id="search-area" class="search-row px-5 pb-4 transition-shadow duration-300">
+                <div class="search-capsule bg-m3-surfaceVariant p-1.5 rounded-full px-4 cursor-text relative">
+                    <i data-lucide="search" class="w-5 h-5 opacity-70 text-m3-onSurfaceVariant shrink-0 absolute left-4"></i>
+                    <!-- Placeholder diubah menjadi tanpa tulisan 'Cari' seperti request -->
+                    <input type="text" id="global-search" placeholder="..." class="w-full bg-transparent border-none outline-none py-2.5 pl-8 pr-2 font-bold text-m3-onSurfaceVariant placeholder:text-m3-onSurfaceVariant/60 text-sm">
                 </div>
-
-                <div class="search-row" id="header-bottom-row">
-                    <div class="search-capsule bg-m3-surfaceVariant p-1.5 rounded-full px-4 cursor-text relative">
-                        <i data-lucide="search" class="w-5 h-5 opacity-70 text-m3-onSurfaceVariant shrink-0 absolute left-4"></i>
-                        <input type="text" id="global-search" class="w-full bg-transparent border-none outline-none py-2.5 pl-8 pr-2 font-bold text-m3-onSurfaceVariant placeholder:text-m3-onSurfaceVariant/60 text-sm">
-                    </div>
-                    
-                    <button onclick="openModal('global-settings-modal', 'global-settings-sheet')" id="settings-btn" class="btn-morph btn-settings p-4 flex items-center justify-center bg-m3-surfaceVariant text-m3-onSurfaceVariant">
-                        <i data-lucide="settings"></i>
-                    </button>
-                </div>
+                <button onclick="openModal('global-settings-modal', 'global-settings-sheet')" id="settings-btn" class="btn-morph btn-settings p-4 flex items-center justify-center bg-m3-surfaceVariant text-m3-onSurfaceVariant">
+                    <i data-lucide="settings"></i>
+                </button>
             </div>
         </header>
 
         <!-- Main Content Area -->
-        <div id="library-content-scroll" class="flex-1 overflow-y-auto px-5 pt-2 pb-32">
-            <div id="loading-state" class="hidden mb-8 p-5 bg-m3-secondaryContainer text-m3-onSecondaryContainer rounded-[28px]">
-                <div class="flex justify-between items-end mb-3">
-                    <p id="loading-text" class="font-bold text-sm leading-tight">Reading Document...</p>
-                    <p id="loading-percent" class="font-bold text-base">0%</p>
+        <div id="library-content-scroll" class="flex-1 overflow-y-auto w-full relative">
+            <!-- Spacer ini yang ngedorong konten supaya nggak ketutupan Header absolute -->
+            <div id="header-spacer" class="w-full"></div>
+            
+            <div class="px-5 pb-32">
+                <div id="loading-state" class="hidden mb-8 p-5 bg-m3-secondaryContainer text-m3-onSecondaryContainer rounded-[28px]">
+                    <div class="flex justify-between items-end mb-3">
+                        <p id="loading-text" class="font-bold text-sm leading-tight">Reading Document...</p>
+                        <p id="loading-percent" class="font-bold text-base">0%</p>
+                    </div>
+                    <div class="h-2 w-full bg-black/10 dark:bg-white/10 rounded-full overflow-hidden relative">
+                        <div id="loading-bar" class="absolute h-full w-0 bg-m3-primary progress-smooth rounded-full"></div>
+                    </div>
                 </div>
-                <div class="h-2 w-full bg-black/10 dark:bg-white/10 rounded-full overflow-hidden relative">
-                    <div id="loading-bar" class="absolute h-full w-0 bg-m3-primary progress-smooth rounded-full"></div>
+
+                <!-- Top Books / Continue Reading Section -->
+                <div id="continue-reading-section" class="hidden mb-8 -mx-5">
+                    <h2 id="str-continue-reading" class="text-base font-bold mb-4 text-m3-onBg px-5 tracking-tight">Lanjutkan Membaca</h2>
+                    <div id="top-books-slider" class="flex gap-3 overflow-x-auto snap-x snap-proximity px-5 pb-2 hide-scroll" style="scroll-padding-left: 1.25rem;">
+                        <!-- Top books injected here -->
+                    </div>
                 </div>
-            </div>
 
-            <!-- Top Books / Continue Reading Section -->
-            <div id="continue-reading-section" class="hidden mb-8 -mx-5">
-                <h2 id="str-continue-reading" class="text-base font-bold mb-4 text-m3-onBg px-5 tracking-tight">Lanjutkan Membaca</h2>
-                <div id="top-books-slider" class="flex gap-3 overflow-x-auto snap-x snap-proximity px-5 pb-2 hide-scroll" style="scroll-padding-left: 1.25rem;">
-                    <!-- Top books injected here -->
+                <div id="collection-heading" class="hidden mb-4 mt-2">
+                    <h2 class="text-base font-bold text-m3-onBg tracking-tight" id="str-book-collection">Koleksi Buku</h2>
                 </div>
-            </div>
 
-            <div id="collection-heading" class="hidden mb-4 mt-2">
-                <h2 class="text-base font-bold text-m3-onBg tracking-tight" id="str-book-collection">Koleksi Buku</h2>
-            </div>
+                <!-- Main Library Grid: 3 Kolom -->
+                <div id="book-grid" class="grid grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-3 w-full"></div>
 
-            <!-- Main Library Grid: 3 Kolom -->
-            <div id="book-grid" class="grid grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-3 w-full"></div>
-
-            <div id="empty-state" class="flex flex-col items-center justify-center mt-20 opacity-40">
-                <i data-lucide="library" class="w-16 h-16 mb-4"></i>
-                <p class="text-lg font-bold text-center tracking-tight" id="str-lib-empty">Library is Empty.</p>
+                <div id="empty-state" class="flex flex-col items-center justify-center mt-20 opacity-40">
+                    <i data-lucide="library" class="w-16 h-16 mb-4"></i>
+                    <p class="text-lg font-bold text-center tracking-tight" id="str-lib-empty">Library is Empty.</p>
+                </div>
             </div>
         </div>
 
@@ -274,9 +234,9 @@
             <div class="search-row" id="inbook-search-row">
                 <div class="search-capsule bg-m3-surface p-1 rounded-full cursor-text relative">
                     <i data-lucide="search" class="w-5 h-5 opacity-70 text-m3-onSurface shrink-0 absolute left-4"></i>
-                    <input type="text" id="inbook-search-input" class="w-full bg-transparent border-none outline-none py-2 pl-10 pr-2 font-bold text-m3-onSurface text-sm">
+                    <input type="text" id="inbook-search-input" placeholder="..." class="w-full bg-transparent border-none outline-none py-2 pl-10 pr-2 font-bold text-m3-onSurface text-sm">
                 </div>
-                <button id="btn-exec-search" class="btn-morph w-10 h-10 bg-m3-primary text-m3-onPrimary rounded-full flex items-center justify-center shrink-0">
+                <button id="btn-exec-search" class="btn-morph btn-settings w-10 h-10 bg-m3-primary text-m3-onPrimary rounded-full flex items-center justify-center shrink-0">
                     <i data-lucide="arrow-right" class="w-5 h-5"></i>
                 </button>
             </div>
@@ -456,7 +416,7 @@
                 <button onclick="selectShape('default')" id="shape-default" class="btn-morph p-3 bg-m3-surfaceVariant text-m3-onSurfaceVariant rounded-xl font-bold text-xs border border-transparent">Dynamic</button>
                 <button onclick="selectShape('square')" id="shape-square" class="btn-morph p-3 bg-m3-surfaceVariant text-m3-onSurfaceVariant rounded-xl font-bold text-xs border border-transparent">Square</button>
             </div>
-            <!-- Default shape is 'rounded' -->
+            <!-- Default is now rounded -->
             <input type="hidden" id="edit-book-shape" value="rounded">
 
             <div class="flex gap-2">
@@ -571,60 +531,62 @@
             globalSearch: document.getElementById('global-search')
         };
 
-        // --- SISTEM SCROLL ANTI-JITTER (DIPERBAIKI) ---
+        // --- SISTEM HEADER ABSOLUTE TRANSFORM MURNI (ANTI JITTER) ---
         const libScroll = document.getElementById('library-content-scroll');
-        let lastScrollY = 0;
-        let isTicking = false;
-        let isHeaderHidden = false;
+        const headerSpacer = document.getElementById('header-spacer');
+        const titleArea = document.getElementById('title-area');
+        const searchArea = document.getElementById('search-area');
 
+        // Fungsi buat nyesuain spacer biar pas sama tinggi header
+        function adjustHeaderSpacer() {
+            if(DOM.mainHeader && headerSpacer) {
+                headerSpacer.style.height = `${DOM.mainHeader.offsetHeight}px`;
+            }
+        }
+        window.addEventListener('resize', adjustHeaderSpacer);
+
+        let lastScrollY = 0;
         if(libScroll && DOM.mainHeader) {
             libScroll.addEventListener('scroll', () => {
-                if (!isTicking) {
-                    window.requestAnimationFrame(() => {
-                        const currentScrollY = libScroll.scrollTop;
-                        const maxScroll = libScroll.scrollHeight - libScroll.clientHeight;
-                        
-                        if (currentScrollY > 10) { DOM.mainHeader.classList.add('scrolled-header'); } 
-                        else { DOM.mainHeader.classList.remove('scrolled-header'); }
-                        
-                        // Proteksi Jitter 1: Kalo daftar buku masih dikit (layar belum penuh banget), jangan dilipat headernya
-                        if (maxScroll < 200) {
-                            if (isHeaderHidden) {
-                                DOM.mainHeader.classList.remove('hide-top');
-                                isHeaderHidden = false;
-                            }
-                            lastScrollY = currentScrollY;
-                            isTicking = false;
-                            return;
-                        }
-
-                        // Proteksi Jitter 2: Perbesar threshold (selisih scroll minimum) jadi 15px
-                        // Artinya kalau jari cuma getar/geser dikit, header nggak akan bereaksi kedap-kedip
-                        if (Math.abs(currentScrollY - lastScrollY) > 15) {
-                            // Cuma sembunyiin kalo udah scroll ke bawah ngelewatin batas atas (80px)
-                            if (currentScrollY > 80 && currentScrollY > lastScrollY && !isHeaderHidden) {
-                                DOM.mainHeader.classList.add('hide-top');
-                                isHeaderHidden = true;
-                            } else if ((currentScrollY < lastScrollY || currentScrollY <= 80) && isHeaderHidden) {
-                                DOM.mainHeader.classList.remove('hide-top');
-                                isHeaderHidden = false;
-                            }
-                            lastScrollY = currentScrollY <= 0 ? 0 : currentScrollY;
-                        }
-                        isTicking = false;
-                    });
-                    isTicking = true;
+                const currentScrollY = libScroll.scrollTop;
+                const titleHeight = titleArea.offsetHeight;
+                
+                // Tambah shadow halus di search area kalo udah di-scroll ngelewatin title
+                if (currentScrollY > 10) { 
+                    searchArea.classList.add('shadow-[0_2px_10px_rgba(0,0,0,0.05)]'); 
+                } else { 
+                    searchArea.classList.remove('shadow-[0_2px_10px_rgba(0,0,0,0.05)]'); 
                 }
+
+                // Kalkulasi ruang yang bisa di-scroll
+                const maxScroll = libScroll.scrollHeight - libScroll.clientHeight;
+                
+                // Animasi Transform Y (Menyembunyikan Tulisan "Baca.") 
+                // Hanya aktif kalau daftar buku cukup panjang buat di-scroll
+                if (maxScroll > titleHeight + 20) {
+                    if (currentScrollY > titleHeight && currentScrollY > lastScrollY) {
+                        // Scroll Turun: Geser header ke atas
+                        DOM.mainHeader.style.transform = `translateY(-${titleHeight}px)`;
+                    } else if (currentScrollY < lastScrollY || currentScrollY <= titleHeight) {
+                        // Scroll Naik: Kembalikan header
+                        DOM.mainHeader.style.transform = `translateY(0)`;
+                    }
+                } else {
+                    // Kalau buku dikit, jangan pernah lipat header
+                    DOM.mainHeader.style.transform = `translateY(0)`;
+                }
+                
+                lastScrollY = currentScrollY <= 0 ? 0 : currentScrollY;
             }, { passive: true });
         }
 
-        // Logic Kapsul Melar pake Class JS (biar mulus tanpa hover/focus error di hp)
+        // Logic Kapsul Melar Search Bar
         DOM.globalSearch.addEventListener('focus', () => {
-            document.getElementById('header-bottom-row').classList.add('search-active');
+            document.getElementById('search-area').classList.add('search-active');
         });
         DOM.globalSearch.addEventListener('blur', () => {
             if(!DOM.globalSearch.value) {
-                document.getElementById('header-bottom-row').classList.remove('search-active');
+                document.getElementById('search-area').classList.remove('search-active');
             }
         });
 
@@ -636,7 +598,6 @@
                 document.getElementById('inbook-search-row').classList.remove('search-active');
             }
         });
-
 
         let library = []; let activeBookId = null; let observer = null; let activePanel = null;
         let activeOptsId = null; let currentSelection = { text: "", nodeIdx: -1 }; let activeAnnotationId = null;
@@ -670,7 +631,6 @@
             if(document.getElementById('str-lib-empty')) document.getElementById('str-lib-empty').innerText = d.libEmpty;
             if(document.getElementById('str-continue-reading')) document.getElementById('str-continue-reading').innerText = d.continueReading;
             if(document.getElementById('str-book-collection')) document.getElementById('str-book-collection').innerText = d.bookCollection;
-            if(DOM.globalSearch) DOM.globalSearch.placeholder = d.searchBooks;
             if(document.getElementById('loading-text')) document.getElementById('loading-text').innerText = d.loadingDocs;
             if(DOM.count) DOM.count.textContent = `${(library.length)} ${d.booksCount}`;
         };
@@ -863,7 +823,7 @@
         window.changeTypo = function(type, value) { typoPrefs[type] = value; applyTypo(); }
         applyTypo();
 
-        async function loadLibrary() { try { library = await localforage.getItem('pdf_epub_master') || []; renderLibrary(); } catch (e) { console.error(e); } }
+        async function loadLibrary() { try { library = await localforage.getItem('pdf_epub_master') || []; renderLibrary(); adjustHeaderSpacer(); } catch (e) { console.error(e); } }
         
         function createBookCard(book, isSlider = false, index = 0) {
             const progress = book.progressPct || 0; 
@@ -878,8 +838,9 @@
             let bgStyle = ""; let textOverlay = ""; let baseClass = "";
             if(book.coverBase64) {
                 bgStyle = `background-image: url('${book.coverBase64}'); background-size: cover; background-position: top center;`;
-                baseClass = "text-white border border-transparent"; 
-                textOverlay = `<div class="absolute inset-x-0 bottom-0 h-3/4 bg-gradient-to-t from-black/90 via-black/40 to-transparent pointer-events-none z-0 rounded-b-inherit"></div>`;
+                // PENTING: Murni hapus border biar cover mulus 100% 
+                baseClass = "text-white border-none ring-0 outline-none"; 
+                textOverlay = `<div class="absolute inset-x-0 bottom-0 h-3/4 bg-gradient-to-t from-black via-black/40 to-transparent pointer-events-none z-0 rounded-b-inherit border-none"></div>`;
             } else {
                 const colors = ['bg-m3-primaryContainer text-m3-onPrimaryContainer', 'bg-m3-secondaryContainer text-m3-onSecondaryContainer', 'bg-m3-surfaceVariant text-m3-onSurfaceVariant'];
                 baseClass = colors[index % 3];
@@ -906,16 +867,16 @@
             if (isSlider) {
                 card.innerHTML = `
                     ${textOverlay}
-                    <div class="relative z-10 flex flex-col h-full justify-between pointer-events-none">
+                    <div class="relative z-10 flex flex-col h-full justify-between pointer-events-none border-none">
                         <div class="flex justify-between w-full items-start">
                             <span class="inline-block text-[0.65rem] font-bold px-2 py-0.5 bg-black/40 rounded-full text-white uppercase tracking-widest">${book.type}</span>
                         </div>
-                        <div class="mt-auto flex flex-col">
+                        <div class="mt-auto flex flex-col border-none">
                             <h3 class="font-bold text-sm leading-tight line-clamp-2 drop-shadow-md ${book.coverBase64 ? 'text-white' : ''}">${book.title}</h3>
-                            <div class="w-full mt-2">
+                            <div class="w-full mt-2 border-none">
                                 <div class="flex justify-between text-[0.65rem] font-bold opacity-90 mb-1 ${book.coverBase64 ? 'text-white' : ''}"><span>${progress}%</span></div>
-                                <div class="h-1 w-full bg-black/20 dark:bg-white/20 rounded-full overflow-hidden">
-                                    <div class="h-full ${book.coverBase64 ? 'bg-white' : 'bg-m3-primary dark:bg-m3-primaryContainer'} rounded-full" style="width: ${progress}%"></div>
+                                <div class="h-1 w-full bg-black/20 dark:bg-white/20 rounded-full overflow-hidden border-none">
+                                    <div class="h-full ${book.coverBase64 ? 'bg-white' : 'bg-m3-primary dark:bg-m3-primaryContainer'} rounded-full border-none" style="width: ${progress}%"></div>
                                 </div>
                             </div>
                         </div>
@@ -924,18 +885,18 @@
             } else {
                 card.innerHTML = `
                     ${textOverlay}
-                    <div class="relative z-10 flex flex-col h-full justify-between pointer-events-none">
+                    <div class="relative z-10 flex flex-col h-full justify-between pointer-events-none border-none">
                         <div class="flex justify-end w-full"></div>
-                        <div class="mt-auto flex flex-col">
+                        <div class="mt-auto flex flex-col border-none">
                             ${book.coverBase64 ? '' : '<i data-lucide="book" class="w-6 h-6 mb-2 opacity-80"></i>'}
                             <h3 class="font-bold text-sm leading-tight mt-1 line-clamp-3 drop-shadow-md ${book.coverBase64 ? 'text-white' : ''}">${book.title}</h3>
                             <span class="inline-block mt-2 mb-2 text-[0.6rem] font-bold px-2 py-0.5 bg-black/40 rounded-full text-white uppercase tracking-widest self-start">${book.type}</span>
-                            <div class="w-full">
+                            <div class="w-full border-none">
                                 <div class="flex justify-between text-[0.6rem] font-bold opacity-90 mb-1 ${book.coverBase64 ? 'text-white' : ''}">
                                     <span>${progress}%</span>
                                 </div>
-                                <div class="h-1 w-full bg-black/20 dark:bg-white/20 rounded-full overflow-hidden">
-                                    <div class="h-full ${book.coverBase64 ? 'bg-white' : 'bg-m3-primary dark:bg-m3-primaryContainer'} rounded-full" style="width: ${progress}%"></div>
+                                <div class="h-1 w-full bg-black/20 dark:bg-white/20 rounded-full overflow-hidden border-none">
+                                    <div class="h-full ${book.coverBase64 ? 'bg-white' : 'bg-m3-primary dark:bg-m3-primaryContainer'} rounded-full border-none" style="width: ${progress}%"></div>
                                 </div>
                             </div>
                         </div>
@@ -970,6 +931,9 @@
                 filteredLib.forEach((book, index) => { DOM.grid.appendChild(createBookCard(book, false, index)); });
                 lucide.createIcons();
             }
+            
+            // Re-adjust spacer in case UI changed height
+            setTimeout(adjustHeaderSpacer, 100);
         }
         
         DOM.globalSearch.addEventListener('input', (e) => renderLibrary(e.target.value));
