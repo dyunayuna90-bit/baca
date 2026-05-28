@@ -1,3 +1,4 @@
+```html
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -135,7 +136,7 @@
             <!-- Search bar with dynamic theme text color -->
             <div class="relative w-full text-m3-primary dark:text-m3-onSurfaceVariant">
                 <i data-lucide="search" class="absolute left-6 top-1/2 transform -translate-y-1/2 opacity-70"></i>
-                <input type="text" id="global-search" placeholder="Search books..." class="w-full rounded-full py-4 pl-14 pr-4 outline-none transition-all font-medium shadow-sm bg-m3-primary/10 border border-m3-primary/20 focus:ring-2 focus:ring-m3-primary focus:bg-m3-primary/20 dark:bg-m3-surfaceVariant dark:border-transparent dark:focus:bg-m3-surfaceVariant text-inherit placeholder:text-inherit placeholder:opacity-60">
+                <input type="text" id="global-search" placeholder="Search books... (Tekan Enter untuk online)" class="w-full rounded-full py-4 pl-14 pr-4 outline-none transition-all font-medium shadow-sm bg-m3-primary/10 border border-m3-primary/20 focus:ring-2 focus:ring-m3-primary focus:bg-m3-primary/20 dark:bg-m3-surfaceVariant dark:border-transparent dark:focus:bg-m3-surfaceVariant text-inherit placeholder:text-inherit placeholder:opacity-60">
             </div>
         </header>
 
@@ -558,7 +559,7 @@
         const i18n = {
             id: {
                 libEmpty: "Perpustakaan Kosong.",
-                searchBooks: "Cari buku...",
+                searchBooks: "Cari buku... (Tekan Enter untuk online)",
                 loadingDocs: "Membaca Dokumen...",
                 booksCount: "Buku",
                 continueReading: "Lanjutkan Membaca",
@@ -615,7 +616,7 @@
             },
             en: {
                 libEmpty: "Library is Empty.",
-                searchBooks: "Search books...",
+                searchBooks: "Search books... (Press Enter for online)",
                 loadingDocs: "Reading Document...",
                 booksCount: "Books",
                 continueReading: "Continue Reading",
@@ -1100,7 +1101,95 @@
             }
         }
         
-        DOM.globalSearch.addEventListener('input', (e) => renderLibrary(e.target.value));
+        // MODIFIKASI: Logika Filter Lokal vs Search Internet
+        DOM.globalSearch.addEventListener('input', (e) => {
+            const val = e.target.value.trim();
+            if(val === '') {
+                renderLibrary(); // Kembalikan ke library lokal jika kosong
+            } else {
+                renderLibrary(val); // Filter lokal saat ngetik
+            }
+        });
+
+        DOM.globalSearch.addEventListener('keypress', async (e) => {
+            if (e.key === 'Enter') {
+                e.preventDefault();
+                const query = e.target.value.trim();
+                if (!query) return;
+
+                // Matikan elemen UI yang tidak diperlukan
+                DOM.empty.classList.add('hidden');
+                DOM.topSection.classList.add('hidden');
+                DOM.grid.classList.remove('hidden');
+                
+                // 1. Tampilkan indikator loading brutal Material 3
+                DOM.grid.innerHTML = `
+                    <div class="col-span-full flex flex-col items-center justify-center p-12 opacity-70">
+                        <div class="w-12 h-12 border-4 border-m3-primary border-t-transparent rounded-full animate-spin mb-4"></div>
+                        <p class="font-bold text-lg animate-pulse">Mencari "${query}" di internet...</p>
+                    </div>
+                `;
+
+                try {
+                    // 2. Fetch ke backend Vercel lu
+                    const response = await fetch('/api/search?q=' + encodeURIComponent(query));
+                    const result = await response.json();
+
+                    DOM.grid.innerHTML = '';
+                    
+                    // 3. Render hasil pencarian ke dalam Grid
+                    if (result.success && result.data && result.data.length > 0) {
+                        result.data.forEach(book => {
+                            const card = document.createElement('div');
+                            // Style kartu senada dengan Material 3 bawaan aplikasi lu
+                            card.className = "bg-m3-surfaceVariant text-m3-onSurfaceVariant rounded-[24px] p-5 shadow-sm flex flex-col justify-between card-morph border border-m3-onSurfaceVariant/10 aspect-[3/4] w-full relative overflow-hidden group";
+                            
+                            // Pengaman kutip di link download agar tidak error saat di-klik
+                            const safeLink = book.link_download ? book.link_download.replace(/'/g, "\\'") : '';
+                            
+                            card.innerHTML = `
+                                <div class="flex flex-col h-full relative z-10">
+                                    <div class="flex justify-between items-start mb-3">
+                                        <span class="text-[0.6rem] font-bold px-2 py-1 bg-m3-primary/10 text-m3-primary rounded-full uppercase tracking-wider">${book.source}</span>
+                                        <span class="text-[0.6rem] font-bold px-2 py-1 bg-m3-onSurface/10 text-m3-onSurface rounded-full uppercase">${book.format || 'UNK'}</span>
+                                    </div>
+                                    <div class="flex-1 flex flex-col justify-center items-center text-center mb-4">
+                                        <i data-lucide="globe-2" class="w-10 h-10 mb-3 opacity-20"></i>
+                                        <h3 class="font-bold text-lg leading-tight mb-2 line-clamp-4 break-words w-full">${book.title}</h3>
+                                        <p class="text-xs opacity-70 line-clamp-2 w-full font-medium">${book.author}</p>
+                                    </div>
+                                    <!-- Tombol Unduh: Sementara menggunakan console.log sesuai instruksi -->
+                                    <button onclick="console.log('${safeLink}')" class="mt-auto w-full py-3.5 bg-m3-primary text-m3-onPrimary rounded-full font-bold shadow-md btn-morph flex items-center justify-center gap-2 text-sm tracking-wide">
+                                        <i data-lucide="download-cloud" class="w-4 h-4"></i> Unduh
+                                    </button>
+                                </div>
+                            `;
+                            DOM.grid.appendChild(card);
+                        });
+                        lucide.createIcons();
+                    } else {
+                        // Jika buku tidak ditemukan di internet
+                        DOM.grid.innerHTML = `
+                            <div class="col-span-full flex flex-col items-center justify-center mt-16 opacity-40">
+                                <i data-lucide="book-x" class="w-16 h-16 mb-4"></i>
+                                <p class="text-xl font-bold tracking-tight">Tidak ditemukan di internet.</p>
+                            </div>
+                        `;
+                        lucide.createIcons();
+                    }
+                } catch (error) {
+                    // Jika Vercel down atau jaringan putus
+                    DOM.grid.innerHTML = `
+                        <div class="col-span-full flex flex-col items-center justify-center mt-16 text-red-500">
+                            <i data-lucide="server-crash" class="w-16 h-16 mb-4 opacity-80"></i>
+                            <p class="text-xl font-bold tracking-tight">Koneksi Server Gagal.</p>
+                            <p class="text-sm opacity-80 font-medium mt-1">${error.message}</p>
+                        </div>
+                    `;
+                    lucide.createIcons();
+                }
+            }
+        });
 
         window.openBookOptions = function(id) {
             activeOptsId = id; const book = library.find(b => b.id === id);
@@ -1862,3 +1951,5 @@
     </script>
 </body>
 </html>
+
+```
