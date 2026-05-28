@@ -54,4 +54,4 @@ If you love clean code, minimalist software architecture, or want to build a bul
 ---
 
 ## 📄 License
-MIT License. Completely free to use, modify, and redistribute. Built with absolute logic.
+MIT License. Completely free to use, modify, and redistribute.
