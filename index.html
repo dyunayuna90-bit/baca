@@ -83,6 +83,7 @@
             flex: 2; transform: scale(0.95); border-radius: 12px; 
             background-color: var(--md-sys-color-primary); color: var(--md-sys-color-on-primary); 
         }
+        .capsule-input-area { transition: flex 0.4s cubic-bezier(0.34, 1.56, 0.64, 1); }
 
         /* Modal Expressive Animation */
         .modal-overlay { transition: opacity 0.3s ease; }
@@ -135,9 +136,14 @@
                     </button>
                 </div>
             </div>
-            <div class="relative w-full text-m3-primary dark:text-m3-onSurfaceVariant">
-                <i data-lucide="search" class="absolute left-6 top-1/2 transform -translate-y-1/2 opacity-70"></i>
-                <input type="text" id="global-search" placeholder="Search books..." class="w-full rounded-full py-4 pl-14 pr-4 outline-none transition-all font-bold bg-m3-surfaceVariant text-inherit placeholder:text-inherit placeholder:opacity-60 border border-transparent focus:border-m3-primary">
+            
+            <!-- Global Search as a Stretching Capsule -->
+            <div class="capsule-group bg-m3-surfaceVariant p-1 rounded-full w-full border border-transparent focus-within:border-m3-primary/50 transition-colors">
+                <div class="flex-[4] flex items-center px-4 capsule-input-area">
+                    <i data-lucide="search" class="w-5 h-5 opacity-70 text-m3-onSurfaceVariant"></i>
+                    <input type="text" id="global-search" placeholder="Search books..." class="w-full bg-transparent border-none outline-none py-3 pl-3 pr-2 font-bold text-m3-onSurfaceVariant placeholder:text-m3-onSurfaceVariant/60 text-sm">
+                </div>
+                <button class="capsule-btn flex-1 bg-m3-primary/10 text-m3-primary font-bold shadow-none border-none py-3" onclick="document.getElementById('global-search').focus()">Cari</button>
             </div>
         </header>
 
@@ -156,12 +162,13 @@
             <!-- Top Books / Continue Reading Section (Horizontal Slider) -->
             <div id="continue-reading-section" class="hidden mb-8 -mx-5">
                 <h2 id="str-continue-reading" class="text-base font-bold mb-4 text-m3-onBg px-5 tracking-tight">Lanjutkan Membaca</h2>
+                <!-- Tetap rasio horizontal panjang w-64 h-40 -->
                 <div id="top-books-slider" class="flex gap-3 overflow-x-auto snap-x snap-proximity px-5 pb-2 hide-scroll" style="scroll-padding-left: 1.25rem;">
                     <!-- Top books injected here -->
                 </div>
             </div>
 
-            <!-- Main Library Grid: Diubah jadi 3 Kolom -->
+            <!-- Main Library Grid: 3 Kolom -->
             <div id="book-grid" class="grid grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-3 w-full"></div>
 
             <div id="empty-state" class="flex flex-col items-center justify-center mt-20 opacity-40">
@@ -211,9 +218,12 @@
         </button>
         
         <div id="reader-search-bar" class="hidden bg-m3-surfaceVariant px-4 pb-4 z-20 transition-all w-full shrink-0 rounded-b-[24px]">
-            <div class="flex gap-2">
-                <input type="text" id="inbook-search-input" placeholder="Search specific text..." class="flex-1 bg-m3-surface text-m3-onSurface rounded-full px-4 py-2 outline-none text-sm font-bold border border-transparent focus:border-m3-primary">
-                <button id="btn-exec-search" class="bg-m3-primary text-m3-onPrimary px-4 py-2 rounded-full font-bold text-sm btn-morph">Search</button>
+            <!-- In-Book Search as Stretching Capsule -->
+            <div class="capsule-group bg-m3-surface p-1 rounded-full w-full">
+                <div class="flex-[3] flex items-center px-4 capsule-input-area">
+                    <input type="text" id="inbook-search-input" placeholder="Search specific text..." class="w-full bg-transparent border-none outline-none py-2 font-bold text-m3-onSurface text-sm">
+                </div>
+                <button id="btn-exec-search" class="capsule-btn flex-1 bg-m3-primary text-m3-onPrimary font-bold py-2 shadow-none border-none text-sm">Search</button>
             </div>
             <div id="search-results-panel" class="hidden mt-2 max-h-40 overflow-y-auto overflow-x-hidden rounded-xl bg-m3-surface text-sm"></div>
         </div>
@@ -391,12 +401,12 @@
             
             <label class="text-xs font-bold opacity-70 block mb-2 uppercase tracking-wider">Card Shape</label>
             <div class="grid grid-cols-2 gap-2 mb-8">
-                <button onclick="selectShape('default')" id="shape-default" class="btn-morph p-3 bg-m3-surfaceVariant text-m3-onSurfaceVariant rounded-xl font-bold text-xs border border-transparent">Dynamic</button>
                 <button onclick="selectShape('rounded')" id="shape-rounded" class="btn-morph p-3 bg-m3-surfaceVariant text-m3-onSurfaceVariant rounded-xl font-bold text-xs border border-transparent">Rounded</button>
+                <button onclick="selectShape('default')" id="shape-default" class="btn-morph p-3 bg-m3-surfaceVariant text-m3-onSurfaceVariant rounded-xl font-bold text-xs border border-transparent">Dynamic</button>
                 <button onclick="selectShape('square')" id="shape-square" class="btn-morph p-3 bg-m3-surfaceVariant text-m3-onSurfaceVariant rounded-xl font-bold text-xs border border-transparent">Square</button>
-                <button onclick="selectShape('leaf')" id="shape-leaf" class="btn-morph p-3 bg-m3-surfaceVariant text-m3-onSurfaceVariant rounded-xl font-bold text-xs border border-transparent">Leaf</button>
             </div>
-            <input type="hidden" id="edit-book-shape" value="default">
+            <!-- Default value set to rounded -->
+            <input type="hidden" id="edit-book-shape" value="rounded">
 
             <div class="flex gap-2">
                 <button onclick="closeEditModal()" class="flex-1 py-3 bg-transparent text-m3-onSurface font-bold rounded-full btn-morph">Cancel</button>
@@ -476,7 +486,7 @@
     <script>
         pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.16.105/pdf.worker.min.js';
 
-        // M3 Palettes
+        // M3 Palettes restored to include all options
         const M3_PALETTES = {
             purple: { light: `--md-sys-color-primary:#6750A4;--md-sys-color-on-primary:#FFFFFF;--md-sys-color-primary-container:#EADDFF;--md-sys-color-on-primary-container:#21005D;--md-sys-color-secondary-container:#E8DEF8;--md-sys-color-on-secondary-container:#1D192B;--md-sys-color-tertiary-container:#FFD8E4;--md-sys-color-on-tertiary-container:#31111D;--md-sys-color-background:#FEF7FF;--md-sys-color-on-background:#1D1B20;--md-sys-color-surface:#FEF7FF;--md-sys-color-on-surface:#1D1B20;--md-sys-color-surface-variant:#E7E0EC;--md-sys-color-on-surface-variant:#49454F;`, dark: `--md-sys-color-primary:#D0BCFF;--md-sys-color-on-primary:#381E72;--md-sys-color-primary-container:#4F378B;--md-sys-color-on-primary-container:#EADDFF;--md-sys-color-secondary-container:#4A4458;--md-sys-color-on-secondary-container:#E8DEF8;--md-sys-color-tertiary-container:#633B48;--md-sys-color-on-tertiary-container:#FFD8E4;--md-sys-color-background:#141218;--md-sys-color-on-background:#E6E0E9;--md-sys-color-surface:#141218;--md-sys-color-on-surface:#E6E0E9;--md-sys-color-surface-variant:#49454F;--md-sys-color-on-surface-variant:#CAC4D0;` },
             green: { light: `--md-sys-color-primary:#006C4C;--md-sys-color-on-primary:#FFFFFF;--md-sys-color-primary-container:#89F8D6;--md-sys-color-on-primary-container:#002114;--md-sys-color-secondary-container:#CCE8DB;--md-sys-color-on-secondary-container:#052016;--md-sys-color-tertiary-container:#BEEAF6;--md-sys-color-on-tertiary-container:#001F29;--md-sys-color-background:#FBFDF8;--md-sys-color-on-background:#191C1A;--md-sys-color-surface:#FBFDF8;--md-sys-color-on-surface:#191C1A;--md-sys-color-surface-variant:#DBE5DD;--md-sys-color-on-surface-variant:#404943;`, dark: `--md-sys-color-primary:#6CDBBA;--md-sys-color-on-primary:#003825;--md-sys-color-primary-container:#005138;--md-sys-color-on-primary-container:#89F8D6;--md-sys-color-secondary-container:#334B3F;--md-sys-color-on-secondary-container:#CCE8DB;--md-sys-color-tertiary-container:#204D59;--md-sys-color-on-tertiary-container:#BEEAF6;--md-sys-color-background:#111412;--md-sys-color-on-background:#E1E3DF;--md-sys-color-surface:#111412;--md-sys-color-on-surface:#E1E3DF;--md-sys-color-surface-variant:#404943;--md-sys-color-on-surface-variant:#BFC9C3;` },
@@ -754,22 +764,25 @@
             const card = document.createElement('div');
             
             let shapeClass = "";
-            let shp = book.shape || 'default';
+            let shp = book.shape || 'rounded'; // default ke rounded sesuai request
             if (shp === 'rounded') shapeClass = 'rounded-[24px]';
             else if (shp === 'square') shapeClass = 'rounded-lg';
-            else if (shp === 'leaf') shapeClass = 'rounded-tr-[32px] rounded-bl-[32px] rounded-tl-lg rounded-br-lg';
             else shapeClass = index % 2 === 0 ? 'rounded-tl-[32px] rounded-br-[32px] rounded-tr-lg rounded-bl-lg' : 'rounded-tr-[32px] rounded-bl-[32px] rounded-tl-lg rounded-br-lg';
 
             let bgStyle = ""; let textOverlay = ""; let baseClass = "";
+            
             if(book.coverBase64) {
-                bgStyle = `background-image: url('${book.coverBase64}'); background-size: cover; background-position: top center;`;
-                baseClass = "text-white"; 
-                textOverlay = `<div class="absolute inset-x-0 bottom-0 h-3/4 bg-gradient-to-t from-black/90 via-black/40 to-transparent pointer-events-none z-0 rounded-b-inherit"></div>`;
+                // Background image: Fix border artifact by forcing transparent bg color and removing any borders.
+                bgStyle = `background-image: url('${book.coverBase64}'); background-size: cover; background-position: top center; background-color: transparent !important; box-shadow: none; border: none;`;
+                baseClass = "text-white border-0"; 
+                // Fix gradasi bottom line bleed: stretch gradient by -4px at bottom (-inset-1) and opaque black at the very bottom
+                textOverlay = `<div class="absolute inset-x-0 -bottom-1 h-3/4 bg-gradient-to-t from-[#000000] via-black/60 to-transparent pointer-events-none z-0"></div>`;
             } else {
                 const colors = ['bg-m3-primaryContainer text-m3-onPrimaryContainer', 'bg-m3-secondaryContainer text-m3-onSecondaryContainer', 'bg-m3-surfaceVariant text-m3-onSurfaceVariant'];
                 baseClass = colors[index % 3];
             }
 
+            // Tetap rasio agak horizontal sesuai format awal untuk slider
             const dimensionClass = isSlider ? "w-64 h-40 shrink-0 snap-start" : "aspect-[3/4.5] w-full";
 
             let pressTimer = null; let isPressing = false; let hasLongPressed = false;
@@ -785,6 +798,7 @@
             card.addEventListener('mouseleave', handleMove); card.addEventListener('touchmove', handleMove, {passive: true});
             card.addEventListener('click', (e) => { if (hasLongPressed) { e.preventDefault(); e.stopPropagation(); return; } openBook(book); });
 
+            // Make sure overflow is strictly hidden to enforce the rounded edges properly
             card.className = `${baseClass} ${shapeClass} ${dimensionClass} p-3 relative cursor-pointer card-morph flex flex-col justify-between overflow-hidden`;
             card.style = bgStyle;
 
@@ -878,7 +892,7 @@
             document.getElementById('edit-book-title').value = book.title; 
             document.getElementById('edit-book-cover').value = '';
             
-            window.selectShape(book.shape || 'default');
+            window.selectShape(book.shape || 'rounded'); // fallback to rounded if none
             history.back(); setTimeout(() => { openModal('edit-modal', 'edit-sheet', true); }, 400); 
         }
         
@@ -1087,7 +1101,6 @@
             }
         }
 
-        // Annotations
         document.addEventListener('selectionchange', () => {
             if(!activeBookId) return;
             const sel = window.getSelection(); const text = sel.toString().trim(); const menu = document.getElementById('selection-menu');
@@ -1193,7 +1206,6 @@
             }
         };
 
-        // Wikipedia Fetch / Ask AI lookup
         window.lookupDictionary = async function() {
             if(currentSelection.nodeIdx === -1) return; const term = currentSelection.text; hideSelectionMenu();
             
@@ -1366,7 +1378,7 @@
                 }
                 cleanedNodes.push(curr);
             });
-            library.push({ id: Date.now().toString(), type: 'pdf', title: bookTitle, nodes: cleanedNodes, pages: numPages, progressPct: 0, lastReadId: null, coverBase64: coverBase64, shape: 'default' });
+            library.push({ id: Date.now().toString(), type: 'pdf', title: bookTitle, nodes: cleanedNodes, pages: numPages, progressPct: 0, lastReadId: null, coverBase64: coverBase64, shape: 'rounded' });
             await localforage.setItem('pdf_epub_master', library); renderLibrary();
         }
 
@@ -1412,7 +1424,7 @@
                     }
                 }
             }
-            library.push({ id: Date.now().toString(), type: 'epub', title: bookTitle, nodes: parsedNodes, pages: spine.length, progressPct: 0, lastReadId: null, coverBase64: coverBase64, shape: 'default' });
+            library.push({ id: Date.now().toString(), type: 'epub', title: bookTitle, nodes: parsedNodes, pages: spine.length, progressPct: 0, lastReadId: null, coverBase64: coverBase64, shape: 'rounded' });
             await localforage.setItem('pdf_epub_master', library); renderLibrary();
         }
 
