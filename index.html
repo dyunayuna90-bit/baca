@@ -164,12 +164,9 @@
                 </div>
             </div>
 
-            <!-- Label Koleksi Buku + Tombol Trash Delete Batch -->
-            <div id="collection-heading" class="hidden mb-4 mt-2 flex justify-between items-center">
+            <!-- Label Koleksi Buku (Tanpa ikon Trash) -->
+            <div id="collection-heading" class="hidden mb-4 mt-2">
                 <h2 class="text-base font-bold text-m3-onBg tracking-tight" id="str-book-collection">Koleksi Buku</h2>
-                <button onclick="toggleBatchDelete()" id="btn-trash-collection" class="p-2 -mr-2 btn-morph text-m3-onBg/50 hover:text-red-500 transition-colors rounded-full flex items-center justify-center">
-                    <i data-lucide="trash-2" class="w-5 h-5"></i>
-                </button>
             </div>
 
             <div id="book-grid" class="grid grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-3 w-full"></div>
@@ -188,12 +185,12 @@
             <input type="file" id="doc-upload" accept=".epub,.pdf" class="hidden">
         </div>
         
-        <!-- Batch Delete Floating Bar -->
-        <div id="batch-delete-bar" class="fixed bottom-0 inset-x-0 bg-m3-surfaceVariant text-m3-onSurfaceVariant p-5 z-[60] transform translate-y-full transition-transform duration-300 flex justify-between items-center rounded-t-[32px] border-t border-m3-onSurfaceVariant/10 shadow-[0_-4px_20px_rgba(0,0,0,0.1)]">
-            <span id="batch-delete-count" class="font-bold text-sm tracking-wide">0 Terpilih</span>
-            <div class="flex gap-2">
-                <button onclick="toggleBatchDelete()" id="btn-batch-cancel" class="px-5 py-2.5 font-bold text-xs uppercase tracking-wider text-m3-onSurfaceVariant bg-transparent rounded-full btn-morph">Batal</button>
-                <button onclick="executeBatchDelete()" id="btn-batch-exec" class="px-5 py-2.5 font-bold text-xs uppercase tracking-wider bg-red-100 text-red-700 dark:bg-red-900/40 dark:text-red-400 rounded-full btn-morph">Hapus</button>
+        <!-- Batch Delete Floating Pill Action Bar -->
+        <div id="batch-delete-bar" class="fixed bottom-6 left-1/2 -translate-x-1/2 bg-m3-surfaceVariant text-m3-onSurfaceVariant px-6 py-3 z-[60] translate-y-32 transition-transform duration-300 flex justify-between items-center rounded-full shadow-[0_8px_30px_rgba(0,0,0,0.2)] gap-4 w-max border border-m3-onSurfaceVariant/20 pointer-events-auto">
+            <span id="batch-delete-count" class="font-bold text-sm tracking-wide whitespace-nowrap">0 Terpilih</span>
+            <div class="flex gap-2 border-l border-m3-onSurfaceVariant/30 pl-4">
+                <button onclick="toggleBatchDelete()" id="btn-batch-cancel" class="px-4 py-2 font-bold text-xs uppercase tracking-wider text-m3-onSurfaceVariant bg-transparent rounded-full btn-morph">Batal</button>
+                <button onclick="executeBatchDelete()" id="btn-batch-exec" class="px-4 py-2 font-bold text-xs uppercase tracking-wider bg-red-100 text-red-700 dark:bg-red-900/40 dark:text-red-400 rounded-full btn-morph shadow-sm">Hapus</button>
             </div>
         </div>
     </div>
@@ -300,8 +297,8 @@
     </div>
 
     <!-- Welcome Modal -->
-    <div id="welcome-modal" onclick="if(event.target === this) closeWelcome()" class="hidden modal-overlay fixed inset-0 bg-m3-bg/95 z-[200] flex items-center justify-center p-4 opacity-0">
-        <div class="modal-content bg-m3-surface w-full max-w-md rounded-[48px] overflow-hidden flex flex-col scale-75 translate-y-12 border border-m3-surfaceVariant" id="welcome-sheet">
+    <div id="welcome-modal" onclick="if(event.target === this) closeWelcome()" class="hidden modal-overlay fixed inset-0 bg-black/60 z-[200] flex items-center justify-center p-4 opacity-0">
+        <div class="modal-content bg-m3-surface w-full max-w-md rounded-[48px] overflow-hidden flex flex-col scale-75 translate-y-12 border-none" id="welcome-sheet">
             <div class="p-8 overflow-y-auto max-h-[75vh]">
                 <h2 class="text-3xl font-bold text-m3-onSurface mb-2 tracking-tight">Welcome to Baca.</h2>
                 <p class="text-m3-onSurfaceVariant mb-8 font-medium">Please read these instructions to ensure the optimal reading experience.</p>
@@ -330,8 +327,8 @@
     </div>
 
     <!-- Global Settings Modal -->
-    <div id="global-settings-modal" onclick="if(event.target === this) history.back()" class="hidden modal-overlay fixed inset-0 bg-m3-bg/90 z-[100] flex items-end justify-center opacity-0">
-        <div class="modal-content bg-m3-surface w-full max-w-md rounded-t-[48px] p-6 pb-12 transform translate-y-full border-t border-m3-surfaceVariant" id="global-settings-sheet">
+    <div id="global-settings-modal" onclick="if(event.target === this) history.back()" class="hidden modal-overlay fixed inset-0 bg-black/60 z-[100] flex items-end justify-center opacity-0">
+        <div class="modal-content bg-m3-surface w-full max-w-md rounded-t-[48px] p-6 pb-12 transform translate-y-full border-none" id="global-settings-sheet">
             <div class="w-12 h-1.5 bg-m3-onSurfaceVariant/30 rounded-full mx-auto mb-6"></div>
             <h3 class="text-2xl font-bold mb-6 text-m3-onSurface">Settings</h3>
             
@@ -385,22 +382,23 @@
         </div>
     </div>
 
-    <!-- Book Options Modal (Redesigned Theme) -->
-    <div id="b-opt-modal" onclick="if(event.target === this) history.back()" class="hidden modal-overlay fixed inset-0 bg-m3-bg/90 z-[100] flex items-end justify-center opacity-0 p-4 pb-8">
-        <div class="modal-content bg-m3-primaryContainer shadow-2xl w-full max-w-sm rounded-[32px] p-6 transform translate-y-full" id="b-opt-sheet">
-            <div class="w-12 h-1.5 bg-m3-onPrimaryContainer/30 rounded-full mx-auto mb-6"></div>
-            <h3 id="opt-title" class="text-base font-bold mb-6 text-m3-onPrimaryContainer text-center truncate px-2">Book Options</h3>
+    <!-- Book Options Modal (No Blur, with Select Multiple option) -->
+    <div id="b-opt-modal" onclick="if(event.target === this) history.back()" class="hidden modal-overlay fixed inset-0 bg-black/60 z-[100] flex items-end justify-center opacity-0 p-4 pb-8 transition-opacity">
+        <div class="modal-content bg-m3-surface shadow-2xl w-full max-w-sm rounded-[32px] p-6 transform translate-y-full border-none" id="b-opt-sheet">
+            <div class="w-12 h-1.5 bg-m3-onSurfaceVariant/30 rounded-full mx-auto mb-6"></div>
+            <h3 id="opt-title" class="text-base font-bold mb-6 text-m3-onSurface text-center truncate px-2">Book Options</h3>
             <div class="flex flex-col gap-3">
-                <button onclick="triggerEditView()" class="flex items-center gap-4 w-full p-4 bg-m3-surface text-m3-onSurface rounded-2xl font-bold btn-morph"><i data-lucide="edit-3" class="w-5 h-5"></i> <span>Edit Details</span></button>
-                <button onclick="triggerDeleteView()" class="flex items-center gap-4 w-full p-4 bg-red-600 text-white dark:bg-red-900 dark:text-red-100 rounded-2xl font-bold btn-morph"><i data-lucide="trash-2" class="w-5 h-5"></i> <span>Delete Permanently</span></button>
+                <button onclick="triggerSelectMode()" class="flex items-center gap-4 w-full p-4 bg-m3-surfaceVariant text-m3-onSurfaceVariant rounded-2xl font-bold btn-morph"><i data-lucide="check-square" class="w-5 h-5"></i> <span id="str-opt-select">Pilih Beberapa</span></button>
+                <button onclick="triggerEditView()" class="flex items-center gap-4 w-full p-4 bg-m3-surfaceVariant text-m3-onSurfaceVariant rounded-2xl font-bold btn-morph"><i data-lucide="edit-3" class="w-5 h-5"></i> <span id="str-opt-edit">Edit Details</span></button>
+                <button onclick="triggerDeleteView()" class="flex items-center gap-4 w-full p-4 bg-red-100 text-red-700 dark:bg-red-900/40 dark:text-red-400 rounded-2xl font-bold btn-morph"><i data-lucide="trash-2" class="w-5 h-5"></i> <span id="str-opt-delete">Delete Permanently</span></button>
             </div>
-            <button onclick="history.back()" class="btn-morph w-full mt-4 py-4 bg-transparent text-m3-onPrimaryContainer font-bold tracking-wide">Cancel</button>
+            <button onclick="history.back()" class="btn-morph w-full mt-4 py-4 bg-transparent text-m3-onSurface font-bold tracking-wide">Cancel</button>
         </div>
     </div>
 
     <!-- Edit Book Data Modal -->
-    <div id="edit-modal" onclick="if(event.target === this) history.back()" class="hidden modal-overlay fixed inset-0 bg-m3-bg/90 z-[120] flex items-center justify-center opacity-0 p-4">
-        <div class="modal-content bg-m3-surface w-full max-w-sm rounded-[48px] p-8 transform scale-75 translate-y-12 border border-m3-surfaceVariant" id="edit-sheet">
+    <div id="edit-modal" onclick="if(event.target === this) history.back()" class="hidden modal-overlay fixed inset-0 bg-black/60 z-[120] flex items-center justify-center opacity-0 p-4">
+        <div class="modal-content bg-m3-surface w-full max-w-sm rounded-[48px] p-8 transform scale-75 translate-y-12 border-none" id="edit-sheet">
             <h3 class="text-xl font-bold mb-6 text-m3-onSurface">Edit Details</h3>
             <input type="hidden" id="edit-book-id">
             
@@ -445,8 +443,8 @@
     </div>
 
     <!-- Note Input Modal -->
-    <div id="note-modal" onclick="if(event.target === this) history.back()" class="hidden modal-overlay fixed inset-0 bg-m3-bg/90 z-[120] flex items-center justify-center opacity-0 p-4">
-        <div class="modal-content bg-m3-surface w-full max-w-sm rounded-[48px] p-6 transform scale-75 translate-y-12 border border-m3-surfaceVariant" id="note-sheet">
+    <div id="note-modal" onclick="if(event.target === this) history.back()" class="hidden modal-overlay fixed inset-0 bg-black/60 z-[120] flex items-center justify-center opacity-0 p-4">
+        <div class="modal-content bg-m3-surface w-full max-w-sm rounded-[48px] p-6 transform scale-75 translate-y-12 border-none" id="note-sheet">
             <h3 class="text-lg font-bold mb-4 text-m3-onSurface flex items-center gap-2"><i data-lucide="notebook-pen" class="w-5 h-5"></i> Tambah Catatan</h3>
             <textarea id="note-input-text" class="w-full h-32 bg-m3-surfaceVariant text-m3-onSurfaceVariant p-4 rounded-2xl mb-5 font-bold outline-none border border-transparent focus:border-m3-primary resize-none" placeholder="Tuliskan catatan..."></textarea>
             
@@ -458,8 +456,8 @@
     </div>
     
     <!-- Show Note Details Modal -->
-    <div id="show-note-modal" onclick="if(event.target === this) history.back()" class="hidden modal-overlay fixed inset-0 bg-m3-bg/90 z-[120] flex justify-center items-end sm:items-center opacity-0 p-4 sm:p-0">
-        <div class="modal-content bg-m3-surface w-full max-w-md sm:rounded-[48px] rounded-t-[48px] rounded-b-[0px] p-6 pb-12 sm:pb-6 transform translate-y-full border-t border-m3-surfaceVariant" id="show-note-sheet">
+    <div id="show-note-modal" onclick="if(event.target === this) history.back()" class="hidden modal-overlay fixed inset-0 bg-black/60 z-[120] flex justify-center items-end sm:items-center opacity-0 p-4 sm:p-0">
+        <div class="modal-content bg-m3-surface w-full max-w-md sm:rounded-[48px] rounded-t-[48px] rounded-b-[0px] p-6 pb-12 sm:pb-6 transform translate-y-full border-none" id="show-note-sheet">
             <div class="w-12 h-1.5 bg-m3-onSurfaceVariant/30 rounded-full mx-auto mb-6 sm:hidden"></div>
             <h3 class="text-lg font-bold mb-2 text-m3-onSurface flex items-center gap-2"><i data-lucide="sticky-note" class="w-5 h-5 text-m3-primary"></i> Catatan Tersimpan</h3>
             <p id="show-note-hl" class="text-xs font-mono opacity-60 mb-4 bg-m3-onSurface/5 p-2 rounded-lg line-clamp-2"></p>
@@ -473,8 +471,8 @@
     </div>
 
     <!-- AI Definition Modal -->
-    <div id="ai-modal" onclick="if(event.target === this) history.back()" class="hidden modal-overlay fixed inset-0 bg-m3-bg/90 z-[120] flex items-end sm:items-center justify-center opacity-0 pb-0 sm:pb-0 p-0 sm:p-4">
-        <div class="modal-content bg-m3-surface w-full max-w-md sm:rounded-[48px] rounded-t-[48px] p-6 pb-12 sm:pb-6 transform translate-y-full border-t border-m3-surfaceVariant flex flex-col max-h-[85vh]" id="ai-sheet">
+    <div id="ai-modal" onclick="if(event.target === this) history.back()" class="hidden modal-overlay fixed inset-0 bg-black/60 z-[120] flex items-end sm:items-center justify-center opacity-0 pb-0 sm:pb-0 p-0 sm:p-4">
+        <div class="modal-content bg-m3-surface w-full max-w-md sm:rounded-[48px] rounded-t-[48px] p-6 pb-12 sm:pb-6 transform translate-y-full flex flex-col max-h-[85vh] border-none" id="ai-sheet">
             <div class="w-12 h-1.5 bg-m3-onSurfaceVariant/30 rounded-full mx-auto mb-6 sm:hidden"></div>
             <div class="flex items-center justify-between mb-4 shrink-0">
                 <h3 class="text-lg font-bold text-m3-onSurface flex items-center gap-2"><i data-lucide="search" class="w-5 h-5 text-m3-primary"></i> Penjelasan</h3>
@@ -627,7 +625,7 @@
         let activeOptsId = null; let currentSelection = { text: "", nodeIdx: -1 }; let activeAnnotationId = null;
         
         let isBatchDeleteMode = false;
-        let selectedForDelete = new Set();
+        let selectedForDelete = []; // Kembali menggunakan Array untuk bisa tracking nomor antrian
         
         window.addEventListener('popstate', (e) => {
             if (!document.getElementById('ai-modal').classList.contains('opacity-0')) { closeAiModal(true); }
@@ -653,10 +651,10 @@
 
         const i18n = {
             id: {
-                libEmpty: "Perpustakaan Kosong.", searchBooks: "Cari buku...", loadingDocs: "Membaca Dokumen...", booksCount: "Buku", continueReading: "Lanjutkan Membaca", bookCollection: "Koleksi Buku", selected: "Terpilih", cancel: "Batal", delete: "Hapus", deleteConfirm: "Hapus buku yang dipilih secara permanen?"
+                libEmpty: "Perpustakaan Kosong.", searchBooks: "Cari buku...", loadingDocs: "Membaca Dokumen...", booksCount: "Buku", continueReading: "Lanjutkan Membaca", bookCollection: "Koleksi Buku", selected: "Terpilih", cancel: "Batal", delete: "Hapus", deleteConfirm: "Hapus buku yang dipilih secara permanen?", optSelect: "Pilih Beberapa", optEdit: "Edit Detail", optDelete: "Hapus Permanen"
             },
             en: {
-                libEmpty: "Library is Empty.", searchBooks: "Search books...", loadingDocs: "Reading Document...", booksCount: "Books", continueReading: "Continue Reading", bookCollection: "Book Collection", selected: "Selected", cancel: "Cancel", delete: "Delete", deleteConfirm: "Permanently delete selected books?"
+                libEmpty: "Library is Empty.", searchBooks: "Search books...", loadingDocs: "Reading Document...", booksCount: "Books", continueReading: "Continue Reading", bookCollection: "Book Collection", selected: "Selected", cancel: "Cancel", delete: "Delete", deleteConfirm: "Permanently delete selected books?", optSelect: "Select Multiple", optEdit: "Edit Details", optDelete: "Delete Permanently"
             }
         };
 
@@ -670,44 +668,89 @@
             if(document.getElementById('library-count')) document.getElementById('library-count').textContent = `${(library.length)} ${d.booksCount}`;
             if(document.getElementById('btn-batch-cancel')) document.getElementById('btn-batch-cancel').innerText = d.cancel;
             if(document.getElementById('btn-batch-exec')) document.getElementById('btn-batch-exec').innerText = d.delete;
-            updateBatchDeleteBar();
+            if(document.getElementById('str-opt-select')) document.getElementById('str-opt-select').innerText = d.optSelect;
+            if(document.getElementById('str-opt-edit')) document.getElementById('str-opt-edit').innerText = d.optEdit;
+            if(document.getElementById('str-opt-delete')) document.getElementById('str-opt-delete').innerText = d.optDelete;
+            updateBatchSelectionUI();
         };
 
-        window.toggleBatchDelete = function(isFromHistory = false) {
+        window.triggerSelectMode = function() {
+            if(!activeOptsId) return;
+            const targetId = activeOptsId;
+            history.back(); // Trigger popstate untuk nutup modal
+            setTimeout(() => {
+                toggleBatchDelete(false, targetId);
+            }, 350); 
+        }
+
+        window.toggleBatchDelete = function(isFromHistory = false, initialSelectId = null) {
             if(library.length === 0 && !isBatchDeleteMode) return;
             isBatchDeleteMode = !isBatchDeleteMode;
-            selectedForDelete.clear();
+            
+            if (!isBatchDeleteMode) {
+                selectedForDelete = [];
+            } else {
+                selectedForDelete = [];
+                if (initialSelectId) selectedForDelete.push(initialSelectId);
+            }
             
             const bar = document.getElementById('batch-delete-bar');
             const fab = document.getElementById('fab-container');
             
             if (isBatchDeleteMode) {
                 if(!isFromHistory) pushAppHistory('batch-delete');
-                bar.classList.remove('translate-y-full');
-                fab.classList.add('translate-y-24', 'opacity-0');
+                bar.classList.remove('translate-y-32');
+                fab.classList.add('translate-y-32', 'opacity-0');
             } else {
                 if(!isFromHistory && window.location.hash === '#batch-delete') history.back();
-                bar.classList.add('translate-y-full');
-                fab.classList.remove('translate-y-24', 'opacity-0');
+                bar.classList.add('translate-y-32');
+                fab.classList.remove('translate-y-32', 'opacity-0');
             }
             
-            updateBatchDeleteBar();
-            renderLibrary(DOM.globalSearch.value);
+            updateBatchSelectionUI();
         };
 
-        window.updateBatchDeleteBar = function() {
+        window.updateBatchSelectionUI = function() {
+            // Update the counter text
             const countEl = document.getElementById('batch-delete-count');
             const d = i18n[wikiLang] || i18n['id'];
-            if(countEl) countEl.textContent = `${selectedForDelete.size} ${d.selected}`;
+            if(countEl) countEl.textContent = `${selectedForDelete.length} ${d.selected}`;
+
+            // Update all cards visually
+            document.querySelectorAll('.batch-overlay').forEach(el => {
+                const id = el.dataset.bookId;
+                const idx = selectedForDelete.indexOf(id);
+                const icBox = el.querySelector('.batch-icon-box');
+                
+                if (isBatchDeleteMode) {
+                    el.style.display = 'block';
+                    if (idx > -1) {
+                        el.style.opacity = '1';
+                        el.style.backgroundColor = 'rgba(0, 0, 0, 0.4)';
+                        icBox.className = 'batch-icon-box absolute top-3 left-3 w-7 h-7 rounded-full flex items-center justify-center transition-colors bg-m3-primary text-m3-onPrimary font-bold text-xs shadow-md border-2 border-m3-surface';
+                        icBox.innerHTML = (idx + 1);
+                    } else {
+                        el.style.opacity = '1';
+                        el.style.backgroundColor = 'transparent';
+                        icBox.className = 'batch-icon-box absolute top-3 left-3 w-7 h-7 rounded-full border-2 border-white/50 flex items-center justify-center transition-colors bg-black/20 shadow-sm font-bold text-xs text-transparent';
+                        icBox.innerHTML = '';
+                    }
+                } else {
+                    el.style.opacity = '0';
+                    setTimeout(() => el.style.display = 'none', 300);
+                }
+            });
         };
 
         window.executeBatchDelete = async function() {
-            if(selectedForDelete.size === 0) return;
+            if(selectedForDelete.length === 0) return;
             const d = i18n[wikiLang] || i18n['id'];
             if(confirm(d.deleteConfirm)) {
-                library = library.filter(b => !selectedForDelete.has(b.id));
+                const toDeleteSet = new Set(selectedForDelete);
+                library = library.filter(b => !toDeleteSet.has(b.id));
                 await localforage.setItem('pdf_epub_master', library);
                 toggleBatchDelete(); 
+                renderLibrary(DOM.globalSearch.value); 
             }
         };
 
@@ -941,23 +984,13 @@
                 if (hasLongPressed) { e.preventDefault(); e.stopPropagation(); return; } 
                 if (isBatchDeleteMode && !isSlider) {
                     e.preventDefault(); e.stopPropagation();
-                    const isSel = selectedForDelete.has(book.id);
-                    const ovr = card.querySelector('.batch-overlay');
-                    const icBox = card.querySelector('.batch-icon-box');
-                    const ic = card.querySelector('.batch-icon');
-                    
-                    if (isSel) {
-                        selectedForDelete.delete(book.id);
-                        if(ovr) ovr.style.opacity = '0';
-                        if(icBox) icBox.className = 'batch-icon-box absolute top-3 right-3 w-6 h-6 rounded-full border-2 flex items-center justify-center transition-colors bg-black/40 border-white/70';
-                        if(ic) ic.className = 'batch-icon w-4 h-4 transition-colors text-white/0';
+                    const idx = selectedForDelete.indexOf(book.id);
+                    if (idx > -1) {
+                        selectedForDelete.splice(idx, 1);
                     } else {
-                        selectedForDelete.add(book.id);
-                        if(ovr) ovr.style.opacity = '1';
-                        if(icBox) icBox.className = 'batch-icon-box absolute top-3 right-3 w-6 h-6 rounded-full border-2 flex items-center justify-center transition-colors bg-m3-primary border-m3-primary';
-                        if(ic) ic.className = 'batch-icon w-4 h-4 transition-colors text-m3-onPrimary';
+                        selectedForDelete.push(book.id);
                     }
-                    updateBatchDeleteBar();
+                    updateBatchSelectionUI();
                     return;
                 }
                 openBook(book); 
@@ -968,12 +1001,10 @@
 
             let batchOverlayHTML = '';
             if (!isSlider) {
-                const isSel = selectedForDelete.has(book.id);
+                // Batch overlay ditaruh default namun tersembunyi
                 batchOverlayHTML = `
-                    <div class="batch-overlay absolute inset-0 z-20 transition-opacity bg-black/30 flex pointer-events-none rounded-inherit" style="opacity: ${isBatchDeleteMode ? (isSel ? '1' : '0') : '0'}; display: ${isBatchDeleteMode ? 'block' : 'none'};">
-                        <div class="batch-icon-box absolute top-3 right-3 w-6 h-6 rounded-full border-2 flex items-center justify-center transition-colors ${isSel ? 'bg-m3-primary border-m3-primary' : 'bg-black/40 border-white/70'}">
-                            <i data-lucide="check" class="batch-icon w-4 h-4 transition-colors ${isSel ? 'text-m3-onPrimary' : 'text-white/0'}"></i>
-                        </div>
+                    <div class="batch-overlay absolute inset-0 z-20 transition-all duration-300 pointer-events-none rounded-inherit" data-book-id="${book.id}" style="display: none; opacity: 0; background-color: transparent;">
+                        <div class="batch-icon-box absolute top-3 left-3 w-7 h-7 rounded-full flex items-center justify-center transition-colors"></div>
                     </div>
                 `;
             }
@@ -1043,9 +1074,10 @@
                 if(document.getElementById('collection-heading')) document.getElementById('collection-heading').classList.add('hidden');
             } else {
                 DOM.empty.classList.add('hidden'); DOM.grid.classList.remove('hidden');
-                if(document.getElementById('collection-heading')) document.getElementById('collection-heading').classList.remove('hidden', 'flex');
+                if(document.getElementById('collection-heading')) document.getElementById('collection-heading').classList.remove('hidden');
                 filteredLib.forEach((book, index) => { DOM.grid.appendChild(createBookCard(book, false, index)); });
                 lucide.createIcons();
+                updateBatchSelectionUI(); // Pastikan overlay update setelah render
             }
         }
         
