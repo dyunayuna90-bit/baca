@@ -81,18 +81,18 @@
 
         /* --- SISTEM ANTI-JITTER HEADER SCROLL --- */
         #main-header { 
-            transition: padding 0.5s cubic-bezier(0.2, 0, 0, 1), box-shadow 0.5s ease; 
+            transition: padding 0.4s ease-in-out, box-shadow 0.4s ease; 
         }
         .scrolled-header { 
             padding-top: 1rem !important; 
             box-shadow: 0 2px 10px rgba(0,0,0,0.05); 
         }
         
-        /* Grid transition dengan kurva mulus (bukan spring) agar tidak terpantul */
+        /* MURNI MORPHING: Menggunakan kurva ease-in-out datar (tanpa bounce/pantulan sama sekali) */
         #header-top-wrapper {
             display: grid;
             grid-template-rows: 1fr;
-            transition: grid-template-rows 0.5s cubic-bezier(0.2, 0, 0, 1), margin-bottom 0.5s cubic-bezier(0.2, 0, 0, 1);
+            transition: grid-template-rows 0.4s ease-in-out, margin-bottom 0.4s ease-in-out;
             margin-bottom: 1.5rem;
         }
         .hide-top #header-top-wrapper {
@@ -103,14 +103,14 @@
         #header-top-inner { 
             min-height: 0; 
             overflow: hidden; 
-            transition: opacity 0.4s ease, transform 0.5s cubic-bezier(0.2, 0, 0, 1);
+            transition: opacity 0.3s ease-in-out, transform 0.4s ease-in-out;
             transform-origin: left top;
             opacity: 1;
-            transform: translateY(0) scale(1);
+            transform: translateY(0);
         }
         .hide-top #header-top-inner {
             opacity: 0;
-            transform: translateY(-15px) scale(0.95);
+            transform: translateY(-20px);
         }
 
         /* --- KAPSUL SEARCH MELAR EKSPRESIF --- */
@@ -120,11 +120,7 @@
         }
         .search-capsule {
             flex-grow: 1; display: flex; align-items: center;
-            transition: background-color 0.4s, border-color 0.4s;
-        }
-        .search-capsule:focus-within {
-            background-color: var(--md-sys-color-surface) !important;
-            border-color: var(--md-sys-color-primary) !important;
+            transition: background-color 0.4s; /* Tidak mengubah border lagi */
         }
         .btn-settings {
             max-width: 60px; overflow: hidden; flex-shrink: 0;
@@ -190,7 +186,7 @@
                 </div>
 
                 <div class="search-row" id="header-bottom-row">
-                    <div class="search-capsule bg-m3-surfaceVariant p-1.5 rounded-full px-4 border border-transparent cursor-text relative">
+                    <div class="search-capsule bg-m3-surfaceVariant p-1.5 rounded-full px-4 cursor-text relative">
                         <i data-lucide="search" class="w-5 h-5 opacity-70 text-m3-onSurfaceVariant shrink-0 absolute left-4"></i>
                         <input type="text" id="global-search" class="w-full bg-transparent border-none outline-none py-2.5 pl-8 pr-2 font-bold text-m3-onSurfaceVariant placeholder:text-m3-onSurfaceVariant/60 text-sm">
                     </div>
@@ -276,11 +272,10 @@
         <!-- Search In-Book Melar -->
         <div id="reader-search-bar" class="hidden bg-m3-surfaceVariant px-4 pb-4 z-20 transition-all w-full shrink-0 rounded-b-[24px]">
             <div class="search-row" id="inbook-search-row">
-                <div class="search-capsule bg-m3-surface p-1 rounded-full border border-transparent cursor-text relative">
+                <div class="search-capsule bg-m3-surface p-1 rounded-full cursor-text relative">
                     <i data-lucide="search" class="w-5 h-5 opacity-70 text-m3-onSurface shrink-0 absolute left-4"></i>
                     <input type="text" id="inbook-search-input" class="w-full bg-transparent border-none outline-none py-2 pl-10 pr-2 font-bold text-m3-onSurface text-sm">
                 </div>
-                <!-- Tombol eksekusi dengan ikon panah. Kalo difokus, tombol tetep stay sebagai eksekutor -->
                 <button id="btn-exec-search" class="btn-morph w-10 h-10 bg-m3-primary text-m3-onPrimary rounded-full flex items-center justify-center shrink-0">
                     <i data-lucide="arrow-right" class="w-5 h-5"></i>
                 </button>
@@ -542,6 +537,7 @@
     <script>
         pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.16.105/pdf.worker.min.js';
 
+        // M3 Palettes
         const M3_PALETTES = {
             purple: { light: `--md-sys-color-primary:#6750A4;--md-sys-color-on-primary:#FFFFFF;--md-sys-color-primary-container:#EADDFF;--md-sys-color-on-primary-container:#21005D;--md-sys-color-secondary-container:#E8DEF8;--md-sys-color-on-secondary-container:#1D192B;--md-sys-color-tertiary-container:#FFD8E4;--md-sys-color-on-tertiary-container:#31111D;--md-sys-color-background:#FEF7FF;--md-sys-color-on-background:#1D1B20;--md-sys-color-surface:#FEF7FF;--md-sys-color-on-surface:#1D1B20;--md-sys-color-surface-variant:#E7E0EC;--md-sys-color-on-surface-variant:#49454F;`, dark: `--md-sys-color-primary:#D0BCFF;--md-sys-color-on-primary:#381E72;--md-sys-color-primary-container:#4F378B;--md-sys-color-on-primary-container:#EADDFF;--md-sys-color-secondary-container:#4A4458;--md-sys-color-on-secondary-container:#E8DEF8;--md-sys-color-tertiary-container:#633B48;--md-sys-color-on-tertiary-container:#FFD8E4;--md-sys-color-background:#141218;--md-sys-color-on-background:#E6E0E9;--md-sys-color-surface:#141218;--md-sys-color-on-surface:#E6E0E9;--md-sys-color-surface-variant:#49454F;--md-sys-color-on-surface-variant:#CAC4D0;` },
             green: { light: `--md-sys-color-primary:#006C4C;--md-sys-color-on-primary:#FFFFFF;--md-sys-color-primary-container:#89F8D6;--md-sys-color-on-primary-container:#002114;--md-sys-color-secondary-container:#CCE8DB;--md-sys-color-on-secondary-container:#052016;--md-sys-color-tertiary-container:#BEEAF6;--md-sys-color-on-tertiary-container:#001F29;--md-sys-color-background:#FBFDF8;--md-sys-color-on-background:#191C1A;--md-sys-color-surface:#FBFDF8;--md-sys-color-on-surface:#191C1A;--md-sys-color-surface-variant:#DBE5DD;--md-sys-color-on-surface-variant:#404943;`, dark: `--md-sys-color-primary:#6CDBBA;--md-sys-color-on-primary:#003825;--md-sys-color-primary-container:#005138;--md-sys-color-on-primary-container:#89F8D6;--md-sys-color-secondary-container:#334B3F;--md-sys-color-on-secondary-container:#CCE8DB;--md-sys-color-tertiary-container:#204D59;--md-sys-color-on-tertiary-container:#BEEAF6;--md-sys-color-background:#111412;--md-sys-color-on-background:#E1E3DF;--md-sys-color-surface:#111412;--md-sys-color-on-surface:#E1E3DF;--md-sys-color-surface-variant:#404943;--md-sys-color-on-surface-variant:#BFC9C3;` },
@@ -575,7 +571,7 @@
             globalSearch: document.getElementById('global-search')
         };
 
-        // --- SISTEM SCROLL ANTI-JITTER ---
+        // --- SISTEM SCROLL ANTI-JITTER (DIPERBAIKI) ---
         const libScroll = document.getElementById('library-content-scroll');
         let lastScrollY = 0;
         let isTicking = false;
@@ -588,12 +584,11 @@
                         const currentScrollY = libScroll.scrollTop;
                         const maxScroll = libScroll.scrollHeight - libScroll.clientHeight;
                         
-                        // Menambahkan bayangan kalau scroll dikit
                         if (currentScrollY > 10) { DOM.mainHeader.classList.add('scrolled-header'); } 
                         else { DOM.mainHeader.classList.remove('scrolled-header'); }
                         
-                        // Kunci Anti-Jitter 1: Kalo library terlalu sedikit, JANGAN sembunyikan header.
-                        if (maxScroll < 150) {
+                        // Proteksi Jitter 1: Kalo daftar buku masih dikit (layar belum penuh banget), jangan dilipat headernya
+                        if (maxScroll < 200) {
                             if (isHeaderHidden) {
                                 DOM.mainHeader.classList.remove('hide-top');
                                 isHeaderHidden = false;
@@ -603,12 +598,14 @@
                             return;
                         }
 
-                        // Kunci Anti-Jitter 2: Hanya merespons jika jarak scroll terasa (menghindari micro-bouncing)
-                        if (Math.abs(currentScrollY - lastScrollY) > 8) {
-                            if (currentScrollY > 60 && currentScrollY > lastScrollY && !isHeaderHidden) {
+                        // Proteksi Jitter 2: Perbesar threshold (selisih scroll minimum) jadi 15px
+                        // Artinya kalau jari cuma getar/geser dikit, header nggak akan bereaksi kedap-kedip
+                        if (Math.abs(currentScrollY - lastScrollY) > 15) {
+                            // Cuma sembunyiin kalo udah scroll ke bawah ngelewatin batas atas (80px)
+                            if (currentScrollY > 80 && currentScrollY > lastScrollY && !isHeaderHidden) {
                                 DOM.mainHeader.classList.add('hide-top');
                                 isHeaderHidden = true;
-                            } else if ((currentScrollY < lastScrollY || currentScrollY <= 60) && isHeaderHidden) {
+                            } else if ((currentScrollY < lastScrollY || currentScrollY <= 80) && isHeaderHidden) {
                                 DOM.mainHeader.classList.remove('hide-top');
                                 isHeaderHidden = false;
                             }
@@ -621,7 +618,7 @@
             }, { passive: true });
         }
 
-        // Logic Kapsul Melar pake Class JS (biar support di semua hape)
+        // Logic Kapsul Melar pake Class JS (biar mulus tanpa hover/focus error di hp)
         DOM.globalSearch.addEventListener('focus', () => {
             document.getElementById('header-bottom-row').classList.add('search-active');
         });
@@ -643,7 +640,6 @@
 
         let library = []; let activeBookId = null; let observer = null; let activePanel = null;
         let activeOptsId = null; let currentSelection = { text: "", nodeIdx: -1 }; let activeAnnotationId = null;
-        let filteredLibData = null;
         
         window.addEventListener('popstate', (e) => {
             if (!document.getElementById('ai-modal').classList.contains('opacity-0')) { closeAiModal(true); }
@@ -676,7 +672,7 @@
             if(document.getElementById('str-book-collection')) document.getElementById('str-book-collection').innerText = d.bookCollection;
             if(DOM.globalSearch) DOM.globalSearch.placeholder = d.searchBooks;
             if(document.getElementById('loading-text')) document.getElementById('loading-text').innerText = d.loadingDocs;
-            if(DOM.count) DOM.count.textContent = `${(filteredLibData ? filteredLibData.length : library.length)} ${d.booksCount}`;
+            if(DOM.count) DOM.count.textContent = `${(library.length)} ${d.booksCount}`;
         };
 
         function renderNodeText(text, annots) {
@@ -874,18 +870,16 @@
             const card = document.createElement('div');
             
             let shapeClass = "";
-            let shp = book.shape || 'rounded'; // Rounded jadi Default per request
+            let shp = book.shape || 'rounded';
             if (shp === 'rounded') shapeClass = 'rounded-[24px]';
             else if (shp === 'square') shapeClass = 'rounded-lg';
             else shapeClass = index % 2 === 0 ? 'rounded-tl-[32px] rounded-br-[32px] rounded-tr-lg rounded-bl-lg' : 'rounded-tr-[32px] rounded-bl-[32px] rounded-tl-lg rounded-br-lg';
 
             let bgStyle = ""; let textOverlay = ""; let baseClass = "";
-            
             if(book.coverBase64) {
                 bgStyle = `background-image: url('${book.coverBase64}'); background-size: cover; background-position: top center;`;
-                baseClass = "text-white"; 
-                // Border/outline bersih, gradient super smooth mentok ke bawah
-                textOverlay = `<div class="absolute inset-0 bg-gradient-to-t from-black/90 via-black/30 to-transparent pointer-events-none z-0 rounded-inherit"></div>`;
+                baseClass = "text-white border border-transparent"; 
+                textOverlay = `<div class="absolute inset-x-0 bottom-0 h-3/4 bg-gradient-to-t from-black/90 via-black/40 to-transparent pointer-events-none z-0 rounded-b-inherit"></div>`;
             } else {
                 const colors = ['bg-m3-primaryContainer text-m3-onPrimaryContainer', 'bg-m3-secondaryContainer text-m3-onSecondaryContainer', 'bg-m3-surfaceVariant text-m3-onSurfaceVariant'];
                 baseClass = colors[index % 3];
@@ -906,7 +900,7 @@
             card.addEventListener('mouseleave', handleMove); card.addEventListener('touchmove', handleMove, {passive: true});
             card.addEventListener('click', (e) => { if (hasLongPressed) { e.preventDefault(); e.stopPropagation(); return; } openBook(book); });
 
-            card.className = `${baseClass} ${shapeClass} ${dimensionClass} p-3 relative cursor-pointer card-morph flex flex-col justify-between overflow-hidden outline-none border-none`;
+            card.className = `${baseClass} ${shapeClass} ${dimensionClass} p-3 relative cursor-pointer card-morph flex flex-col justify-between overflow-hidden`;
             card.style = bgStyle;
 
             if (isSlider) {
@@ -954,9 +948,9 @@
         function renderLibrary(filterText = "") {
             DOM.grid.innerHTML = ''; DOM.topSlider.innerHTML = '';
             
-            filteredLibData = library;
-            if(filterText) filteredLibData = library.filter(b => b.title.toLowerCase().includes(filterText.toLowerCase()));
-            DOM.count.textContent = `${filteredLibData.length} ${i18n[wikiLang].booksCount}`;
+            let filteredLib = library;
+            if(filterText) filteredLib = library.filter(b => b.title.toLowerCase().includes(filterText.toLowerCase()));
+            DOM.count.textContent = `${filteredLib.length} ${i18n[wikiLang].booksCount}`;
             
             let topBooks = [];
             if (!filterText) { topBooks = library.filter(b => b.progressPct > 0).sort((a,b) => b.progressPct - a.progressPct); }
@@ -967,13 +961,13 @@
                 const spacer = document.createElement('div'); spacer.className = "w-2 shrink-0 snap-align-none"; DOM.topSlider.appendChild(spacer);
             } else { DOM.topSection.classList.add('hidden'); }
             
-            if (filteredLibData.length === 0) { 
+            if (filteredLib.length === 0) { 
                 DOM.empty.classList.remove('hidden'); DOM.grid.classList.add('hidden'); 
                 if(document.getElementById('collection-heading')) document.getElementById('collection-heading').classList.add('hidden');
             } else {
                 DOM.empty.classList.add('hidden'); DOM.grid.classList.remove('hidden');
                 if(document.getElementById('collection-heading')) document.getElementById('collection-heading').classList.remove('hidden');
-                filteredLibData.forEach((book, index) => { DOM.grid.appendChild(createBookCard(book, false, index)); });
+                filteredLib.forEach((book, index) => { DOM.grid.appendChild(createBookCard(book, false, index)); });
                 lucide.createIcons();
             }
         }
@@ -1002,7 +996,7 @@
             document.getElementById('edit-book-title').value = book.title; 
             document.getElementById('edit-book-cover').value = '';
             
-            window.selectShape(book.shape || 'rounded'); 
+            window.selectShape(book.shape || 'rounded');
             history.back(); setTimeout(() => { openModal('edit-modal', 'edit-sheet', true); }, 400); 
         }
         
@@ -1211,6 +1205,7 @@
             }
         }
 
+        // Annotations
         document.addEventListener('selectionchange', () => {
             if(!activeBookId) return;
             const sel = window.getSelection(); const text = sel.toString().trim(); const menu = document.getElementById('selection-menu');
@@ -1316,6 +1311,7 @@
             }
         };
 
+        // Wikipedia Fetch / Ask AI lookup
         window.lookupDictionary = async function() {
             if(currentSelection.nodeIdx === -1) return; const term = currentSelection.text; hideSelectionMenu();
             
@@ -1488,7 +1484,7 @@
                 }
                 cleanedNodes.push(curr);
             });
-            library.push({ id: Date.now().toString(), type: 'pdf', title: bookTitle, nodes: cleanedNodes, pages: numPages, progressPct: 0, lastReadId: null, coverBase64: coverBase64, shape: 'rounded' });
+            library.push({ id: Date.now().toString(), type: 'pdf', title: bookTitle, nodes: cleanedNodes, pages: numPages, progressPct: 0, lastReadId: null, coverBase64: coverBase64, shape: 'default' });
             await localforage.setItem('pdf_epub_master', library); renderLibrary();
         }
 
@@ -1534,7 +1530,7 @@
                     }
                 }
             }
-            library.push({ id: Date.now().toString(), type: 'epub', title: bookTitle, nodes: parsedNodes, pages: spine.length, progressPct: 0, lastReadId: null, coverBase64: coverBase64, shape: 'rounded' });
+            library.push({ id: Date.now().toString(), type: 'epub', title: bookTitle, nodes: parsedNodes, pages: spine.length, progressPct: 0, lastReadId: null, coverBase64: coverBase64, shape: 'default' });
             await localforage.setItem('pdf_epub_master', library); renderLibrary();
         }
 
