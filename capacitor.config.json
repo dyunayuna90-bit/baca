@@ -2,5 +2,10 @@
   "appId": "com.baca.reader",
   "appName": "Baca",
   "webDir": "www",
-  "bundledWebRuntime": false
+  "bundledWebRuntime": false,
+  "plugins": {
+    "StatusBar": {
+      "overlaysWebView": true
+    }
+  }
 }
