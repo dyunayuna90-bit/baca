@@ -1,3 +1,4 @@
+```html
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -126,14 +127,14 @@
     <div id="library-view" class="absolute inset-0 flex flex-col overflow-hidden transition-transform duration-500 origin-bottom bg-m3-bg z-10 w-full">
         
         <!-- FIXED STATIC HEADER -->
-        <header id="main-header" class="flex-none sticky top-0 z-40 bg-m3-bg pt-10 pb-5 px-5 transition-shadow duration-300">
+        <!-- FIX 1: Padding Atas untuk Layar Poni/Kamera (Safe Area Inset) di Library View -->
+        <header id="main-header" class="flex-none sticky top-0 z-40 bg-m3-bg pt-[calc(env(safe-area-inset-top,0px)+2.5rem)] pb-5 px-5 transition-shadow duration-300">
             <div id="title-area" class="mb-4">
                 <h1 class="text-4xl font-bold tracking-tighter mb-1 text-m3-onBg">Baca.</h1>
                 <p id="library-count" class="text-m3-onSurfaceVariant text-sm font-bold">0 Books</p>
             </div>
             
             <div id="search-area" class="search-row transition-shadow duration-300">
-                <!-- Search bar Monet Theme with secondaryContainer -->
                 <div class="search-capsule bg-m3-secondaryContainer text-m3-onSecondaryContainer p-1.5 rounded-full px-4 relative">
                     <i data-lucide="search" id="search-icon-lib" class="w-5 h-5 opacity-70 text-m3-onSecondaryContainer shrink-0 absolute left-4 transition-transform duration-300 pointer-events-none"></i>
                     <input type="text" id="global-search" placeholder="..." class="w-full bg-transparent border-none outline-none py-2.5 pl-8 pr-2 font-bold text-m3-onSecondaryContainer placeholder:text-m3-onSecondaryContainer/70 text-sm">
@@ -160,11 +161,9 @@
             <div id="continue-reading-section" class="hidden mb-8 -mx-5 mt-2">
                 <h2 id="str-continue-reading" class="text-base font-bold mb-4 text-m3-onBg px-5 tracking-tight">Lanjutkan Membaca</h2>
                 <div id="top-books-slider" class="flex gap-3 overflow-x-auto snap-x snap-proximity px-5 pb-2 hide-scroll" style="scroll-padding-left: 1.25rem;">
-                    <!-- Top books -->
                 </div>
             </div>
 
-            <!-- Label Koleksi Buku (Tanpa ikon Trash) -->
             <div id="collection-heading" class="hidden mb-4 mt-2">
                 <h2 class="text-base font-bold text-m3-onBg tracking-tight" id="str-book-collection">Koleksi Buku</h2>
             </div>
@@ -178,14 +177,12 @@
         </div>
 
         <div id="fab-container" class="fixed bottom-8 right-6 z-50 transition-all duration-300">
-            <!-- FAB Dengan animasi melar/ekspresif -->
             <button onclick="document.getElementById('doc-upload').click();" class="fab-capsule flex items-center justify-center bg-m3-primary text-m3-onPrimary cursor-pointer shadow-none overflow-hidden">
                 <i data-lucide="plus" class="w-8 h-8 shrink-0"></i>
             </button>
             <input type="file" id="doc-upload" accept=".epub,.pdf" class="hidden">
         </div>
         
-        <!-- Batch Delete Floating Pill Action Bar -->
         <div id="batch-delete-bar" class="fixed bottom-6 left-1/2 -translate-x-1/2 bg-m3-surfaceVariant text-m3-onSurfaceVariant px-6 py-3 z-[60] translate-y-32 transition-transform duration-300 flex justify-between items-center rounded-full shadow-[0_8px_30px_rgba(0,0,0,0.2)] gap-4 w-max border border-m3-onSurfaceVariant/20 pointer-events-auto">
             <span id="batch-delete-count" class="font-bold text-sm tracking-wide whitespace-nowrap">0 Terpilih</span>
             <div class="flex gap-2 border-l border-m3-onSurfaceVariant/30 pl-4">
@@ -207,7 +204,8 @@
             <p class="text-m3-primary font-bold tracking-widest uppercase text-xs animate-pulse">Memuat Buku...</p>
         </div>
 
-        <div id="reader-top-bar" class="flex items-center justify-between p-2 bg-m3-surfaceVariant text-m3-onSurfaceVariant shrink-0 z-30 relative rounded-b-[24px]">
+        <!-- FIX 1: Padding Atas untuk Layar Poni/Kamera di Reader (px-2 pb-2 pt-[calc(env(safe-area-inset-top,0px)+0.5rem)]) -->
+        <div id="reader-top-bar" class="flex items-center justify-between px-2 pb-2 pt-[calc(env(safe-area-inset-top,0px)+0.5rem)] bg-m3-surfaceVariant text-m3-onSurfaceVariant shrink-0 z-30 relative rounded-b-[24px]">
             <button id="btn-back" class="btn-morph p-3"><i data-lucide="arrow-down"></i></button>
             <div class="flex-1 px-3 text-center overflow-hidden">
                 <span id="reader-title" class="font-bold truncate block text-sm">Title</span>
@@ -238,7 +236,8 @@
             <div id="search-results-panel" class="hidden mt-3 max-h-40 overflow-y-auto overflow-x-hidden rounded-xl bg-m3-surface text-sm"></div>
         </div>
 
-        <div class="h-1 w-full bg-m3-surfaceVariant shrink-0">
+        <!-- FIX 2: Menambahkan ID ke container progress bar biar bisa di-hide saat fullscreen -->
+        <div id="progress-container" class="h-1 w-full bg-m3-surfaceVariant shrink-0">
             <div id="reading-progress-bar" class="h-full bg-m3-primary progress-smooth w-0"></div>
         </div>
 
@@ -878,14 +877,22 @@
         }
         document.addEventListener("DOMContentLoaded", () => { syncWikiLangUI(); applyLanguage(); });
 
+        // FIX 2: Logika Immersive Mode diperbarui. Hide progress bar supaya garis abu hilang sepenuhnya
         window.toggleFullscreenReading = function() {
             const bar = document.getElementById('reader-top-bar');
             const searchBar = document.getElementById('reader-search-bar');
+            const progContainer = document.getElementById('progress-container');
             const exitBtn = document.getElementById('btn-exit-fullscreen');
+            
             if (bar.classList.contains('hidden')) {
-                bar.classList.remove('hidden'); exitBtn.classList.add('hidden');
+                bar.classList.remove('hidden'); 
+                progContainer.classList.remove('hidden');
+                exitBtn.classList.add('hidden');
             } else {
-                bar.classList.add('hidden'); searchBar.classList.add('hidden'); exitBtn.classList.remove('hidden');
+                bar.classList.add('hidden'); 
+                searchBar.classList.add('hidden'); 
+                progContainer.classList.add('hidden');
+                exitBtn.classList.remove('hidden');
                 if(activePanel) { _closeSidePanelsAction(); } 
             }
         };
@@ -1001,7 +1008,6 @@
 
             let batchOverlayHTML = '';
             if (!isSlider) {
-                // Batch overlay ditaruh default namun tersembunyi
                 batchOverlayHTML = `
                     <div class="batch-overlay absolute inset-0 z-20 transition-all duration-300 pointer-events-none rounded-inherit" data-book-id="${book.id}" style="display: none; opacity: 0; background-color: transparent;">
                         <div class="batch-icon-box absolute top-3 left-3 w-7 h-7 rounded-full flex items-center justify-center transition-colors"></div>
@@ -1702,3 +1708,5 @@
 
 </body>
 </html>
+
+```
