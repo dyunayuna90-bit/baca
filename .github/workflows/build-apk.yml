@@ -25,10 +25,11 @@ jobs:
           distribution: 'temurin'
           java-version: '17'
 
-      - name: Generate Fixed Keystore
+      - name: Download Permanent Keystore
         run: |
           mkdir -p ~/.android
-          keytool -genkey -v -keystore ~/.android/debug.keystore -storepass android -alias androiddebugkey -keypass android -keyalg RSA -keysize 2048 -validity 10000 -dname "C=US, O=Android, CN=Android Debug"
+          # Trik KTP Abadi: Sedot file keystore statis yang selalu sama di setiap build
+          wget https://raw.githubusercontent.com/expo/expo/main/templates/expo-template-bare-minimum/android/app/debug.keystore -O ~/.android/debug.keystore
 
       - name: Install Dependencies
         run: npm install
@@ -40,13 +41,11 @@ jobs:
 
       - name: Sync Version & Force Ultimate Fullscreen
         run: |
-          # 1. Sync Versi dari package.json
           APP_VERSION=$(node -p "require('./package.json').version")
           APP_CODE=$(echo $APP_VERSION | sed 's/\.//g')
           sed -i "s/versionCode 1/versionCode $APP_CODE/g" android/app/build.gradle
           sed -i "s/versionName \"1.0\"/versionName \"$APP_VERSION\"/g" android/app/build.gradle
           
-          # 2. Bobol Poni dari Inti Java (MainActivity)
           cat << 'EOF' > android/app/src/main/java/com/baca/reader/MainActivity.java
           package com.baca.reader;
           import android.os.Bundle;
@@ -57,10 +56,7 @@ jobs:
               @Override
               public void onCreate(Bundle savedInstanceState) {
                   super.onCreate(savedInstanceState);
-                  // Paksa bablas nembus status bar dan navbar (No Limits)
                   getWindow().setFlags(WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS, WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS);
-                  
-                  // Paksa masuk ke area poni (notch)
                   if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.P) {
                       getWindow().getAttributes().layoutInDisplayCutoutMode = WindowManager.LayoutParams.LAYOUT_IN_DISPLAY_CUTOUT_MODE_SHORT_EDGES;
                   }
