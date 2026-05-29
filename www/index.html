@@ -1,3 +1,4 @@
+```html
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -57,8 +58,6 @@
             background-color: var(--md-sys-color-background); color: var(--md-sys-color-on-background);
             transition: background-color 0.4s ease, color 0.4s ease; -webkit-tap-highlight-color: transparent;
         }
-        
-        /* MATERIAL 3 EXPRESSIVE ANIMATIONS */
         
         .btn-morph { transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1); border-radius: 99px; }
         .btn-morph:active { transform: scale(0.85); border-radius: 12px; background-color: var(--md-sys-color-primary) !important; color: var(--md-sys-color-on-primary) !important; }
@@ -197,16 +196,14 @@
                 <div class="absolute inset-0 border-4 border-m3-primary rounded-full border-t-transparent animate-spin"></div>
                 <i data-lucide="book-open" class="w-6 h-6 text-m3-primary animate-pulse"></i>
             </div>
-            <p class="text-m3-primary font-bold tracking-widest uppercase text-xs animate-pulse">Memuat Buku...</p>
+            <p id="str-reader-loading" class="text-m3-primary font-bold tracking-widest uppercase text-xs animate-pulse">Memuat Buku...</p>
         </div>
 
-        <!-- Floating Minimalist Title/Progress (Safe dari Notch) -->
         <div id="reader-floating-header" class="absolute top-[calc(env(safe-area-inset-top,0px)+1.5rem)] left-1/2 -translate-x-1/2 bg-m3-surfaceVariant/90 backdrop-blur-md text-m3-onSurfaceVariant px-5 py-2 rounded-full z-30 pointer-events-none flex flex-col items-center shadow-sm max-w-[80%] transition-opacity duration-300 border border-m3-onSurfaceVariant/10">
             <span id="reader-title" class="font-bold truncate w-full text-center text-xs">Title</span>
             <span id="reader-progress-text" class="text-[0.6rem] font-bold opacity-80 uppercase tracking-widest mt-0.5">0%</span>
         </div>
 
-        <!-- AREA KONTEN -->
         <div class="flex-1 relative overflow-hidden flex w-full">
             <div id="reader-content" class="absolute inset-0 overflow-y-auto overflow-x-hidden px-5 pt-24 pb-40 scroll-smooth reader-dynamic-text w-full">
                 <div id="reader-inner" class="max-w-4xl mx-auto reader-text-container space-y-5"></div>
@@ -215,15 +212,15 @@
             <div id="side-panel-overlay" class="hidden absolute inset-0 bg-black/20 z-30 transition-opacity" onclick="history.back()"></div>
 
             <div id="toc-panel" class="side-panel absolute right-0 top-0 bottom-0 w-72 bg-m3-surfaceVariant p-6 transform translate-x-full opacity-0 z-40 overflow-y-auto rounded-l-[32px]">
-                <h3 class="text-lg font-bold mb-6 text-m3-onSurfaceVariant flex items-center gap-2"><i data-lucide="list-tree"></i> Daftar Isi</h3>
+                <h3 id="str-toc-title" class="text-lg font-bold mb-6 text-m3-onSurfaceVariant flex items-center gap-2"><i data-lucide="list-tree"></i> Daftar Isi</h3>
                 <div id="toc-list" class="space-y-2 flex flex-col pb-20"></div>
             </div>
             
             <div id="settings-panel" class="side-panel absolute right-0 top-0 bottom-0 w-72 bg-m3-surfaceVariant p-6 transform translate-x-full opacity-0 z-40 overflow-y-auto rounded-l-[32px]">
-                <h3 class="text-lg font-bold mb-6 text-m3-onSurfaceVariant flex items-center gap-2"><i data-lucide="sliders-horizontal"></i> Tampilan</h3>
+                <h3 id="str-set-title" class="text-lg font-bold mb-6 text-m3-onSurfaceVariant flex items-center gap-2"><i data-lucide="sliders-horizontal"></i> Tampilan</h3>
                 <div class="space-y-6 pb-20">
                     <div>
-                        <label class="text-xs font-bold opacity-70 block mb-3 uppercase tracking-wider">Mode Tema</label>
+                        <label id="str-set-theme" class="text-xs font-bold opacity-70 block mb-3 uppercase tracking-wider">Mode Tema</label>
                         <div class="capsule-group bg-m3-surface p-1 rounded-full">
                             <button id="theme-btn-light" onclick="setReaderTheme('light')" class="capsule-btn py-2 font-bold text-xs">Light</button>
                             <button id="theme-btn-dark" onclick="setReaderTheme('dark')" class="capsule-btn py-2 font-bold text-xs">Dark</button>
@@ -231,7 +228,7 @@
                         </div>
                     </div>
                     <div>
-                        <label class="text-xs font-bold opacity-70 block mb-3 uppercase tracking-wider">Ukuran Teks</label>
+                        <label id="str-set-size" class="text-xs font-bold opacity-70 block mb-3 uppercase tracking-wider">Ukuran Teks</label>
                         <div class="capsule-group bg-m3-surface p-1 rounded-full">
                             <button id="typo-sz-sm" onclick="changeTypo('size', '1rem')" class="capsule-btn py-2 font-bold text-xs">Small</button>
                             <button id="typo-sz-md" onclick="changeTypo('size', '1.2rem')" class="capsule-btn py-2 font-bold text-xs">Med</button>
@@ -239,7 +236,7 @@
                         </div>
                     </div>
                     <div>
-                        <label class="text-xs font-bold opacity-70 block mb-3 uppercase tracking-wider">Perataan Teks</label>
+                        <label id="str-set-align" class="text-xs font-bold opacity-70 block mb-3 uppercase tracking-wider">Perataan Teks</label>
                         <div class="capsule-group bg-m3-surface p-1 rounded-full">
                             <button id="typo-al-left" onclick="changeTypo('align', 'left')" class="capsule-btn py-2"><i data-lucide="align-left" class="w-4 h-4"></i></button>
                             <button id="typo-al-center" onclick="changeTypo('align', 'center')" class="capsule-btn py-2"><i data-lucide="align-center" class="w-4 h-4"></i></button>
@@ -247,7 +244,7 @@
                         </div>
                     </div>
                     <div>
-                        <label class="text-xs font-bold opacity-70 block mb-3 uppercase tracking-wider">Jenis Font</label>
+                        <label id="str-set-font" class="text-xs font-bold opacity-70 block mb-3 uppercase tracking-wider">Jenis Font</label>
                         <div class="flex flex-col gap-2">
                             <button id="typo-fn-lora" onclick="changeTypo('font', 'Lora')" class="btn-morph py-3 px-4 bg-m3-surface rounded-2xl text-left font-serif font-bold text-sm">Lora</button>
                             <button id="typo-fn-merri" onclick="changeTypo('font', 'Merriweather')" class="btn-morph py-3 px-4 bg-m3-surface rounded-2xl text-left font-merriweather font-bold text-sm">Merriweather</button>
@@ -260,18 +257,14 @@
             </div>
         </div>
 
-        <!-- SEARCH BAR MENGAMBANG DI ATAS BOTTOM BAR -->
-        <div id="reader-search-bar" class="hidden absolute bottom-24 left-4 right-4 bg-m3-surfaceVariant p-2 z-40 rounded-3xl shadow-lg transition-all">
-            <div class="search-row" id="inbook-search-row">
-                <div class="search-capsule bg-m3-surface p-1 rounded-full relative">
-                    <i data-lucide="corner-down-right" id="search-icon-inbook" class="w-5 h-5 opacity-70 text-m3-onSurface shrink-0 absolute left-4 pointer-events-none"></i>
-                    <input type="text" id="inbook-search-input" placeholder="Cari dalam buku..." class="w-full bg-transparent border-none outline-none py-2 pl-10 pr-2 font-bold text-m3-onSurface text-sm">
-                </div>
-                <button id="btn-exec-search-book" onclick="executeSearch()" class="btn-morph btn-settings bg-m3-primary text-m3-onPrimary rounded-full flex items-center justify-center shrink-0" style="background-color: var(--md-sys-color-primary) !important; color: var(--md-sys-color-on-primary) !important;">
-                    <i data-lucide="arrow-right" class="w-5 h-5"></i>
-                </button>
+        <!-- SEARCH BAR MENGAMBANG DI ATAS KEYBOARD -->
+        <div id="reader-search-bar" class="hidden absolute bottom-[calc(env(safe-area-inset-bottom,0px)+5.5rem)] left-4 right-4 z-50 flex flex-col justify-end gap-2 transition-all">
+            <div id="search-results-panel" class="hidden max-h-60 overflow-y-auto rounded-2xl bg-m3-surface text-sm shadow-xl transition-all scale-95 opacity-0 origin-bottom border border-m3-onSurface/10"></div>
+            
+            <div class="search-capsule bg-m3-surfaceVariant p-1 rounded-full shadow-lg relative flex items-center h-14 border border-m3-onSurfaceVariant/20">
+                <i data-lucide="search" id="search-icon-inbook" class="w-6 h-6 opacity-70 text-m3-onSurface shrink-0 absolute left-4 pointer-events-none"></i>
+                <input type="text" id="inbook-search-input" placeholder="Cari dalam buku..." class="w-full bg-transparent border-none outline-none py-2 pl-12 pr-4 font-bold text-m3-onSurface text-base placeholder:opacity-60">
             </div>
-            <div id="search-results-panel" class="hidden mt-3 max-h-40 overflow-y-auto overflow-x-hidden rounded-xl bg-m3-surface text-sm"></div>
         </div>
 
         <!-- PROGRESS BAR -->
@@ -279,28 +272,28 @@
             <div id="reading-progress-bar" class="h-full bg-m3-primary progress-smooth w-0"></div>
         </div>
 
-        <!-- BOTTOM NAV BAR (PENGGANTI TOP BAR) -->
-        <div id="reader-bottom-bar" class="bg-m3-surfaceVariant px-2 pt-2 pb-[calc(env(safe-area-inset-bottom,0px)+0.5rem)] shrink-0 z-40 relative border-t border-m3-onSurfaceVariant/5">
+        <!-- BOTTOM NAV BAR -->
+        <div id="reader-bottom-bar" class="bg-m3-surfaceVariant px-2 pt-2 pb-[calc(env(safe-area-inset-bottom,0px)+0.5rem)] shrink-0 z-40 relative">
             <div class="capsule-group bg-transparent rounded-full h-[60px]">
                 <button id="btn-back" class="capsule-btn flex-col gap-1 text-m3-onSurfaceVariant transition-all">
                     <i data-lucide="arrow-left" class="w-5 h-5 pointer-events-none"></i>
-                    <span class="text-[10px] font-bold pointer-events-none">Kembali</span>
+                    <span id="str-nav-back" class="text-[10px] font-bold pointer-events-none">Kembali</span>
                 </button>
                 <button id="btn-toc" class="capsule-btn flex-col gap-1 text-m3-onSurfaceVariant transition-all">
                     <i data-lucide="list" class="w-5 h-5 pointer-events-none"></i>
-                    <span class="text-[10px] font-bold pointer-events-none">Daftar Isi</span>
+                    <span id="str-nav-toc" class="text-[10px] font-bold pointer-events-none">Daftar Isi</span>
                 </button>
                 <button id="btn-reader-search" class="capsule-btn flex-col gap-1 text-m3-onSurfaceVariant transition-all">
                     <i data-lucide="search" class="w-5 h-5 pointer-events-none"></i>
-                    <span class="text-[10px] font-bold pointer-events-none">Cari</span>
+                    <span id="str-nav-search" class="text-[10px] font-bold pointer-events-none">Cari</span>
                 </button>
                 <button id="btn-settings" class="capsule-btn flex-col gap-1 text-m3-onSurfaceVariant transition-all">
                     <i data-lucide="type" class="w-5 h-5 pointer-events-none"></i>
-                    <span class="text-[10px] font-bold pointer-events-none">Teks</span>
+                    <span id="str-nav-text" class="text-[10px] font-bold pointer-events-none">Teks</span>
                 </button>
                 <button id="btn-fullscreen" onclick="toggleFullscreenReading()" class="capsule-btn flex-col gap-1 text-m3-onSurfaceVariant transition-all">
                     <i data-lucide="maximize" class="w-5 h-5 pointer-events-none"></i>
-                    <span class="text-[10px] font-bold pointer-events-none">Penuh</span>
+                    <span id="str-nav-full" class="text-[10px] font-bold pointer-events-none">Penuh</span>
                 </button>
             </div>
         </div>
@@ -315,28 +308,28 @@
     <div id="welcome-modal" onclick="if(event.target === this) closeWelcome()" class="hidden modal-overlay fixed inset-0 bg-black/60 z-[200] flex items-center justify-center p-4 opacity-0">
         <div class="modal-content bg-m3-surface w-full max-w-md rounded-[48px] overflow-hidden flex flex-col scale-75 translate-y-12 border-none" id="welcome-sheet">
             <div class="p-8 overflow-y-auto max-h-[75vh]">
-                <h2 class="text-3xl font-bold text-m3-onSurface mb-2 tracking-tight">Welcome to Baca.</h2>
-                <p class="text-m3-onSurfaceVariant mb-8 font-medium">Please read these instructions to ensure the optimal reading experience.</p>
+                <h2 id="str-wel-title" class="text-3xl font-bold text-m3-onSurface mb-2 tracking-tight">Selamat Datang di Baca.</h2>
+                <p id="str-wel-desc" class="text-m3-onSurfaceVariant mb-8 font-medium">Harap baca instruksi berikut untuk pengalaman membaca yang optimal.</p>
                 <div class="flex flex-col gap-4">
                     <div class="bg-m3-surfaceVariant p-5 rounded-3xl pb-6 border-l-4 border-m3-primary">
                         <i data-lucide="smartphone" class="text-m3-primary mb-3 w-6 h-6"></i>
-                        <h3 class="font-bold mb-1 text-sm">Native App Installation</h3>
-                        <p class="text-xs opacity-80 leading-relaxed font-medium">For a seamless experience, tap the <b>three-dot menu</b> in Chrome and select <b>"Install app"</b>.</p>
+                        <h3 id="str-wel-app" class="font-bold mb-1 text-sm">Instalasi Aplikasi</h3>
+                        <p id="str-wel-app-desc" class="text-xs opacity-80 leading-relaxed font-medium">Untuk pengalaman terbaik, tap menu <b>tiga titik</b> di Chrome dan pilih <b>"Instal aplikasi"</b>.</p>
                     </div>
                     <div class="bg-m3-surfaceVariant p-5 rounded-3xl pb-6">
                         <i data-lucide="file-warning" class="text-m3-primary mb-3 w-6 h-6"></i>
-                        <h3 class="font-bold mb-1 text-sm">Format Limitations</h3>
-                        <p class="text-xs opacity-80 leading-relaxed font-medium"><b>PDF:</b> Text only. Images ignored.<br><b>EPUB:</b> Fully supported.</p>
+                        <h3 id="str-wel-format" class="font-bold mb-1 text-sm">Batasan Format</h3>
+                        <p id="str-wel-format-desc" class="text-xs opacity-80 leading-relaxed font-medium"><b>PDF:</b> Hanya teks. Gambar diabaikan.<br><b>EPUB:</b> Didukung penuh.</p>
                     </div>
                     <div class="bg-m3-surfaceVariant p-5 rounded-3xl pb-6">
                         <i data-lucide="shield-check" class="text-m3-primary mb-3 w-6 h-6"></i>
-                        <h3 class="font-bold mb-1 text-sm">Total Privacy</h3>
-                        <p class="text-xs opacity-80 leading-relaxed font-medium">Processed locally in your device.</p>
+                        <h3 id="str-wel-privacy" class="font-bold mb-1 text-sm">Privasi Total</h3>
+                        <p id="str-wel-privacy-desc" class="text-xs opacity-80 leading-relaxed font-medium">Diproses secara lokal di perangkat Anda.</p>
                     </div>
                 </div>
             </div>
             <div class="p-4 bg-m3-surface border-t border-m3-surfaceVariant">
-                <button onclick="closeWelcome()" class="w-full py-4 bg-m3-primary text-m3-onPrimary rounded-full font-bold btn-morph tracking-wide">Acknowledge</button>
+                <button id="str-wel-btn" onclick="closeWelcome()" class="w-full py-4 bg-m3-primary text-m3-onPrimary rounded-full font-bold btn-morph tracking-wide">Mengerti</button>
             </div>
         </div>
     </div>
@@ -345,10 +338,10 @@
     <div id="global-settings-modal" onclick="if(event.target === this) history.back()" class="hidden modal-overlay fixed inset-0 bg-black/60 z-[100] flex items-end justify-center opacity-0">
         <div class="modal-content bg-m3-surface w-full max-w-md rounded-t-[48px] p-6 pb-12 transform translate-y-full border-none" id="global-settings-sheet">
             <div class="w-12 h-1.5 bg-m3-onSurfaceVariant/30 rounded-full mx-auto mb-6"></div>
-            <h3 class="text-2xl font-bold mb-6 text-m3-onSurface">Settings</h3>
+            <h3 id="str-set-main-title" class="text-2xl font-bold mb-6 text-m3-onSurface">Pengaturan</h3>
             
             <div class="flex items-center justify-between mb-2 bg-m3-surfaceVariant p-2 pl-5 rounded-full cursor-pointer btn-morph" onclick="toggleThemeState()">
-                <span class="font-bold text-sm tracking-wide" id="theme-label-text">Light Mode</span>
+                <span class="font-bold text-sm tracking-wide" id="theme-label-text">Mode Terang</span>
                 <div class="relative w-16 h-8 rounded-full bg-m3-onSurfaceVariant/20 transition-colors" id="theme-switch-bg">
                     <div id="theme-switch-knob" class="absolute top-1 left-1 w-6 h-6 rounded-full bg-m3-surface flex items-center justify-center transition-transform">
                         <i data-lucide="sun" id="theme-switch-icon" class="w-4 h-4 text-m3-onSurface"></i>
@@ -357,13 +350,13 @@
             </div>
 
             <div id="amoled-toggle-container" class="flex items-center justify-between mb-6 bg-m3-surfaceVariant p-2 pl-5 rounded-full cursor-pointer btn-morph hidden" onclick="toggleAmoled()">
-                <span class="font-bold text-sm tracking-wide opacity-80" id="str-amoled-label">AMOLED (Pitch Black)</span>
+                <span class="font-bold text-sm tracking-wide opacity-80" id="str-amoled-label">AMOLED (Hitam Pekat)</span>
                 <div class="relative w-[60px] h-8 rounded-full border-2 border-m3-onSurfaceVariant/30 transition-colors" id="amoled-switch-bg">
                     <div id="amoled-switch-knob" class="absolute top-[2px] left-[2px] w-5 h-5 rounded-full bg-m3-onSurface transition-transform"></div>
                 </div>
             </div>
 
-            <h4 class="text-xs font-bold opacity-70 mb-3 px-1 uppercase tracking-wider">Theme Palette</h4>
+            <h4 id="str-set-palette" class="text-xs font-bold opacity-70 mb-3 px-1 uppercase tracking-wider">Palet Tema</h4>
             <div class="grid grid-cols-5 gap-3 mb-4">
                 <button onclick="setTheme('purple')" class="btn-morph w-full aspect-square rounded-2xl bg-[#6750A4]"></button>
                 <button onclick="setTheme('green')" class="btn-morph w-full aspect-square rounded-2xl bg-[#006C4C]"></button>
@@ -382,18 +375,22 @@
                 <button onclick="setTheme('monochrome')" class="btn-morph w-full aspect-square rounded-2xl bg-[#5E5E5E]"></button>
             </div>
             
-            <h4 class="text-xs font-bold opacity-70 mb-3 px-1 mt-6 uppercase tracking-wider">Language</h4>
+            <h4 id="str-set-lang" class="text-xs font-bold opacity-70 mb-3 px-1 mt-6 uppercase tracking-wider">Bahasa</h4>
             <div class="capsule-group bg-m3-surfaceVariant p-1 rounded-full mb-4">
                 <button id="wiki-lang-id" onclick="setWikiLang('id')" class="capsule-btn py-3 font-bold text-xs text-m3-onSurfaceVariant">Indonesia</button>
                 <button id="wiki-lang-en" onclick="setWikiLang('en')" class="capsule-btn py-3 font-bold text-xs text-m3-onSurfaceVariant">English</button>
             </div>
 
-            <h4 class="text-xs font-bold opacity-70 mb-3 px-1 mt-6 uppercase tracking-wider">App Info</h4>
-            <button onclick="openModal('welcome-modal', 'welcome-sheet', true)" class="flex items-center justify-center gap-2 w-full p-4 bg-m3-secondaryContainer text-m3-onSecondaryContainer rounded-2xl font-bold btn-morph mb-4">
-                <i data-lucide="info"></i> <span>View Instructions</span>
+            <h4 id="str-set-info" class="text-xs font-bold opacity-70 mb-3 px-1 mt-6 uppercase tracking-wider">Info & Dukungan</h4>
+            <button onclick="openModal('welcome-modal', 'welcome-sheet', true)" class="flex items-center justify-center gap-2 w-full p-4 bg-m3-secondaryContainer text-m3-onSecondaryContainer rounded-2xl font-bold btn-morph mb-3">
+                <i data-lucide="info"></i> <span id="str-btn-info">Lihat Instruksi</span>
             </button>
+            
+            <a href="https://saweria.co/widgets/alert?streamKey=b6f148a63cb239b12ef089b3f72c1818" target="_blank" class="flex items-center justify-center gap-2 w-full p-4 bg-yellow-100 text-yellow-800 dark:bg-yellow-900/40 dark:text-yellow-400 rounded-2xl font-bold btn-morph mb-4">
+                <i data-lucide="coffee"></i> <span id="str-btn-donate">Traktir Kopi (Donasi)</span>
+            </a>
 
-            <button onclick="history.back()" class="btn-morph w-full mt-2 py-4 bg-transparent text-m3-onSurface font-bold text-base">Close</button>
+            <button id="str-btn-close" onclick="history.back()" class="btn-morph w-full mt-2 py-4 bg-transparent text-m3-onSurface font-bold text-base">Tutup</button>
         </div>
     </div>
 
@@ -404,36 +401,36 @@
             <h3 id="opt-title" class="text-base font-bold mb-6 text-m3-onSurface text-center truncate px-2">Book Options</h3>
             <div class="flex flex-col gap-3">
                 <button onclick="triggerSelectMode()" class="flex items-center gap-4 w-full p-4 bg-m3-surfaceVariant text-m3-onSurfaceVariant rounded-2xl font-bold btn-morph"><i data-lucide="check-square" class="w-5 h-5"></i> <span id="str-opt-select">Pilih Beberapa</span></button>
-                <button onclick="triggerEditView()" class="flex items-center gap-4 w-full p-4 bg-m3-surfaceVariant text-m3-onSurfaceVariant rounded-2xl font-bold btn-morph"><i data-lucide="edit-3" class="w-5 h-5"></i> <span id="str-opt-edit">Edit Details</span></button>
-                <button onclick="triggerDeleteView()" class="flex items-center gap-4 w-full p-4 bg-red-100 text-red-700 dark:bg-red-900/40 dark:text-red-400 rounded-2xl font-bold btn-morph"><i data-lucide="trash-2" class="w-5 h-5"></i> <span id="str-opt-delete">Delete Permanently</span></button>
+                <button onclick="triggerEditView()" class="flex items-center gap-4 w-full p-4 bg-m3-surfaceVariant text-m3-onSurfaceVariant rounded-2xl font-bold btn-morph"><i data-lucide="edit-3" class="w-5 h-5"></i> <span id="str-opt-edit">Edit Detail</span></button>
+                <button onclick="triggerDeleteView()" class="flex items-center gap-4 w-full p-4 bg-red-100 text-red-700 dark:bg-red-900/40 dark:text-red-400 rounded-2xl font-bold btn-morph"><i data-lucide="trash-2" class="w-5 h-5"></i> <span id="str-opt-delete">Hapus Permanen</span></button>
             </div>
-            <button onclick="history.back()" class="btn-morph w-full mt-4 py-4 bg-transparent text-m3-onSurface font-bold tracking-wide">Cancel</button>
+            <button id="str-opt-cancel" onclick="history.back()" class="btn-morph w-full mt-4 py-4 bg-transparent text-m3-onSurface font-bold tracking-wide">Batal</button>
         </div>
     </div>
 
     <!-- Edit Book Data Modal -->
     <div id="edit-modal" onclick="if(event.target === this) history.back()" class="hidden modal-overlay fixed inset-0 bg-black/60 z-[120] flex items-center justify-center opacity-0 p-4">
         <div class="modal-content bg-m3-surface w-full max-w-sm rounded-[48px] p-8 transform scale-75 translate-y-12 border-none" id="edit-sheet">
-            <h3 class="text-xl font-bold mb-6 text-m3-onSurface">Edit Details</h3>
+            <h3 id="str-edit-title" class="text-xl font-bold mb-6 text-m3-onSurface">Edit Detail</h3>
             <input type="hidden" id="edit-book-id">
             
-            <label class="text-xs font-bold opacity-70 block mb-2 uppercase tracking-wider">Book Title</label>
+            <label id="str-edit-book-title" class="text-xs font-bold opacity-70 block mb-2 uppercase tracking-wider">Judul Buku</label>
             <input type="text" id="edit-book-title" class="w-full bg-m3-surfaceVariant text-m3-onSurfaceVariant p-4 rounded-2xl mb-5 font-bold outline-none border border-transparent focus:border-m3-primary">
             
-            <label class="text-xs font-bold opacity-70 block mb-2 uppercase tracking-wider">Cover Image</label>
+            <label id="str-edit-book-cover" class="text-xs font-bold opacity-70 block mb-2 uppercase tracking-wider">Gambar Sampul</label>
             <input type="file" id="edit-book-cover" accept="image/*" class="w-full text-xs mb-5 font-bold file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-xs file:font-bold file:bg-m3-primaryContainer file:text-m3-onPrimaryContainer hover:file:bg-m3-primaryContainer/80">
             
-            <label class="text-xs font-bold opacity-70 block mb-2 uppercase tracking-wider">Card Shape</label>
+            <label id="str-edit-book-shape" class="text-xs font-bold opacity-70 block mb-2 uppercase tracking-wider">Bentuk Kartu</label>
             <div class="grid grid-cols-2 gap-2 mb-8">
-                <button onclick="selectShape('default')" id="shape-default" class="btn-morph p-3 bg-m3-surfaceVariant text-m3-onSurfaceVariant rounded-xl font-bold text-xs border border-transparent">Dynamic</button>
-                <button onclick="selectShape('rounded')" id="shape-rounded" class="btn-morph p-3 bg-m3-surfaceVariant text-m3-onSurfaceVariant rounded-xl font-bold text-xs border border-transparent">Rounded</button>
-                <button onclick="selectShape('square')" id="shape-square" class="btn-morph p-3 bg-m3-surfaceVariant text-m3-onSurfaceVariant rounded-xl font-bold text-xs border border-transparent">Square</button>
+                <button onclick="selectShape('default')" id="shape-default" class="btn-morph p-3 bg-m3-surfaceVariant text-m3-onSurfaceVariant rounded-xl font-bold text-xs border border-transparent">Dinamis</button>
+                <button onclick="selectShape('rounded')" id="shape-rounded" class="btn-morph p-3 bg-m3-surfaceVariant text-m3-onSurfaceVariant rounded-xl font-bold text-xs border border-transparent">Bulat</button>
+                <button onclick="selectShape('square')" id="shape-square" class="btn-morph p-3 bg-m3-surfaceVariant text-m3-onSurfaceVariant rounded-xl font-bold text-xs border border-transparent">Kotak</button>
             </div>
             <input type="hidden" id="edit-book-shape" value="square">
 
             <div class="flex gap-2">
-                <button onclick="closeEditModal()" class="flex-1 py-3 bg-transparent text-m3-onSurface font-bold rounded-full btn-morph">Cancel</button>
-                <button onclick="saveBookEdit()" class="flex-1 py-3 bg-m3-primary text-m3-onPrimary font-bold rounded-full btn-morph">Save</button>
+                <button id="str-edit-cancel" onclick="closeEditModal()" class="flex-1 py-3 bg-transparent text-m3-onSurface font-bold rounded-full btn-morph">Batal</button>
+                <button id="str-edit-save" onclick="saveBookEdit()" class="flex-1 py-3 bg-m3-primary text-m3-onPrimary font-bold rounded-full btn-morph">Simpan</button>
             </div>
         </div>
     </div>
@@ -457,30 +454,23 @@
         </button>
     </div>
 
-    <!-- Note Input Modal -->
+    <!-- Note Create/Edit Modal -->
     <div id="note-modal" onclick="if(event.target === this) history.back()" class="hidden modal-overlay fixed inset-0 bg-black/60 z-[120] flex items-center justify-center opacity-0 p-4">
         <div class="modal-content bg-m3-surface w-full max-w-sm rounded-[48px] p-6 transform scale-75 translate-y-12 border-none" id="note-sheet">
-            <h3 class="text-lg font-bold mb-4 text-m3-onSurface flex items-center gap-2"><i data-lucide="notebook-pen" class="w-5 h-5"></i> Tambah Catatan</h3>
+            <h3 id="str-note-title" class="text-lg font-bold mb-4 text-m3-onSurface flex items-center gap-2"><i data-lucide="notebook-pen" class="w-5 h-5"></i> Catatan</h3>
+            
+            <div class="flex gap-4 justify-center mb-4">
+                 <button onclick="setNoteColor('yellow')" id="nc-yellow" class="w-8 h-8 rounded-full bg-[#FDE047] ring-2 ring-offset-2 ring-transparent transition-all btn-morph"></button>
+                 <button onclick="setNoteColor('green')" id="nc-green" class="w-8 h-8 rounded-full bg-[#86EFAC] ring-2 ring-offset-2 ring-transparent transition-all btn-morph"></button>
+                 <button onclick="setNoteColor('pink')" id="nc-pink" class="w-8 h-8 rounded-full bg-[#F9A8D4] ring-2 ring-offset-2 ring-transparent transition-all btn-morph"></button>
+            </div>
+
             <textarea id="note-input-text" class="w-full h-32 bg-m3-surfaceVariant text-m3-onSurfaceVariant p-4 rounded-2xl mb-5 font-bold outline-none border border-transparent focus:border-m3-primary resize-none" placeholder="Tuliskan catatan..."></textarea>
             
             <div class="flex gap-2">
-                <button onclick="_closeModalAction('note-modal', 'note-sheet', true)" class="flex-1 py-3 bg-transparent text-m3-onSurface font-bold rounded-full btn-morph">Batal</button>
-                <button onclick="saveNoteAnnotation()" class="flex-1 py-3 bg-m3-primary text-m3-onPrimary font-bold rounded-full btn-morph">Simpan</button>
-            </div>
-        </div>
-    </div>
-    
-    <!-- Show Note Details Modal -->
-    <div id="show-note-modal" onclick="if(event.target === this) history.back()" class="hidden modal-overlay fixed inset-0 bg-black/60 z-[120] flex justify-center items-end sm:items-center opacity-0 p-4 sm:p-0">
-        <div class="modal-content bg-m3-surface w-full max-w-md sm:rounded-[48px] rounded-t-[48px] rounded-b-[0px] p-6 pb-12 sm:pb-6 transform translate-y-full border-none" id="show-note-sheet">
-            <div class="w-12 h-1.5 bg-m3-onSurfaceVariant/30 rounded-full mx-auto mb-6 sm:hidden"></div>
-            <h3 class="text-lg font-bold mb-2 text-m3-onSurface flex items-center gap-2"><i data-lucide="sticky-note" class="w-5 h-5 text-m3-primary"></i> Catatan Tersimpan</h3>
-            <p id="show-note-hl" class="text-xs font-mono opacity-60 mb-4 bg-m3-onSurface/5 p-2 rounded-lg line-clamp-2"></p>
-            <p id="show-note-content" class="text-m3-onSurfaceVariant mb-6 bg-m3-surfaceVariant p-4 rounded-2xl min-h-[80px] font-medium leading-relaxed"></p>
-            
-            <div class="flex gap-2">
-                <button onclick="deleteAnnotationById()" class="py-3 px-5 bg-red-100 text-red-700 dark:bg-red-900/40 dark:text-red-400 font-bold rounded-full btn-morph flex items-center justify-center"><i data-lucide="trash-2" class="w-5 h-5"></i></button>
-                <button onclick="closeShowNoteModal()" class="flex-1 py-3 bg-m3-primary text-m3-onPrimary font-bold rounded-full btn-morph">Tutup</button>
+                <button id="btn-delete-note" onclick="deleteNoteInsideModal()" class="py-3 px-5 bg-red-100 text-red-700 dark:bg-red-900/40 dark:text-red-400 font-bold rounded-full btn-morph flex items-center justify-center hidden"><i data-lucide="trash-2" class="w-5 h-5"></i></button>
+                <button id="str-note-cancel" onclick="_closeModalAction('note-modal', 'note-sheet', true)" class="flex-1 py-3 bg-transparent text-m3-onSurface font-bold rounded-full btn-morph">Batal</button>
+                <button id="str-note-save" onclick="saveNoteAnnotation()" class="flex-1 py-3 bg-m3-primary text-m3-onPrimary font-bold rounded-full btn-morph">Simpan</button>
             </div>
         </div>
     </div>
@@ -490,7 +480,7 @@
         <div class="modal-content bg-m3-surface w-full max-w-md sm:rounded-[48px] rounded-t-[48px] p-6 pb-12 sm:pb-6 transform translate-y-full flex flex-col max-h-[85vh] border-none" id="ai-sheet">
             <div class="w-12 h-1.5 bg-m3-onSurfaceVariant/30 rounded-full mx-auto mb-6 sm:hidden"></div>
             <div class="flex items-center justify-between mb-4 shrink-0">
-                <h3 class="text-lg font-bold text-m3-onSurface flex items-center gap-2"><i data-lucide="search" class="w-5 h-5 text-m3-primary"></i> Penjelasan</h3>
+                <h3 id="str-ai-title" class="text-lg font-bold text-m3-onSurface flex items-center gap-2"><i data-lucide="search" class="w-5 h-5 text-m3-primary"></i> Penjelasan</h3>
                 <button onclick="closeAiModal()" class="w-8 h-8 rounded-full bg-m3-surfaceVariant flex items-center justify-center btn-morph"><i data-lucide="x" class="w-4 h-4"></i></button>
             </div>
             
@@ -499,7 +489,7 @@
             <div class="flex-1 overflow-y-auto min-h-[150px] relative rounded-2xl bg-m3-surfaceVariant p-4 mb-4">
                 <div id="ai-loading" class="absolute inset-0 flex flex-col items-center justify-center bg-m3-surfaceVariant z-10 rounded-2xl">
                     <div class="w-8 h-8 border-4 border-m3-primary border-t-transparent rounded-full animate-spin mb-3"></div>
-                    <p class="text-xs font-bold opacity-70 animate-pulse uppercase tracking-wider">Mencari referensi...</p>
+                    <p id="str-ai-loading" class="text-xs font-bold opacity-70 animate-pulse uppercase tracking-wider">Mencari referensi...</p>
                 </div>
                 <div id="ai-content" class="text-m3-onSurfaceVariant leading-relaxed font-medium"></div>
             </div>
@@ -509,7 +499,6 @@
     <script>
         pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.16.105/pdf.worker.min.js';
 
-        // M3 Palettes
         const M3_PALETTES = {
             purple: { light: `--md-sys-color-primary:#6750A4;--md-sys-color-on-primary:#FFFFFF;--md-sys-color-primary-container:#EADDFF;--md-sys-color-on-primary-container:#21005D;--md-sys-color-secondary-container:#E8DEF8;--md-sys-color-on-secondary-container:#1D192B;--md-sys-color-tertiary-container:#FFD8E4;--md-sys-color-on-tertiary-container:#31111D;--md-sys-color-background:#FEF7FF;--md-sys-color-on-background:#1D1B20;--md-sys-color-surface:#FEF7FF;--md-sys-color-on-surface:#1D1B20;--md-sys-color-surface-variant:#E7E0EC;--md-sys-color-on-surface-variant:#49454F;`, dark: `--md-sys-color-primary:#D0BCFF;--md-sys-color-on-primary:#381E72;--md-sys-color-primary-container:#4F378B;--md-sys-color-on-primary-container:#EADDFF;--md-sys-color-secondary-container:#4A4458;--md-sys-color-on-secondary-container:#E8DEF8;--md-sys-color-tertiary-container:#633B48;--md-sys-color-on-tertiary-container:#FFD8E4;--md-sys-color-background:#141218;--md-sys-color-on-background:#E6E0E9;--md-sys-color-surface:#141218;--md-sys-color-on-surface:#E6E0E9;--md-sys-color-surface-variant:#49454F;--md-sys-color-on-surface-variant:#CAC4D0;` },
             green: { light: `--md-sys-color-primary:#006C4C;--md-sys-color-on-primary:#FFFFFF;--md-sys-color-primary-container:#89F8D6;--md-sys-color-on-primary-container:#002114;--md-sys-color-secondary-container:#CCE8DB;--md-sys-color-on-secondary-container:#052016;--md-sys-color-tertiary-container:#BEEAF6;--md-sys-color-on-tertiary-container:#001F29;--md-sys-color-background:#FBFDF8;--md-sys-color-on-background:#191C1A;--md-sys-color-surface:#FBFDF8;--md-sys-color-on-surface:#191C1A;--md-sys-color-surface-variant:#DBE5DD;--md-sys-color-on-surface-variant:#404943;`, dark: `--md-sys-color-primary:#6CDBBA;--md-sys-color-on-primary:#003825;--md-sys-color-primary-container:#005138;--md-sys-color-on-primary-container:#89F8D6;--md-sys-color-secondary-container:#334B3F;--md-sys-color-on-secondary-container:#CCE8DB;--md-sys-color-tertiary-container:#204D59;--md-sys-color-on-tertiary-container:#BEEAF6;--md-sys-color-background:#111412;--md-sys-color-on-background:#E1E3DF;--md-sys-color-surface:#111412;--md-sys-color-on-surface:#E1E3DF;--md-sys-color-surface-variant:#404943;--md-sys-color-on-surface-variant:#BFC9C3;` },
@@ -536,7 +525,6 @@
             load: document.getElementById('loading-state'), loadTxt: document.getElementById('loading-text'), loadBar: document.getElementById('loading-bar'), loadPct: document.getElementById('loading-percent'),
             file: document.getElementById('doc-upload'), 
             
-            // TOMBOL DARI BOTTOM NAV
             backBtn: document.getElementById('btn-back'),
             tocBtn: document.getElementById('btn-toc'), 
             setBtn: document.getElementById('btn-settings'),
@@ -546,7 +534,7 @@
             tocPanel: document.getElementById('toc-panel'), tocList: document.getElementById('toc-list'),
             setPanel: document.getElementById('settings-panel'),
             readContent: document.getElementById('reader-content'), progBar: document.getElementById('reading-progress-bar'), progTxt: document.getElementById('reader-progress-text'),
-            searchBar: document.getElementById('reader-search-bar'), searchInput: document.getElementById('inbook-search-input'), searchExec: document.getElementById('btn-exec-search'), searchRes: document.getElementById('search-results-panel'),
+            searchBar: document.getElementById('reader-search-bar'), searchInput: document.getElementById('inbook-search-input'), searchRes: document.getElementById('search-results-panel'),
             globalSearch: document.getElementById('global-search')
         };
 
@@ -558,7 +546,6 @@
             });
         }
 
-        // FUNGSI AKTIVASI NAVIGASI BAWAH (WARNA)
         function updateBottomNavUI(activeId) {
             const btns = ['btn-toc', 'btn-reader-search', 'btn-settings'];
             btns.forEach(id => {
@@ -577,7 +564,6 @@
             }
         }
 
-        // LOGIKA GLOBAL MENGUNCUPKAN SEARCH BAR (KLIK DI LUAR)
         document.addEventListener('click', (e) => {
             const searchArea = document.getElementById('search-area');
             if (searchArea && searchArea.classList.contains('search-active')) {
@@ -586,12 +572,11 @@
                 }
             }
             
-            const inbookSearchRow = document.getElementById('inbook-search-row');
-            if (inbookSearchRow && inbookSearchRow.classList.contains('search-active')) {
-                // FIX BUG: Cegah penutupan kalo yang di-klik adalah tombol search di bottom nav
+            const readerSearchBar = document.getElementById('reader-search-bar');
+            if (readerSearchBar && !readerSearchBar.classList.contains('hidden')) {
                 const isSearchBtnClick = e.target.closest('#btn-reader-search');
-                if (!inbookSearchRow.contains(e.target) && !isSearchBtnClick) {
-                    closeInbookSearch(false);
+                if (!readerSearchBar.contains(e.target) && !isSearchBtnClick) {
+                    closeInbookSearch();
                 }
             }
         });
@@ -608,60 +593,34 @@
 
         searchCapsule.addEventListener('click', (e) => {
             if (searchArea.classList.contains('search-active')) {
-                if (e.target !== DOM.globalSearch) {
-                    closeSearch(false);
-                }
-            } else {
-                DOM.globalSearch.focus();
-            }
+                if (e.target !== DOM.globalSearch) { closeSearch(false); }
+            } else { DOM.globalSearch.focus(); }
         });
 
         window.closeSearch = function(fromHistory = false) {
             if (searchArea.classList.contains('search-active')) {
                 searchArea.classList.remove('search-active');
-                DOM.globalSearch.blur();
-                DOM.globalSearch.value = '';
-                renderLibrary();
-                if (!fromHistory && window.location.hash === '#search') {
-                    history.back();
-                }
+                DOM.globalSearch.blur(); DOM.globalSearch.value = ''; renderLibrary();
+                if (!fromHistory && window.location.hash === '#search') history.back();
             }
         };
 
-        const inbookSearchRow = document.getElementById('inbook-search-row');
-        const inbookSearchInput = document.getElementById('inbook-search-input');
-
-        inbookSearchInput.addEventListener('focus', () => {
-            if (!inbookSearchRow.classList.contains('search-active')) {
-                inbookSearchRow.classList.add('search-active');
-                if (window.location.hash !== '#inbook-search') pushAppHistory('inbook-search');
-            }
-        });
-
-        window.closeInbookSearch = function(fromHistory = false) {
-            if (inbookSearchRow.classList.contains('search-active')) {
-                inbookSearchRow.classList.remove('search-active');
-                inbookSearchInput.blur();
-                if (!fromHistory && window.location.hash === '#inbook-search') {
-                    history.back();
-                }
-                
-                // Kalo panel tertutup, hapus status active di nav bar
-                if(DOM.searchBar.classList.contains('hidden') && activePanel !== 'search') {
-                    updateBottomNavUI(null);
-                }
-            }
+        window.closeInbookSearch = function() {
+            DOM.searchBar.classList.add('hidden');
+            DOM.searchInput.blur();
+            if(activePanel !== 'search') updateBottomNavUI(null);
         };
 
         let library = []; let activeBookId = null; let observer = null; let activePanel = null;
-        let activeOptsId = null; let currentSelection = { text: "", nodeIdx: -1 }; let activeAnnotationId = null;
+        let activeOptsId = null; let currentSelection = { text: "", nodeIdx: -1 }; 
         
         let isBatchDeleteMode = false;
         let selectedForDelete = [];
+        let activeNoteColor = 'yellow';
+        let editingAnnotId = null;
         
         window.addEventListener('popstate', (e) => {
             if (!document.getElementById('ai-modal').classList.contains('opacity-0')) { closeAiModal(true); }
-            else if (!document.getElementById('show-note-modal').classList.contains('opacity-0')) { closeShowNoteModal(true); }
             else if (!document.getElementById('note-modal').classList.contains('opacity-0')) { _closeModalAction('note-modal', 'note-sheet', true, true); }
             else if (!document.getElementById('b-opt-modal').classList.contains('opacity-0')) { _closeModalAction('b-opt-modal', 'b-opt-sheet', false, true); }
             else if (!document.getElementById('edit-modal').classList.contains('opacity-0')) { _closeModalAction('edit-modal', 'edit-sheet', true, true); }
@@ -670,7 +629,6 @@
             else if (isBatchDeleteMode) { window.toggleBatchDelete(true); }
             else if (activePanel) { _closeSidePanelsAction(true); } 
             else if (document.getElementById('search-area').classList.contains('search-active')) { closeSearch(true); }
-            else if (document.getElementById('inbook-search-row') && document.getElementById('inbook-search-row').classList.contains('search-active')) { closeInbookSearch(true); }
             else if (!DOM.readView.classList.contains('translate-y-full')) { _closeReaderAction(true); }
         });
 
@@ -683,26 +641,99 @@
 
         const i18n = {
             id: {
-                libEmpty: "Perpustakaan Kosong.", searchBooks: "Cari buku...", loadingDocs: "Membaca Dokumen...", booksCount: "Buku", continueReading: "Lanjutkan Membaca", bookCollection: "Koleksi Buku", selected: "Terpilih", cancel: "Batal", delete: "Hapus", deleteConfirm: "Hapus buku yang dipilih secara permanen?", optSelect: "Pilih Beberapa", optEdit: "Edit Detail", optDelete: "Hapus Permanen"
+                libEmpty: "Perpustakaan Kosong.", searchBooks: "Cari buku...", loadingDocs: "Membaca Dokumen...", 
+                booksCount: "Buku", continueReading: "Lanjutkan Membaca", bookCollection: "Koleksi Buku", 
+                selected: "Terpilih", cancel: "Batal", delete: "Hapus", deleteConfirm: "Hapus buku yang dipilih secara permanen?", 
+                optSelect: "Pilih Beberapa", optEdit: "Edit Detail", optDelete: "Hapus Permanen",
+                extractingCover: "Mengekstrak Sampul...", readingPage: "Membaca Halaman", formattingText: "Memformat Teks...",
+                extractingEpub: "Mengekstrak EPUB...", analyzingStruct: "Menganalisa Struktur...", extractingChapter: "Mengekstrak Bab",
+                welcomeTitle: "Selamat Datang di Baca.", welcomeDesc: "Harap baca instruksi berikut untuk pengalaman membaca yang optimal.",
+                welApp: "Instalasi Aplikasi", welAppDesc: "Untuk pengalaman terbaik, tap menu <b>tiga titik</b> di Chrome dan pilih <b>\"Instal aplikasi\"</b>.",
+                welFormat: "Batasan Format", welFormatDesc: "<b>PDF:</b> Hanya teks. Gambar diabaikan.<br><b>EPUB:</b> Didukung penuh.",
+                welPrivacy: "Privasi Total", welPrivacyDesc: "Diproses secara lokal di perangkat Anda.", welBtn: "Mengerti",
+                setMainTitle: "Pengaturan", setPalette: "Palet Tema", setLang: "Bahasa", setInfo: "Info & Dukungan",
+                btnInfo: "Lihat Instruksi", btnDonate: "Traktir Kopi (Donasi)", btnClose: "Tutup",
+                navBack: "Kembali", navToc: "Daftar Isi", navSearch: "Cari", navText: "Teks", navFull: "Penuh",
+                readerLoading: "Memuat Buku...", tocTitle: "Daftar Isi", setTitle: "Tampilan",
+                setTheme: "Mode Tema", setSize: "Ukuran Teks", setAlign: "Perataan Teks", setFont: "Jenis Font",
+                searchPlaceholder: "Cari dalam buku...", searchNotFound: "Tidak ditemukan.",
+                noteTitle: "Catatan", noteCancel: "Batal", noteSave: "Simpan", notePlaceholder: "Tuliskan catatan...",
+                aiTitle: "Penjelasan", aiLoading: "Mencari referensi...", noInternet: "Koneksi internet bermasalah.",
+                deleteNoteConfirm: "Hapus catatan/sorotan ini?",
+                editTitle: "Edit Detail", editBookTitle: "Judul Buku", editBookCover: "Gambar Sampul", editBookShape: "Bentuk Kartu", editCancel: "Batal", editSave: "Simpan", optCancel: "Batal", themeLight: "Mode Terang", themeDark: "Mode Gelap", amoledLabel: "AMOLED (Hitam Pekat)"
             },
             en: {
-                libEmpty: "Library is Empty.", searchBooks: "Search books...", loadingDocs: "Reading Document...", booksCount: "Books", continueReading: "Continue Reading", bookCollection: "Book Collection", selected: "Selected", cancel: "Cancel", delete: "Delete", deleteConfirm: "Permanently delete selected books?", optSelect: "Select Multiple", optEdit: "Edit Details", optDelete: "Delete Permanently"
+                libEmpty: "Library is Empty.", searchBooks: "Search books...", loadingDocs: "Reading Document...", 
+                booksCount: "Books", continueReading: "Continue Reading", bookCollection: "Book Collection", 
+                selected: "Selected", cancel: "Cancel", delete: "Delete", deleteConfirm: "Permanently delete selected books?", 
+                optSelect: "Select Multiple", optEdit: "Edit Details", optDelete: "Delete Permanently",
+                extractingCover: "Extracting Cover...", readingPage: "Reading Page", formattingText: "Formatting Text...",
+                extractingEpub: "Extracting EPUB...", analyzingStruct: "Analyzing Structure...", extractingChapter: "Extracting Chapter",
+                welcomeTitle: "Welcome to Baca.", welcomeDesc: "Please read these instructions for the optimal reading experience.",
+                welApp: "App Installation", welAppDesc: "For the best experience, tap the <b>three dots</b> menu in Chrome and select <b>\"Install app\"</b>.",
+                welFormat: "Format Limitations", welFormatDesc: "<b>PDF:</b> Text only. Images ignored.<br><b>EPUB:</b> Fully supported.",
+                welPrivacy: "Total Privacy", welPrivacyDesc: "Processed locally on your device.", welBtn: "Got it",
+                setMainTitle: "Settings", setPalette: "Theme Palette", setLang: "Language", setInfo: "Info & Support",
+                btnInfo: "View Instructions", btnDonate: "Buy Me a Coffee", btnClose: "Close",
+                navBack: "Back", navToc: "Contents", navSearch: "Search", navText: "Text", navFull: "Full",
+                readerLoading: "Loading Book...", tocTitle: "Table of Contents", setTitle: "Appearance",
+                setTheme: "Theme Mode", setSize: "Text Size", setAlign: "Text Alignment", setFont: "Font Family",
+                searchPlaceholder: "Search in book...", searchNotFound: "Not found.",
+                noteTitle: "Note", noteCancel: "Cancel", noteSave: "Save", notePlaceholder: "Write a note...",
+                aiTitle: "Definition", aiLoading: "Looking for references...", noInternet: "Internet connection issue.",
+                deleteNoteConfirm: "Delete this note/highlight?",
+                editTitle: "Edit Details", editBookTitle: "Book Title", editBookCover: "Cover Image", editBookShape: "Card Shape", editCancel: "Cancel", editSave: "Save", optCancel: "Cancel", themeLight: "Light Mode", themeDark: "Dark Mode", amoledLabel: "AMOLED (Pitch Black)"
             }
         };
 
+        const setElementText = (id, text) => { const el = document.getElementById(id); if (el) el.innerText = text; };
+
         const applyLanguage = () => {
             const d = i18n[wikiLang] || i18n['id'];
-            if(document.getElementById('str-lib-empty')) document.getElementById('str-lib-empty').innerText = d.libEmpty;
-            if(document.getElementById('str-continue-reading')) document.getElementById('str-continue-reading').innerText = d.continueReading;
-            if(document.getElementById('str-book-collection')) document.getElementById('str-book-collection').innerText = d.bookCollection;
+            setElementText('str-lib-empty', d.libEmpty); setElementText('str-continue-reading', d.continueReading);
+            setElementText('str-book-collection', d.bookCollection); setElementText('loading-text', d.loadingDocs);
+            setElementText('btn-batch-cancel', d.cancel); setElementText('btn-batch-exec', d.delete);
+            setElementText('str-opt-select', d.optSelect); setElementText('str-opt-edit', d.optEdit);
+            setElementText('str-opt-delete', d.optDelete); setElementText('str-opt-cancel', d.optCancel);
+            
+            setElementText('str-wel-title', d.welcomeTitle); setElementText('str-wel-desc', d.welcomeDesc);
+            setElementText('str-wel-app', d.welApp); document.getElementById('str-wel-app-desc').innerHTML = d.welAppDesc;
+            setElementText('str-wel-format', d.welFormat); document.getElementById('str-wel-format-desc').innerHTML = d.welFormatDesc;
+            setElementText('str-wel-privacy', d.welPrivacy); setElementText('str-wel-privacy-desc', d.welPrivacyDesc);
+            setElementText('str-wel-btn', d.welBtn);
+            
+            setElementText('str-set-main-title', d.setMainTitle); setElementText('str-set-palette', d.setPalette);
+            setElementText('str-set-lang', d.setLang); setElementText('str-set-info', d.setInfo);
+            setElementText('str-btn-info', d.btnInfo); setElementText('str-btn-donate', d.btnDonate);
+            setElementText('str-btn-close', d.btnClose);
+            
+            setElementText('str-nav-back', d.navBack); setElementText('str-nav-toc', d.navToc);
+            setElementText('str-nav-search', d.navSearch); setElementText('str-nav-text', d.navText);
+            setElementText('str-nav-full', d.navFull);
+            
+            setElementText('str-reader-loading', d.readerLoading); setElementText('str-toc-title', d.tocTitle);
+            setElementText('str-set-title', d.setTitle); setElementText('str-set-theme', d.setTheme);
+            setElementText('str-set-size', d.setSize); setElementText('str-set-align', d.setAlign);
+            setElementText('str-set-font', d.setFont);
+            
+            setElementText('str-note-title', d.noteTitle); setElementText('str-note-cancel', d.noteCancel);
+            setElementText('str-note-save', d.noteSave);
+            
+            setElementText('str-ai-title', d.aiTitle); setElementText('str-ai-loading', d.aiLoading);
+            
+            setElementText('str-edit-title', d.editTitle); setElementText('str-edit-book-title', d.editBookTitle);
+            setElementText('str-edit-book-cover', d.editBookCover); setElementText('str-edit-book-shape', d.editBookShape);
+            setElementText('str-edit-cancel', d.editCancel); setElementText('str-edit-save', d.editSave);
+            setElementText('str-amoled-label', d.amoledLabel);
+            
             if(document.getElementById('global-search')) document.getElementById('global-search').placeholder = d.searchBooks;
-            if(document.getElementById('loading-text')) document.getElementById('loading-text').innerText = d.loadingDocs;
+            if(document.getElementById('inbook-search-input')) document.getElementById('inbook-search-input').placeholder = d.searchPlaceholder;
+            if(document.getElementById('note-input-text')) document.getElementById('note-input-text').placeholder = d.notePlaceholder;
             if(document.getElementById('library-count')) document.getElementById('library-count').textContent = `${(library.length)} ${d.booksCount}`;
-            if(document.getElementById('btn-batch-cancel')) document.getElementById('btn-batch-cancel').innerText = d.cancel;
-            if(document.getElementById('btn-batch-exec')) document.getElementById('btn-batch-exec').innerText = d.delete;
-            if(document.getElementById('str-opt-select')) document.getElementById('str-opt-select').innerText = d.optSelect;
-            if(document.getElementById('str-opt-edit')) document.getElementById('str-opt-edit').innerText = d.optEdit;
-            if(document.getElementById('str-opt-delete')) document.getElementById('str-opt-delete').innerText = d.optDelete;
+            
+            const themeLabel = document.getElementById('theme-label-text');
+            if (themeLabel) themeLabel.textContent = isDark ? d.themeDark : d.themeLight;
+
             updateBatchSelectionUI();
         };
 
@@ -825,9 +856,10 @@
             const knob = document.getElementById('theme-switch-knob');
             const icon = document.getElementById('theme-switch-icon');
             const dLabel = document.getElementById('theme-label-text');
+            const d = i18n[wikiLang] || i18n['id'];
             
             if (bg && knob && icon && dLabel) {
-                dLabel.textContent = isDark ? 'Dark Mode' : 'Light Mode';
+                dLabel.textContent = isDark ? d.themeDark : d.themeLight;
                 if (isDark) {
                     bg.classList.replace('bg-m3-onSurfaceVariant/20', 'bg-m3-primary');
                     knob.classList.add('translate-x-[32px]');
@@ -874,7 +906,7 @@
                 else if (isDark && isAmoled) { ta.classList.add('bg-m3-primary', 'text-m3-onPrimary'); ta.classList.remove('text-m3-onSurfaceVariant'); }
             }
 
-            lucide.createIcons();
+            if(window.lucide) window.lucide.createIcons();
             localStorage.setItem('theme', isDark ? 'dark' : 'light'); 
             localStorage.setItem('m3-key', currentThemeKey);
             localStorage.setItem('amoled', isAmoled);
@@ -1112,7 +1144,7 @@
                 DOM.empty.classList.add('hidden'); DOM.grid.classList.remove('hidden');
                 if(document.getElementById('collection-heading')) document.getElementById('collection-heading').classList.remove('hidden');
                 filteredLib.forEach((book, index) => { DOM.grid.appendChild(createBookCard(book, false, index)); });
-                lucide.createIcons();
+                if(window.lucide) window.lucide.createIcons();
                 updateBatchSelectionUI(); 
             }
         }
@@ -1127,7 +1159,8 @@
 
         window.triggerDeleteView = async function() {
             if(!activeOptsId) return;
-            if(confirm("Delete this book permanently?")) {
+            const d = i18n[wikiLang] || i18n['id'];
+            if(confirm(d.deleteConfirm)) {
                 library = library.filter(b => b.id !== activeOptsId); 
                 await localforage.setItem('pdf_epub_master', library); 
                 history.back(); setTimeout(() => renderLibrary(DOM.globalSearch.value), 350);
@@ -1273,24 +1306,35 @@
         DOM.tocBtn.onclick = () => togglePanel(DOM.tocPanel, 'toc', 'btn-toc'); 
         DOM.setBtn.onclick = () => togglePanel(DOM.setPanel, 'set', 'btn-settings');
 
-        // FIX BUG: Tombol Search
         DOM.searchBtn.onclick = (e) => { 
-            e.stopPropagation(); // Biar efek kliknya gak tembus ke document yg manggil closeInbookSearch
-            
+            e.stopPropagation(); 
             if (activePanel) { history.back(); }
             
-            DOM.searchBar.classList.toggle('hidden'); 
-            if(!DOM.searchBar.classList.contains('hidden')) {
+            const isHidden = DOM.searchBar.classList.contains('hidden');
+            if(isHidden) {
+                DOM.searchBar.classList.remove('hidden');
                 DOM.searchInput.focus(); 
                 updateBottomNavUI('btn-reader-search');
             } else {
-                updateBottomNavUI(null);
+                closeInbookSearch();
             }
         };
         
+        let inbookSearchTimeout;
+        DOM.searchInput.addEventListener('input', (e) => {
+            clearTimeout(inbookSearchTimeout);
+            inbookSearchTimeout = setTimeout(() => executeSearch(), 300);
+        });
+
         window.executeSearch = function() {
             const query = DOM.searchInput.value.toLowerCase().trim(); DOM.searchRes.innerHTML = '';
-            if(!query) { DOM.searchRes.classList.add('hidden'); return; }
+            const d = i18n[wikiLang] || i18n['id'];
+            if(!query) { 
+                DOM.searchRes.classList.add('scale-95', 'opacity-0');
+                setTimeout(() => DOM.searchRes.classList.add('hidden'), 300);
+                return; 
+            }
+            
             document.querySelectorAll('mark.search-hl').forEach(m => m.outerHTML = m.innerHTML);
 
             const book = library.find(b => b.id === activeBookId); let results = [];
@@ -1305,8 +1349,10 @@
                     results.push({ id: `node-${idx}`, text: snippet, isTitle: node.tag === 'h1' || node.tag === 'h2' });
                 }
             });
-            if(results.length === 0) DOM.searchRes.innerHTML = '<p class="p-3 text-center opacity-60">Not found.</p>';
-            else {
+            
+            if(results.length === 0) {
+                DOM.searchRes.innerHTML = `<p class="p-3 text-center opacity-60">${d.searchNotFound}</p>`;
+            } else {
                 results.forEach(res => {
                     const btn = document.createElement('button');
                     btn.className = `w-full text-left p-3 hover:bg-black/5 dark:hover:bg-white/5 border-b border-black/5 dark:border-white/5 ${res.isTitle ? 'font-bold text-m3-primary' : ''}`;
@@ -1332,15 +1378,16 @@
                                 setTimeout(() => { target.innerHTML = renderNodeText(nodeText, currentAnnots); }, 1500); 
                             }, 2000);
                         }
-                        DOM.searchBar.classList.add('hidden');
-                        updateBottomNavUI(null);
+                        closeInbookSearch();
                     };
                     DOM.searchRes.appendChild(btn);
                 });
             }
             DOM.searchRes.classList.remove('hidden');
+            requestAnimationFrame(() => {
+                DOM.searchRes.classList.remove('scale-95', 'opacity-0');
+            });
         }
-        DOM.searchInput.addEventListener('keypress', (e) => { if(e.key === 'Enter') executeSearch(); });
 
         function setupIntersectionObserver() {
             if (observer) observer.disconnect(); const totalNodes = DOM.inner.children.length;
@@ -1428,49 +1475,80 @@
             registerAnnotation(newAnnot);
         };
 
-        window.openNoteInput = function() {
-            if(currentSelection.nodeIdx === -1) return;
-            document.getElementById('note-input-text').value = ''; openModal('note-modal', 'note-sheet', true);
+        window.setNoteColor = function(color) {
+            activeNoteColor = color;
+            ['yellow', 'green', 'pink'].forEach(c => {
+                document.getElementById('nc-'+c).classList.remove('ring-m3-primary');
+                document.getElementById('nc-'+c).classList.add('ring-transparent');
+            });
+            document.getElementById('nc-'+color).classList.add('ring-m3-primary');
+            document.getElementById('nc-'+color).classList.remove('ring-transparent');
         };
 
-        window.saveNoteAnnotation = function() {
-            const val = document.getElementById('note-input-text').value.trim();
-            if(!val) { alert("Catatan tidak boleh kosong."); return; }
-            history.back();
-            const newAnnot = { id: 'HL_' + Date.now().toString(), nodeIdx: currentSelection.nodeIdx, text: currentSelection.text, color: 'yellow', note: val };
-            setTimeout(() => { registerAnnotation(newAnnot); }, 300);
+        window.openNoteInput = function() {
+            if(currentSelection.nodeIdx === -1) return;
+            editingAnnotId = null;
+            document.getElementById('note-input-text').value = '';
+            setNoteColor('yellow');
+            document.getElementById('btn-delete-note').classList.add('hidden');
+            openModal('note-modal', 'note-sheet', true);
         };
-        
+
         window.showAnnotationDetails = function(annotId) {
             event.preventDefault(); event.stopPropagation();
             const book = library.find(b => b.id === activeBookId); if(!book || !book.annotations) return;
             const annot = book.annotations.find(a => a.id === annotId); if(!annot) return;
             
-            activeAnnotationId = annot.id;
-            document.getElementById('show-note-hl').textContent = `"${annot.text}"`;
-            const cEl = document.getElementById('show-note-content');
-            if(annot.note) { cEl.textContent = annot.note; cEl.parentElement.classList.remove('hidden'); } 
-            else { cEl.textContent = "(Tidak ada catatan)"; cEl.parentElement.classList.remove('hidden'); }
+            editingAnnotId = annotId;
+            currentSelection = { nodeIdx: annot.nodeIdx, text: annot.text };
             
-            const m = document.getElementById('show-note-modal'); const s = document.getElementById('show-note-sheet');
-            pushAppHistory(`show-note`); m.classList.remove('hidden'); 
-            requestAnimationFrame(() => { m.classList.remove('opacity-0'); s.classList.remove('translate-y-full', 'scale-75'); });
+            document.getElementById('note-input-text').value = annot.note || '';
+            setNoteColor(annot.color || 'yellow');
+            document.getElementById('btn-delete-note').classList.remove('hidden');
+            
+            openModal('note-modal', 'note-sheet', true);
         };
-        
-        window.closeShowNoteModal = function(isFromHistory = false) {
-            if (!isFromHistory) { history.back(); return; }
-            const m = document.getElementById('show-note-modal'); const s = document.getElementById('show-note-sheet');
-            s.classList.add('translate-y-full', 'scale-75'); m.classList.add('opacity-0'); 
-            setTimeout(() => m.classList.add('hidden'), 300); activeAnnotationId = null;
+
+        window.saveNoteAnnotation = function() {
+            const val = document.getElementById('note-input-text').value.trim();
+            history.back();
+            
+            if(editingAnnotId) {
+                const bookIndex = library.findIndex(b => b.id === activeBookId);
+                if(bookIndex > -1) {
+                    const annotIndex = library[bookIndex].annotations.findIndex(a => a.id === editingAnnotId);
+                    if(annotIndex > -1) {
+                        library[bookIndex].annotations[annotIndex].note = val;
+                        library[bookIndex].annotations[annotIndex].color = activeNoteColor;
+                        localforage.setItem('pdf_epub_master', library).then(() => {
+                            const nodeIdx = library[bookIndex].annotations[annotIndex].nodeIdx;
+                            const nodeEl = document.getElementById(`node-${nodeIdx}`);
+                            if(nodeEl) nodeEl.innerHTML = renderNodeText(library[bookIndex].nodes[nodeIdx].text, library[bookIndex].annotations.filter(a => a.nodeIdx === nodeIdx));
+                        });
+                    }
+                }
+            } else {
+                const newAnnot = { id: 'HL_' + Date.now().toString(), nodeIdx: currentSelection.nodeIdx, text: currentSelection.text, color: activeNoteColor, note: val };
+                setTimeout(() => { registerAnnotation(newAnnot); }, 300);
+            }
+        };
+
+        window.deleteNoteInsideModal = function() {
+            const d = i18n[wikiLang] || i18n['id'];
+            if(confirm(d.deleteNoteConfirm)) {
+                activeAnnotationId = editingAnnotId;
+                deleteAnnotationById();
+                history.back();
+            }
         }
 
         window.deleteAnnotationById = async function() {
-            if(!activeAnnotationId || !activeBookId) return; if(!confirm("Hapus catatan/sorotan ini?")) return;
+            if(!activeAnnotationId || !activeBookId) return; 
             const bookIndex = library.findIndex(b => b.id === activeBookId); if(bookIndex === -1) return;
             const book = library[bookIndex]; const annotIndex = book.annotations.findIndex(a => a.id === activeAnnotationId); if(annotIndex === -1) return;
             
             const nodeIdx = book.annotations[annotIndex].nodeIdx; book.annotations.splice(annotIndex, 1);
-            await localforage.setItem('pdf_epub_master', library); closeShowNoteModal();
+            await localforage.setItem('pdf_epub_master', library);
             
             const nodeEl = document.getElementById(`node-${nodeIdx}`);
             if(nodeEl && book.nodes[nodeIdx]) {
@@ -1481,6 +1559,7 @@
 
         window.lookupDictionary = async function() {
             if(currentSelection.nodeIdx === -1) return; const term = currentSelection.text; hideSelectionMenu();
+            const d = i18n[wikiLang] || i18n['id'];
             
             document.getElementById('ai-term').textContent = term;
             document.getElementById('ai-loading').classList.remove('hidden'); document.getElementById('ai-content').innerHTML = '';
@@ -1518,7 +1597,7 @@
                         if (dataDict && dataDict.length > 0) {
                             const meanings = dataDict[0].meanings;
                             let meaningsHtml = meanings.slice(0, 2).map(m => {
-                                const defs = m.definitions.slice(0, 2).map(d => `<li class="mb-1">${d.definition}</li>`).join('');
+                                const defs = m.definitions.slice(0, 2).map(def => `<li class="mb-1">${def.definition}</li>`).join('');
                                 return `<div class="mb-2"><span class="italic text-xs font-bold text-m3-primary">${m.partOfSpeech}</span><ul class="list-disc pl-4 mt-1 text-sm">${defs}</ul></div>`;
                             }).join('');
                             dictHtml += `<div class="mt-4 pt-4 border-t border-m3-onSurfaceVariant/10"><p class="mb-2 text-xs text-m3-onSurfaceVariant/60 font-bold uppercase tracking-wider block">Dictionary (EN)</p>${meaningsHtml}</div>`;
@@ -1533,7 +1612,7 @@
                             const entries = dataWikt[langCode];
                             entries.slice(0, 2).forEach(entry => {
                                 if(entry.definitions && entry.definitions.length > 0) {
-                                    const defs = entry.definitions.slice(0, 2).map(d => { let text = d.definition.replace(/<[^>]*>?/gm, ''); return `<li class="mb-1">${text}</li>`; }).join('');
+                                    const defs = entry.definitions.slice(0, 2).map(def => { let text = def.definition.replace(/<[^>]*>?/gm, ''); return `<li class="mb-1">${text}</li>`; }).join('');
                                     wiktMeanings += `<div class="mb-2"><span class="italic text-xs font-bold text-m3-primary">${entry.partOfSpeech || 'Word'}</span><ul class="list-disc pl-4 mt-1 text-sm">${defs}</ul></div>`;
                                 }
                             });
@@ -1544,7 +1623,7 @@
 
                 const extLinks = `
                     <div class="mt-4 pt-4 border-t border-m3-onSurfaceVariant/10 flex gap-2 flex-wrap items-center">
-                        <span class="text-xs font-bold opacity-50 uppercase tracking-wider w-full mb-1">Pencarian Eksternal Lainnya:</span>
+                        <span class="text-xs font-bold opacity-50 uppercase tracking-wider w-full mb-1">External Search:</span>
                         <a href="https://${wikiLang}.wikipedia.org/wiki/Special:Search?search=${q}" target="_blank" class="text-m3-primary/90 hover:text-m3-primary font-bold inline-flex items-center gap-1 text-xs bg-m3-primary/10 hover:bg-m3-primary/20 transition-all px-3 py-1.5 rounded-full">Wiki <i data-lucide="external-link" class="w-3 h-3"></i></a>
                         <a href="https://kbbi.web.id/${q}" target="_blank" class="text-m3-primary/90 hover:text-m3-primary font-bold inline-flex items-center gap-1 text-xs bg-m3-primary/10 hover:bg-m3-primary/20 transition-all px-3 py-1.5 rounded-full">KBBI <i data-lucide="external-link" class="w-3 h-3"></i></a>
                     </div>
@@ -1554,7 +1633,7 @@
                     document.getElementById('ai-content').innerHTML = `
                         <div class="flex flex-col items-center justify-center p-4 opacity-50 mb-2">
                             <i data-lucide="ghost" class="w-10 h-10 mb-3"></i>
-                            <p class="text-center font-medium">Tidak ditemukan di Wiki/Kamus.</p>
+                            <p class="text-center font-medium">${d.searchNotFound}</p>
                         </div>
                         ${extLinks}
                     `;
@@ -1563,7 +1642,7 @@
                 }
                 if(window.lucide) window.lucide.createIcons();
             } catch(e) {
-                document.getElementById('ai-content').innerHTML = `<p class="text-red-500 font-bold">Koneksi internet bermasalah.</p>`;
+                document.getElementById('ai-content').innerHTML = `<p class="text-red-500 font-bold">${d.noInternet}</p>`;
             } finally {
                 window.getSelection().removeAllRanges(); document.getElementById('ai-loading').classList.add('hidden');
             }
@@ -1590,13 +1669,14 @@
         });
 
         async function handlePdf(file, bookTitle) {
-            DOM.loadTxt.textContent = `Opening PDF...`;
+            const d = i18n[wikiLang] || i18n['id'];
+            DOM.loadTxt.textContent = "Opening PDF...";
             const arrayBuffer = await file.arrayBuffer(); const pdf = await pdfjsLib.getDocument({ data: arrayBuffer }).promise; const numPages = pdf.numPages;
             if(numPages === 0) throw new Error("Document is empty.");
             let allItems = []; let coverBase64 = null;
             
             try {
-                DOM.loadTxt.textContent = "Extracting Cover...";
+                DOM.loadTxt.textContent = d.extractingCover;
                 const page1 = await pdf.getPage(1); const viewport = page1.getViewport({ scale: 0.8 });
                 const canvas = document.createElement('canvas'); const ctx = canvas.getContext('2d');
                 canvas.height = viewport.height; canvas.width = viewport.width;
@@ -1606,7 +1686,7 @@
             for (let i = 1; i <= numPages; i++) {
                 const pct = Math.round((i / numPages) * 100);
                 if(i % 5 === 0 || i === numPages) await new Promise(r => setTimeout(r, 0));
-                DOM.loadBar.style.width = `${pct}%`; DOM.loadPct.textContent = `${pct}%`; DOM.loadTxt.textContent = `Reading Page ${i}`;
+                DOM.loadBar.style.width = `${pct}%`; DOM.loadPct.textContent = `${pct}%`; DOM.loadTxt.textContent = `${d.readingPage} ${i}`;
 
                 const page = await pdf.getPage(i); const viewport = page.getViewport({ scale: 1.0 }); const pageHeight = viewport.height;
                 const textContent = await page.getTextContent();
@@ -1618,7 +1698,7 @@
                     allItems.push({ text: item.str, height: item.transform[0], y: yPos });
                 });
             }
-            DOM.loadTxt.textContent = "Formatting Text..."; await new Promise(r => setTimeout(r, 50));
+            DOM.loadTxt.textContent = d.formattingText; await new Promise(r => setTimeout(r, 50));
             if(allItems.length === 0) throw new Error("This PDF only contains images.");
 
             const avgHeight = allItems.reduce((acc, i) => acc + i.height, 0) / allItems.length;
@@ -1656,14 +1736,15 @@
         }
 
         async function handleEpub(file, bookTitle) {
-            DOM.loadTxt.textContent = "Extracting EPUB..."; DOM.loadBar.style.width = '10%'; DOM.loadPct.textContent = '10%';
+            const d = i18n[wikiLang] || i18n['id'];
+            DOM.loadTxt.textContent = d.extractingEpub; DOM.loadBar.style.width = '10%'; DOM.loadPct.textContent = '10%';
             const zip = await JSZip.loadAsync(file);
             const containerData = await zip.file("META-INF/container.xml").async("string");
             const containerDom = new DOMParser().parseFromString(containerData, "text/xml");
             const rootfile = containerDom.querySelector("rootfile"); if (!rootfile) throw new Error("Invalid or corrupted EPUB file.");
             const opfPath = rootfile.getAttribute("full-path"); const basePath = opfPath.includes('/') ? opfPath.substring(0, opfPath.lastIndexOf('/') + 1) : '';
 
-            DOM.loadTxt.textContent = "Analyzing Structure...";
+            DOM.loadTxt.textContent = d.analyzingStruct;
             const opfData = await zip.file(opfPath).async("string"); const opfDom = new DOMParser().parseFromString(opfData, "text/xml");
             const manifest = {}; opfDom.querySelectorAll("manifest > item").forEach(item => { manifest[item.getAttribute("id")] = item.getAttribute("href"); });
             const spine = []; opfDom.querySelectorAll("spine > itemref").forEach(ref => { spine.push(manifest[ref.getAttribute("idref")]); });
@@ -1677,7 +1758,7 @@
             let parsedNodes = [];
             for (let i = 0; i < spine.length; i++) {
                 const pct = Math.round(((i+1) / spine.length) * 80) + 20;
-                DOM.loadBar.style.width = `${pct}%`; DOM.loadPct.textContent = `${pct}%`; DOM.loadTxt.textContent = `Extracting Chapter ${i+1}/${spine.length}`;
+                DOM.loadBar.style.width = `${pct}%`; DOM.loadPct.textContent = `${pct}%`; DOM.loadTxt.textContent = `${d.extractingChapter} ${i+1}/${spine.length}`;
                 await new Promise(r => setTimeout(r, 0));
 
                 const htmlPath = basePath + spine[i]; const htmlFile = zip.file(htmlPath); if(!htmlFile) continue;
@@ -1709,7 +1790,7 @@
 
         if ('serviceWorker' in navigator) {
             const swCode = `
-            const CACHE_NAME = 'baca-pwa-v3';
+            const CACHE_NAME = 'baca-pwa-v4';
             self.addEventListener('install', (e) => {
                 self.skipWaiting();
                 e.waitUntil(caches.open(CACHE_NAME).then(c => c.addAll([
@@ -1727,17 +1808,6 @@
     <script>
         document.addEventListener("DOMContentLoaded", () => {
             setTimeout(() => {
-                if (window.Capacitor && window.Capacitor.Plugins && window.Capacitor.Plugins.App) {
-                    window.Capacitor.Plugins.App.addListener('backButton', () => {
-                        window.history.back();
-                    });
-                }
-            }, 500);
-        });
-    </script>
-    <script>
-        document.addEventListener("DOMContentLoaded", () => {
-            setTimeout(() => {
                 if (window.Capacitor && window.Capacitor.Plugins) {
                     const capApp = window.Capacitor.Plugins.App;
                     const capStatusBar = window.Capacitor.Plugins.StatusBar;
@@ -1751,6 +1821,7 @@
             }, 500);
         });
     </script>
-
 </body>
 </html>
+
+```
