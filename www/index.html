@@ -334,10 +334,10 @@
         </div>
     </div>
 
-    <!-- Global Settings Modal -->
+    <!-- Global Settings Modal (Sekarang bisa di-scroll) -->
     <div id="global-settings-modal" onclick="if(event.target === this) history.back()" class="hidden modal-overlay fixed inset-0 bg-black/60 z-[100] flex items-end justify-center opacity-0">
-        <div class="modal-content bg-m3-surface w-full max-w-md rounded-t-[48px] p-6 pb-12 transform translate-y-full border-none" id="global-settings-sheet">
-            <div class="w-12 h-1.5 bg-m3-onSurfaceVariant/30 rounded-full mx-auto mb-6"></div>
+        <div class="modal-content bg-m3-surface w-full max-w-md rounded-t-[48px] p-6 pb-12 transform translate-y-full border-none max-h-[90dvh] overflow-y-auto hide-scroll" id="global-settings-sheet">
+            <div class="w-12 h-1.5 bg-m3-onSurfaceVariant/30 rounded-full mx-auto mb-6 shrink-0 sticky top-0"></div>
             <h3 id="str-set-main-title" class="text-2xl font-bold mb-6 text-m3-onSurface">Pengaturan</h3>
             
             <div class="flex items-center justify-between mb-2 bg-m3-surfaceVariant p-2 pl-5 rounded-full cursor-pointer btn-morph" onclick="toggleThemeState()">
@@ -357,7 +357,7 @@
                 </div>
             </div>
 
-            <!-- Palet Warna 10 Item (Warm Teal Ganti Merah) -->
+            <!-- Palet Warna 10 Item -->
             <h4 id="str-set-palette" class="text-xs font-bold opacity-70 mb-3 px-1 uppercase tracking-wider">Palet Tema</h4>
             <div class="grid grid-cols-5 gap-3 mb-4">
                 <button onclick="setTheme('purple')" class="btn-morph w-full aspect-square rounded-2xl bg-[#6750A4]"></button>
@@ -376,6 +376,18 @@
             <div class="capsule-group bg-m3-surfaceVariant p-1 rounded-full mb-4">
                 <button id="wiki-lang-id" onclick="setWikiLang('id')" class="capsule-btn py-3 font-bold text-xs text-m3-onSurfaceVariant">Indonesia</button>
                 <button id="wiki-lang-en" onclick="setWikiLang('en')" class="capsule-btn py-3 font-bold text-xs text-m3-onSurfaceVariant">English</button>
+            </div>
+
+            <!-- Fitur Data Backup / Restore -->
+            <h4 id="str-set-data" class="text-xs font-bold opacity-70 mb-3 px-1 mt-6 uppercase tracking-wider">Data Aplikasi</h4>
+            <div class="flex gap-2 mb-4">
+                <button onclick="exportData()" class="flex-1 flex flex-col items-center justify-center gap-2 p-3 bg-m3-surfaceVariant text-m3-onSurfaceVariant rounded-2xl font-bold btn-morph text-xs">
+                    <i data-lucide="download" class="w-5 h-5"></i> <span id="str-btn-backup">Backup</span>
+                </button>
+                <button onclick="document.getElementById('import-upload').click()" class="flex-1 flex flex-col items-center justify-center gap-2 p-3 bg-m3-surfaceVariant text-m3-onSurfaceVariant rounded-2xl font-bold btn-morph text-xs">
+                    <i data-lucide="upload" class="w-5 h-5"></i> <span id="str-btn-restore">Pulihkan</span>
+                </button>
+                <input type="file" id="import-upload" accept=".json" class="hidden" onchange="importData(event)">
             </div>
 
             <h4 id="str-set-info" class="text-xs font-bold opacity-70 mb-3 px-1 mt-6 uppercase tracking-wider">Info & Dukungan</h4>
@@ -496,7 +508,7 @@
     <script>
         pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.16.105/pdf.worker.min.js';
 
-        // 10 Tema dengan Hijau Hangat (Teal) menggantikan Merah
+        // 10 Tema
         const M3_PALETTES = {
             purple: { light: `--md-sys-color-primary:#6750A4;--md-sys-color-on-primary:#FFFFFF;--md-sys-color-primary-container:#EADDFF;--md-sys-color-on-primary-container:#21005D;--md-sys-color-secondary-container:#E8DEF8;--md-sys-color-on-secondary-container:#1D192B;--md-sys-color-tertiary-container:#FFD8E4;--md-sys-color-on-tertiary-container:#31111D;--md-sys-color-background:#FEF7FF;--md-sys-color-on-background:#1D1B20;--md-sys-color-surface:#FEF7FF;--md-sys-color-on-surface:#1D1B20;--md-sys-color-surface-variant:#E7E0EC;--md-sys-color-on-surface-variant:#49454F;`, dark: `--md-sys-color-primary:#D0BCFF;--md-sys-color-on-primary:#381E72;--md-sys-color-primary-container:#4F378B;--md-sys-color-on-primary-container:#EADDFF;--md-sys-color-secondary-container:#4A4458;--md-sys-color-on-secondary-container:#E8DEF8;--md-sys-color-tertiary-container:#633B48;--md-sys-color-on-tertiary-container:#FFD8E4;--md-sys-color-background:#141218;--md-sys-color-on-background:#E6E0E9;--md-sys-color-surface:#141218;--md-sys-color-on-surface:#E6E0E9;--md-sys-color-surface-variant:#49454F;--md-sys-color-on-surface-variant:#CAC4D0;` },
             green: { light: `--md-sys-color-primary:#006C4C;--md-sys-color-on-primary:#FFFFFF;--md-sys-color-primary-container:#89F8D6;--md-sys-color-on-primary-container:#002114;--md-sys-color-secondary-container:#CCE8DB;--md-sys-color-on-secondary-container:#052016;--md-sys-color-tertiary-container:#BEEAF6;--md-sys-color-on-tertiary-container:#001F29;--md-sys-color-background:#FBFDF8;--md-sys-color-on-background:#191C1A;--md-sys-color-surface:#FBFDF8;--md-sys-color-on-surface:#191C1A;--md-sys-color-surface-variant:#DBE5DD;--md-sys-color-on-surface-variant:#404943;`, dark: `--md-sys-color-primary:#6CDBBA;--md-sys-color-on-primary:#003825;--md-sys-color-primary-container:#005138;--md-sys-color-on-primary-container:#89F8D6;--md-sys-color-secondary-container:#334B3F;--md-sys-color-on-secondary-container:#CCE8DB;--md-sys-color-tertiary-container:#204D59;--md-sys-color-on-tertiary-container:#BEEAF6;--md-sys-color-background:#111412;--md-sys-color-on-background:#E1E3DF;--md-sys-color-surface:#111412;--md-sys-color-on-surface:#E1E3DF;--md-sys-color-surface-variant:#404943;--md-sys-color-on-surface-variant:#BFC9C3;` },
@@ -538,25 +550,22 @@
             });
         }
 
-        // SCROLL LISTENER BUAT CAPSULE HEADER
         let lastScrollTop = 0;
         DOM.readContent.addEventListener('scroll', () => {
             const bottomBar = document.getElementById('reader-bottom-bar');
-            if (bottomBar.classList.contains('hidden')) return; // Kalau lagi mode imersif, jgn munculin headernya
+            if (bottomBar.classList.contains('hidden')) return;
 
             const currentScroll = DOM.readContent.scrollTop;
             const header = document.getElementById('reader-floating-header');
             
             if (currentScroll > lastScrollTop && currentScroll > 50) {
-                // Scrolling down, sembunyikan ke atas
                 header.classList.add('-translate-y-[150%]', 'opacity-0');
                 header.classList.remove('translate-y-0', 'opacity-100');
             } else {
-                // Scrolling up, tampilkan kembali
                 header.classList.remove('-translate-y-[150%]', 'opacity-0');
                 header.classList.add('translate-y-0', 'opacity-100');
             }
-            lastScrollTop = currentScroll <= 0 ? 0 : currentScroll; // Atasi rubber-banding di mobile
+            lastScrollTop = currentScroll <= 0 ? 0 : currentScroll;
         }, { passive: true });
 
         function updateBottomNavUI(activeId) {
@@ -652,6 +661,7 @@
                 welPrivacy: "Privasi Total", welPrivacyDesc: "Diproses secara lokal di perangkat Anda.", welBtn: "Mengerti",
                 setMainTitle: "Pengaturan", setPalette: "Palet Tema", setLang: "Bahasa", setInfo: "Info & Dukungan",
                 btnInfo: "Lihat Instruksi", btnDonate: "Traktir Kopi (Donasi)", btnClose: "Tutup",
+                setData: "Data Aplikasi", btnBackup: "Backup", btnRestore: "Pulihkan",
                 navBack: "Kembali", navToc: "Daftar Isi", navSearch: "Pencarian", navText: "Teks", navFull: "Penuh",
                 readerLoading: "Memuat Buku...", tocTitle: "Daftar Isi", setTitle: "Tampilan",
                 setTheme: "Mode Tema", setSize: "Ukuran Teks", setAlign: "Perataan Teks", setFont: "Jenis Font",
@@ -674,6 +684,7 @@
                 welPrivacy: "Total Privacy", welPrivacyDesc: "Processed locally on your device.", welBtn: "Got it",
                 setMainTitle: "Settings", setPalette: "Theme Palette", setLang: "Language", setInfo: "Info & Support",
                 btnInfo: "View Instructions", btnDonate: "Buy Me a Coffee", btnClose: "Close",
+                setData: "App Data", btnBackup: "Backup", btnRestore: "Restore",
                 navBack: "Back", navToc: "Contents", navSearch: "Search", navText: "Text", navFull: "Full",
                 readerLoading: "Loading Book...", tocTitle: "Table of Contents", setTitle: "Appearance",
                 setTheme: "Theme Mode", setSize: "Text Size", setAlign: "Text Alignment", setFont: "Font Family",
@@ -703,6 +714,7 @@
             
             setElementText('str-set-main-title', d.setMainTitle); setElementText('str-set-palette', d.setPalette);
             setElementText('str-set-lang', d.setLang); setElementText('str-set-info', d.setInfo);
+            setElementText('str-set-data', d.setData); setElementText('str-btn-backup', d.btnBackup); setElementText('str-btn-restore', d.btnRestore);
             setElementText('str-btn-info', d.btnInfo); setElementText('str-btn-donate', d.btnDonate);
             setElementText('str-btn-close', d.btnClose);
             
@@ -734,6 +746,62 @@
             if (themeLabel) themeLabel.textContent = isDark ? d.themeDark : d.themeLight;
 
             updateBatchSelectionUI();
+        };
+
+        // FITUR BACKUP & RESTORE DATA
+        window.exportData = async function() {
+            try {
+                const data = await localforage.getItem('pdf_epub_master');
+                if (!data || data.length === 0) {
+                    alert(wikiLang === 'id' ? "Tidak ada buku untuk di-backup." : "No books to backup.");
+                    return;
+                }
+                const dataStr = JSON.stringify(data);
+                const blob = new Blob([dataStr], { type: "application/json" });
+                const url = URL.createObjectURL(blob);
+                const a = document.createElement('a');
+                a.href = url;
+                const date = new Date().toISOString().split('T')[0];
+                a.download = `Baca_Backup_${date}.json`;
+                document.body.appendChild(a);
+                a.click();
+                document.body.removeChild(a);
+                URL.revokeObjectURL(url);
+            } catch (err) {
+                console.error("Backup failed:", err);
+                alert("Backup gagal: " + err.message);
+            }
+        };
+
+        window.importData = function(event) {
+            const file = event.target.files[0];
+            if (!file) return;
+            const reader = new FileReader();
+            reader.onload = async function(e) {
+                try {
+                    const contents = e.target.result;
+                    const parsedData = JSON.parse(contents);
+                    if (!Array.isArray(parsedData)) throw new Error("Format file tidak valid.");
+                    
+                    const isValid = parsedData.every(b => b.id && b.title && b.nodes);
+                    if (!isValid) throw new Error("File backup rusak atau tidak kompatibel.");
+                    
+                    const confirmMsg = wikiLang === 'id' ? "PERINGATAN: Semua data buku saat ini akan tertimpa oleh file backup. Anda yakin ingin melanjutkan?" : "WARNING: Current books will be completely replaced by the backup. Continue?";
+                    if (confirm(confirmMsg)) {
+                        await localforage.setItem('pdf_epub_master', parsedData);
+                        library = parsedData;
+                        renderLibrary(DOM.globalSearch.value);
+                        alert(wikiLang === 'id' ? "Pemulihan data berhasil!" : "Data restored successfully!");
+                        _closeModalAction('global-settings-modal', 'global-settings-sheet', false, false);
+                    }
+                } catch (err) {
+                    console.error("Restore failed:", err);
+                    alert((wikiLang === 'id' ? "Gagal memulihkan: " : "Failed to restore: ") + err.message);
+                } finally {
+                    event.target.value = ''; 
+                }
+            };
+            reader.readAsText(file);
         };
 
         window.triggerSelectMode = function() {
@@ -941,14 +1009,12 @@
             const progContainer = document.getElementById('progress-container');
             const exitBtn = document.getElementById('btn-exit-fullscreen');
             
-            // Header dipaksa sembunyi saat mode fullscreen murni
             const floatHeader = document.getElementById('reader-floating-header');
             
             if (bottomBar.classList.contains('hidden')) {
                 bottomBar.classList.remove('hidden'); 
                 progContainer.classList.remove('hidden');
                 exitBtn.classList.add('hidden');
-                // Kembalikan header sesuai posisi scroll
                 floatHeader.classList.remove('-translate-y-[150%]', 'opacity-0');
                 floatHeader.classList.add('translate-y-0', 'opacity-100');
             } else {
@@ -1043,7 +1109,8 @@
             const handleStart = (e) => {
                 if (isBatchDeleteMode) return;
                 isPressing = true; hasLongPressed = false;
-                pressTimer = setTimeout(() => { if (isPressing) { hasLongPressed = true; window.openBookOptions(book.id); } }, 850);
+                // PERBAIKAN WAKTU TEKAN (Long Press) -> dipercepat jadi 400ms
+                pressTimer = setTimeout(() => { if (isPressing) { hasLongPressed = true; window.openBookOptions(book.id); } }, 400);
             };
             const handleEnd = () => { isPressing = false; clearTimeout(pressTimer); };
             const handleMove = () => { isPressing = false; clearTimeout(pressTimer); };
@@ -1259,7 +1326,6 @@
                 if(hCounter === 0) DOM.tocList.innerHTML = "<p class='text-sm opacity-50 block p-3'>No Table of Contents.</p>";
                 DOM.searchRes.classList.add('hidden'); DOM.searchInput.value = '';
 
-                // Set ulang header
                 const header = document.getElementById('reader-floating-header');
                 header.classList.remove('-translate-y-[150%]', 'opacity-0');
                 header.classList.add('translate-y-0', 'opacity-100');
@@ -1369,7 +1435,6 @@
                                 setTimeout(() => { target.innerHTML = renderNodeText(nodeText, currentAnnots); }, 1500); 
                             }, 2000);
                         }
-                        // Panel langsung tertutup sesaat setelah ditekan (kembali ke state sebelumnya)
                         history.back();
                     };
                     DOM.searchRes.appendChild(btn);
