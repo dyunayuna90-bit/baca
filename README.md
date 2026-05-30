@@ -4,8 +4,7 @@
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg?style=for-the-badge)](https://opensource.org/licenses/MIT)
 [![Download Latest Release](https://img.shields.io/github/v/release/dyunayuna90-bit/baca.?style=for-the-badge&logo=android&color=3DDC84&label=DOWNLOAD%20APK)](https://github.com/dyunayuna90-bit/baca./releases/latest)
 
-**Baca.** is a revolutionary web-based e-book reader (EPUB & PDF) designed with a strong emphasis on user privacy and interface aesthetics. Built entirely on web native technologies without any third-party server mediation—all your documents are processed and stored locally on your device.
-Release
+**Baca.** Baca. is a lightweight, local-first e-book reader (EPUB & PDF) built because I wanted a beautiful reading experience without the bloat. It runs entirely on web-native tech with zero backend. No servers, no tracking, no cloud uploads. Your books are processed and stored 100% locally on your device for absolute privacy.
 
 <img width="3264" height="1836" alt="20260530_151407" src="https://github.com/user-attachments/assets/55c85162-c2f3-40a6-8e83-480fde8fa934" />
 
@@ -26,10 +25,19 @@ The UI of **Baca.** is anything but static. We deeply adopted the **Material 3 E
  * **In-Book Search Engine:** A highly intuitive search bar integrated right into the side panel. Instantly sweeps through the book and auto-scrolls to the exact highlighted paragraph.
  * **Typography Control:** Ultimate reading comfort. Adjust text size, paragraph alignment, and pick from premium fonts (*Lora, Merriweather, Playfair, Inter, Space Mono*).
  * **Bilingual Support:** Interface is fully available in English and Indonesian.
+
+## 🤔 Why Baca? (And not the others?)
+
+Most e-book readers on the market fall into two frustrating extremes: they are either heavily bloated with ads, expensive cloud subscriptions, and useless features (like robotic text-to-speech that ruins your focus), or they are free but feature a clunky, outdated UI from 2010.
+
+**Baca.** exists to break that compromise. The logic is simple:
+
+* **Zero Feature Creep (Only ~4MB):** We don't shove unnecessary tools down your throat. No robotic voices, no social sharing buttons, no bloatware. Just a pure, uncompromised visual reading experience.
+* **Open-Source Doesn't Mean Ugly:** Just because an app is free doesn't mean it should look cheap. By deeply integrating Material 3 Expressive, navigating your library actually feels fluid and satisfying.
+* **True Local Privacy:** Most "free" apps harvest your reading habits or force you to upload your PDFs to their servers. Baca is strictly local-first. Your academic journals and personal books are parsed and stored locally on your device via IndexedDB. Zero servers involved.
    
 ## 📦 Download & Installation
 [![Download Latest Release](https://img.shields.io/github/v/release/dyunayuna90-bit/baca.?style=for-the-badge&logo=android&color=3DDC84&label=DOWNLOAD%20APK)](https://github.com/dyunayuna90-bit/baca./releases/latest)
-
 
 ## 🛠️ Tech Stack
 ![HTML5](https://img.shields.io/badge/html5-%23E34F26.svg?style=for-the-badge&logo=html5&logoColor=white)
