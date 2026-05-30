@@ -132,7 +132,7 @@
             <div id="search-area" class="search-row transition-shadow duration-300">
                 <div class="search-capsule bg-m3-secondaryContainer text-m3-onSecondaryContainer p-1.5 rounded-full px-4 relative">
                     <i data-lucide="search" id="search-icon-lib" class="w-5 h-5 opacity-70 text-m3-onSecondaryContainer shrink-0 absolute left-4 transition-transform duration-300 pointer-events-none"></i>
-                    <input type="text" id="global-search" placeholder="..." class="w-full bg-transparent border-none outline-none py-2.5 pl-8 pr-2 font-bold text-m3-onSecondaryContainer placeholder:text-m3-onSecondaryContainer/70 text-sm">
+                    <input type="text" id="global-search" placeholder="..." class="w-full bg-transparent border-none outline-none py-2.5 pl-8 pr-2 font-bold text-m3-onSurface placeholder:text-m3-onSurface/50 text-sm">
                 </div>
                 <button onclick="openModal('global-settings-modal', 'global-settings-sheet')" id="settings-btn" class="btn-morph btn-settings flex items-center justify-center bg-m3-surfaceVariant text-m3-onSurfaceVariant">
                     <i data-lucide="settings"></i>
@@ -851,7 +851,7 @@
             setTimeout(() => m.classList.add('hidden'), 300);
         };
 
-        // FITUR BACKUP RAW TEXT (Anti-WebView Blokir)
+        // FITUR BACKUP HYBRID (Capacitor File System + Fallback Raw Tanpa Gambar)
         window.exportData = async function() {
             try {
                 const data = await localforage.getItem('pdf_epub_master');
@@ -859,9 +859,64 @@
                     showDialog("Info", wikiLang === 'id' ? "Ga ada buku untuk di-backup." : "No books to backup.", "info", [{ text: "Oke", primary: true }]);
                     return;
                 }
-                const dataStr = JSON.stringify(data);
+
+                // PLAN A: CEK JIKA BERJALAN DI DALAM APK CAPACITOR (ANDROID)
+                if (window.Capacitor && window.Capacitor.Plugins && window.Capacitor.Plugins.Filesystem) {
+                    const d = new Date();
+                    const fileName = `Baca_Backup_${d.getFullYear()}${('0'+(d.getMonth()+1)).slice(-2)}${('0'+d.getDate()).slice(-2)}_${d.getTime()}.json`;
+                    
+                    // Backup Full (beserta gambar)
+                    const fullDataStr = JSON.stringify(data);
+                    
+                    try {
+                        // Tembus batas WebView: Tulis file langsung ke folder Documents
+                        await window.Capacitor.Plugins.Filesystem.writeFile({
+                            path: fileName,
+                            data: fullDataStr,
+                            directory: 'DOCUMENTS',
+                            encoding: 'utf8'
+                        });
+                        
+                        showDialog(
+                            wikiLang === 'id' ? "Backup Sukses" : "Backup Success", 
+                            wikiLang === 'id' ? `File backup berhasil disimpan di folder Documents HP lu.\nNama file: ${fileName}` : `Backup file saved in your device's Documents folder.\nFile name: ${fileName}`, 
+                            "check-circle", 
+                            [{ text: "Mantap", primary: true }]
+                        );
+                        return; // Stop di sini, proses sukses 100%
+                    } catch (fsError) {
+                        console.log("Capacitor write gagal, beralih ke teks raw.", fsError);
+                    }
+                }
                 
-                // Selalu tampilkan modal raw copy biar fail-safe di mana aja
+                // PLAN B: FALLBACK COPY TEXT (Jika Plan A gagal / jalan di Browser)
+                // LOGIKA: Hapus coverBase64 dari JSON biar ukuran gak bengkak dan aman di clipboard
+                const textOnlyData = data.map(book => {
+                    let strippedBook = { ...book };
+                    delete strippedBook.coverBase64; // BUANG GAMBAR
+                    return strippedBook;
+                });
+                
+                const rawStr = JSON.stringify(textOnlyData);
+                document.getElementById('raw-backup-textarea').value = rawStr;
+                openModal('raw-backup-modal', 'raw-backup-sheet', true);
+                
+                // Kasih tau user kalo sampulnya dikorbanin
+                setTimeout(() => {
+                     showDialog("Info Fallback", 
+                        wikiLang === 'id' ? 
+                        "Simpan file native gagal. Ini adalah teks mentahnya.\n\nCATATAN: Demi menghindari error sistem (ukuran file terlalu besar), data Sampul Buku otomatis DIHAPUS pada versi ini. Data teks buku tetap aman." : 
+                        "Native file save failed. This is the raw text.\n\nNOTE: To prevent system memory errors, Book Covers are REMOVED in this version. Text data is safe.", 
+                        "info", [{ text: "Mengerti", primary: true }]);
+                }, 400);
+                
+            } catch (err) {
+                console.error("Backup failed:", err);
+                showDialog("Error", "Backup gagal: " + err.message, "alert-triangle", [{ text: "Tutup", primary: true }]);
+            }
+        };
+
+                // FALLBACK: Kalau dibuka di Browser web biasa, tampilkan text (tetap bengkak kalo ada gambar)
                 document.getElementById('raw-backup-textarea').value = dataStr;
                 openModal('raw-backup-modal', 'raw-backup-sheet', true);
                 
