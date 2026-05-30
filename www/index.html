@@ -123,7 +123,7 @@
     <!-- VIEW: LIBRARY -->
     <div id="library-view" class="absolute inset-0 flex flex-col overflow-hidden transition-transform duration-500 origin-bottom bg-m3-bg z-10 w-full">
         
-        <!-- Header main menu agak diturunkan ke bawah via pt-[... + 4.5rem] -->
+        <!-- Header main menu -->
         <header id="main-header" class="flex-none sticky top-0 z-40 bg-m3-bg pt-[calc(env(safe-area-inset-top,0px)+4.5rem)] pb-5 px-5 transition-shadow duration-300">
             <div id="title-area" class="mb-4">
                 <h1 class="text-4xl font-bold tracking-tighter mb-1 text-m3-onBg">Baca.</h1>
@@ -223,7 +223,7 @@
                 
                 <div class="space-y-6 pb-20">
                     
-                    <!-- FITUR PENCARIAN (Murni Input) -->
+                    <!-- FITUR PENCARIAN -->
                     <div>
                         <label id="str-set-search" class="text-xs font-bold opacity-70 block mb-3 uppercase tracking-wider">Pencarian</label>
                         <div class="search-capsule bg-m3-surface p-1 rounded-full relative flex items-center h-14 border border-m3-onSurface/10 transition-all duration-300">
@@ -276,7 +276,7 @@
             <div id="reading-progress-bar" class="h-full bg-m3-primary progress-smooth w-0"></div>
         </div>
 
-        <!-- BOTTOM NAV BAR (Sisa 4 tombol) -->
+        <!-- BOTTOM NAV BAR -->
         <div id="reader-bottom-bar" class="bg-m3-surfaceVariant px-2 pt-2 pb-[calc(env(safe-area-inset-bottom,0px)+0.5rem)] shrink-0 z-40 relative">
             <div class="capsule-group bg-transparent rounded-full h-[60px]">
                 <button id="btn-back" class="capsule-btn flex-col gap-1 text-m3-onSurfaceVariant transition-all">
@@ -311,10 +311,11 @@
                 <h2 id="str-wel-title" class="text-3xl font-bold text-m3-onSurface mb-2 tracking-tight">Selamat Datang di Baca.</h2>
                 <p id="str-wel-desc" class="text-m3-onSurfaceVariant mb-8 font-medium">Harap baca instruksi berikut untuk pengalaman membaca yang optimal.</p>
                 <div class="flex flex-col gap-4">
+                    <!-- Instruksi Backup & Restore (menggantikan PWA/Instalasi) -->
                     <div class="bg-m3-surfaceVariant p-5 rounded-3xl pb-6 border-l-4 border-m3-primary">
-                        <i data-lucide="smartphone" class="text-m3-primary mb-3 w-6 h-6"></i>
-                        <h3 id="str-wel-app" class="font-bold mb-1 text-sm">Instalasi Aplikasi</h3>
-                        <p id="str-wel-app-desc" class="text-xs opacity-80 leading-relaxed font-medium">Untuk pengalaman terbaik, tap menu <b>tiga titik</b> di Chrome dan pilih <b>"Instal aplikasi"</b>.</p>
+                        <i data-lucide="database-backup" class="text-m3-primary mb-3 w-6 h-6"></i>
+                        <h3 id="str-wel-backup" class="font-bold mb-1 text-sm">Pencadangan Data</h3>
+                        <p id="str-wel-backup-desc" class="text-xs opacity-80 leading-relaxed font-medium">Gunakan fitur Backup di menu Pengaturan untuk mengunduh progres dan buku Anda. File akan tersimpan di folder <b>Unduhan (Downloads)</b> pada perangkat Anda.</p>
                     </div>
                     <div class="bg-m3-surfaceVariant p-5 rounded-3xl pb-6">
                         <i data-lucide="file-warning" class="text-m3-primary mb-3 w-6 h-6"></i>
@@ -334,9 +335,9 @@
         </div>
     </div>
 
-    <!-- Global Settings Modal (Sekarang bisa di-scroll) -->
+    <!-- Global Settings Modal (Bisa di-swipe ke bawah untuk close) -->
     <div id="global-settings-modal" onclick="if(event.target === this) history.back()" class="hidden modal-overlay fixed inset-0 bg-black/60 z-[100] flex items-end justify-center opacity-0">
-        <div class="modal-content bg-m3-surface w-full max-w-md rounded-t-[48px] p-6 pb-12 transform translate-y-full border-none max-h-[90dvh] overflow-y-auto hide-scroll" id="global-settings-sheet">
+        <div class="modal-content bg-m3-surface w-full max-w-md rounded-t-[48px] p-6 pb-12 transform translate-y-full border-none max-h-[90dvh] overflow-y-auto hide-scroll will-change-transform" id="global-settings-sheet">
             <div class="w-12 h-1.5 bg-m3-onSurfaceVariant/30 rounded-full mx-auto mb-6 shrink-0 sticky top-0"></div>
             <h3 id="str-set-main-title" class="text-2xl font-bold mb-6 text-m3-onSurface">Pengaturan</h3>
             
@@ -349,7 +350,6 @@
                 </div>
             </div>
 
-            <!-- Fix AMOLED Knob Bulatan Simetris -->
             <div id="amoled-toggle-container" class="flex items-center justify-between mb-6 bg-m3-surfaceVariant p-2 pl-5 rounded-full cursor-pointer btn-morph hidden" onclick="toggleAmoled()">
                 <span class="font-bold text-sm tracking-wide opacity-80" id="str-amoled-label">AMOLED (Hitam Pekat)</span>
                 <div class="relative w-16 h-8 rounded-full border-2 border-m3-onSurfaceVariant/30 transition-colors" id="amoled-switch-bg">
@@ -357,7 +357,7 @@
                 </div>
             </div>
 
-            <!-- Palet Warna 10 Item -->
+            <!-- Palet Warna -->
             <h4 id="str-set-palette" class="text-xs font-bold opacity-70 mb-3 px-1 uppercase tracking-wider">Palet Tema</h4>
             <div class="grid grid-cols-5 gap-3 mb-4">
                 <button onclick="setTheme('purple')" class="btn-morph w-full aspect-square rounded-2xl bg-[#6750A4]"></button>
@@ -381,11 +381,13 @@
             <!-- Fitur Data Backup / Restore -->
             <h4 id="str-set-data" class="text-xs font-bold opacity-70 mb-3 px-1 mt-6 uppercase tracking-wider">Data Aplikasi</h4>
             <div class="flex gap-2 mb-4">
-                <button onclick="exportData()" class="flex-1 flex flex-col items-center justify-center gap-2 p-3 bg-m3-surfaceVariant text-m3-onSurfaceVariant rounded-2xl font-bold btn-morph text-xs">
-                    <i data-lucide="download" class="w-5 h-5"></i> <span id="str-btn-backup">Backup</span>
+                <button onclick="exportData()" class="flex-1 flex flex-col items-center justify-center gap-2 p-3 bg-m3-surfaceVariant text-m3-onSurfaceVariant rounded-2xl font-bold btn-morph text-xs relative overflow-hidden group">
+                    <i data-lucide="download" class="w-5 h-5 transition-transform group-active:scale-90"></i> 
+                    <span id="str-btn-backup">Backup</span>
                 </button>
-                <button onclick="document.getElementById('import-upload').click()" class="flex-1 flex flex-col items-center justify-center gap-2 p-3 bg-m3-surfaceVariant text-m3-onSurfaceVariant rounded-2xl font-bold btn-morph text-xs">
-                    <i data-lucide="upload" class="w-5 h-5"></i> <span id="str-btn-restore">Pulihkan</span>
+                <button onclick="document.getElementById('import-upload').click()" class="flex-1 flex flex-col items-center justify-center gap-2 p-3 bg-m3-surfaceVariant text-m3-onSurfaceVariant rounded-2xl font-bold btn-morph text-xs relative overflow-hidden group">
+                    <i data-lucide="upload" class="w-5 h-5 transition-transform group-active:scale-90"></i> 
+                    <span id="str-btn-restore">Pulihkan</span>
                 </button>
                 <input type="file" id="import-upload" accept=".json" class="hidden" onchange="importData(event)">
             </div>
@@ -505,10 +507,25 @@
         </div>
     </div>
 
+    <!-- CUSTOM DIALOG MODAL (Pengganti native alert/confirm) -->
+    <div id="custom-dialog" class="hidden modal-overlay fixed inset-0 bg-black/60 z-[300] flex items-center justify-center p-4 opacity-0 transition-opacity">
+        <div class="modal-content bg-m3-surface w-full max-w-sm rounded-[32px] p-6 transform scale-75 border-none shadow-2xl transition-transform" id="custom-dialog-sheet">
+            <div class="flex items-center gap-3 mb-4">
+                <div id="dialog-icon-container" class="w-10 h-10 rounded-full bg-m3-primaryContainer text-m3-onPrimaryContainer flex items-center justify-center shrink-0">
+                    <i id="dialog-icon" data-lucide="info" class="w-5 h-5"></i>
+                </div>
+                <h3 id="dialog-title" class="text-lg font-bold text-m3-onSurface">Info</h3>
+            </div>
+            <p id="dialog-message" class="text-m3-onSurfaceVariant text-sm mb-6 font-medium leading-relaxed"></p>
+            <div class="flex gap-2 justify-end" id="dialog-actions">
+                <!-- Tombol dinamis dirender via JS -->
+            </div>
+        </div>
+    </div>
+
     <script>
         pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.16.105/pdf.worker.min.js';
 
-        // 10 Tema
         const M3_PALETTES = {
             purple: { light: `--md-sys-color-primary:#6750A4;--md-sys-color-on-primary:#FFFFFF;--md-sys-color-primary-container:#EADDFF;--md-sys-color-on-primary-container:#21005D;--md-sys-color-secondary-container:#E8DEF8;--md-sys-color-on-secondary-container:#1D192B;--md-sys-color-tertiary-container:#FFD8E4;--md-sys-color-on-tertiary-container:#31111D;--md-sys-color-background:#FEF7FF;--md-sys-color-on-background:#1D1B20;--md-sys-color-surface:#FEF7FF;--md-sys-color-on-surface:#1D1B20;--md-sys-color-surface-variant:#E7E0EC;--md-sys-color-on-surface-variant:#49454F;`, dark: `--md-sys-color-primary:#D0BCFF;--md-sys-color-on-primary:#381E72;--md-sys-color-primary-container:#4F378B;--md-sys-color-on-primary-container:#EADDFF;--md-sys-color-secondary-container:#4A4458;--md-sys-color-on-secondary-container:#E8DEF8;--md-sys-color-tertiary-container:#633B48;--md-sys-color-on-tertiary-container:#FFD8E4;--md-sys-color-background:#141218;--md-sys-color-on-background:#E6E0E9;--md-sys-color-surface:#141218;--md-sys-color-on-surface:#E6E0E9;--md-sys-color-surface-variant:#49454F;--md-sys-color-on-surface-variant:#CAC4D0;` },
             green: { light: `--md-sys-color-primary:#006C4C;--md-sys-color-on-primary:#FFFFFF;--md-sys-color-primary-container:#89F8D6;--md-sys-color-on-primary-container:#002114;--md-sys-color-secondary-container:#CCE8DB;--md-sys-color-on-secondary-container:#052016;--md-sys-color-tertiary-container:#BEEAF6;--md-sys-color-on-tertiary-container:#001F29;--md-sys-color-background:#FBFDF8;--md-sys-color-on-background:#191C1A;--md-sys-color-surface:#FBFDF8;--md-sys-color-on-surface:#191C1A;--md-sys-color-surface-variant:#DBE5DD;--md-sys-color-on-surface-variant:#404943;`, dark: `--md-sys-color-primary:#6CDBBA;--md-sys-color-on-primary:#003825;--md-sys-color-primary-container:#005138;--md-sys-color-on-primary-container:#89F8D6;--md-sys-color-secondary-container:#334B3F;--md-sys-color-on-secondary-container:#CCE8DB;--md-sys-color-tertiary-container:#204D59;--md-sys-color-on-tertiary-container:#BEEAF6;--md-sys-color-background:#111412;--md-sys-color-on-background:#E1E3DF;--md-sys-color-surface:#111412;--md-sys-color-on-surface:#E1E3DF;--md-sys-color-surface-variant:#404943;--md-sys-color-on-surface-variant:#BFC9C3;` },
@@ -628,7 +645,8 @@
         let editingAnnotId = null;
         
         window.addEventListener('popstate', (e) => {
-            if (!document.getElementById('ai-modal').classList.contains('opacity-0')) { closeAiModal(true); }
+            if (!document.getElementById('custom-dialog').classList.contains('opacity-0')) { window.closeDialog(true); }
+            else if (!document.getElementById('ai-modal').classList.contains('opacity-0')) { closeAiModal(true); }
             else if (!document.getElementById('note-modal').classList.contains('opacity-0')) { _closeModalAction('note-modal', 'note-sheet', true, true); }
             else if (!document.getElementById('b-opt-modal').classList.contains('opacity-0')) { _closeModalAction('b-opt-modal', 'b-opt-sheet', false, true); }
             else if (!document.getElementById('edit-modal').classList.contains('opacity-0')) { _closeModalAction('edit-modal', 'edit-sheet', true, true); }
@@ -656,7 +674,7 @@
                 extractingCover: "Mengekstrak Sampul...", readingPage: "Membaca Halaman", formattingText: "Memformat Teks...",
                 extractingEpub: "Mengekstrak EPUB...", analyzingStruct: "Menganalisa Struktur...", extractingChapter: "Mengekstrak Bab",
                 welcomeTitle: "Selamat Datang di Baca.", welcomeDesc: "Harap baca instruksi berikut untuk pengalaman membaca yang optimal.",
-                welApp: "Instalasi Aplikasi", welAppDesc: "Untuk pengalaman terbaik, tap menu <b>tiga titik</b> di Chrome dan pilih <b>\"Instal aplikasi\"</b>.",
+                welBackup: "Pencadangan Data", welBackupDesc: "Gunakan fitur Backup di menu Pengaturan untuk mengunduh progres dan buku Anda. File akan tersimpan di folder <b>Unduhan (Downloads)</b> pada perangkat Anda.",
                 welFormat: "Batasan Format", welFormatDesc: "<b>PDF:</b> Hanya teks. Gambar diabaikan.<br><b>EPUB:</b> Didukung penuh.",
                 welPrivacy: "Privasi Total", welPrivacyDesc: "Diproses secara lokal di perangkat Anda.", welBtn: "Mengerti",
                 setMainTitle: "Pengaturan", setPalette: "Palet Tema", setLang: "Bahasa", setInfo: "Info & Dukungan",
@@ -679,7 +697,7 @@
                 extractingCover: "Extracting Cover...", readingPage: "Reading Page", formattingText: "Formatting Text...",
                 extractingEpub: "Extracting EPUB...", analyzingStruct: "Analyzing Structure...", extractingChapter: "Extracting Chapter",
                 welcomeTitle: "Welcome to Baca.", welcomeDesc: "Please read these instructions for the optimal reading experience.",
-                welApp: "App Installation", welAppDesc: "For the best experience, tap the <b>three dots</b> menu in Chrome and select <b>\"Install app\"</b>.",
+                welBackup: "Data Backup", welBackupDesc: "Use the Backup feature in Settings to download your progress and books. The file will be saved to your device's <b>Downloads</b> folder.",
                 welFormat: "Format Limitations", welFormatDesc: "<b>PDF:</b> Text only. Images ignored.<br><b>EPUB:</b> Fully supported.",
                 welPrivacy: "Total Privacy", welPrivacyDesc: "Processed locally on your device.", welBtn: "Got it",
                 setMainTitle: "Settings", setPalette: "Theme Palette", setLang: "Language", setInfo: "Info & Support",
@@ -707,7 +725,7 @@
             setElementText('str-opt-delete', d.optDelete); setElementText('str-opt-cancel', d.optCancel);
             
             setElementText('str-wel-title', d.welcomeTitle); setElementText('str-wel-desc', d.welcomeDesc);
-            setElementText('str-wel-app', d.welApp); document.getElementById('str-wel-app-desc').innerHTML = d.welAppDesc;
+            setElementText('str-wel-backup', d.welBackup); document.getElementById('str-wel-backup-desc').innerHTML = d.welBackupDesc;
             setElementText('str-wel-format', d.welFormat); document.getElementById('str-wel-format-desc').innerHTML = d.welFormatDesc;
             setElementText('str-wel-privacy', d.welPrivacy); setElementText('str-wel-privacy-desc', d.welPrivacyDesc);
             setElementText('str-wel-btn', d.welBtn);
@@ -748,12 +766,66 @@
             updateBatchSelectionUI();
         };
 
+        // Custom Dialog System
+        window.showDialog = function(title, message, iconStr, buttons) {
+            pushAppHistory('custom-dialog');
+            const m = document.getElementById('custom-dialog');
+            const s = document.getElementById('custom-dialog-sheet');
+            
+            document.getElementById('dialog-title').innerText = title;
+            document.getElementById('dialog-message').innerText = message;
+            
+            const iconEl = document.getElementById('dialog-icon');
+            iconEl.setAttribute('data-lucide', iconStr);
+            
+            const actionsContainer = document.getElementById('dialog-actions');
+            actionsContainer.innerHTML = '';
+            
+            buttons.forEach(btn => {
+                const b = document.createElement('button');
+                b.innerText = btn.text;
+                if (btn.primary) {
+                    b.className = "px-6 py-2 bg-m3-primary text-m3-onPrimary font-bold rounded-full btn-morph tracking-wide";
+                } else {
+                    b.className = "px-4 py-2 bg-transparent text-m3-onSurfaceVariant font-bold rounded-full btn-morph tracking-wide";
+                }
+                b.onclick = () => {
+                    if(btn.action) btn.action();
+                    else window.closeDialog();
+                };
+                actionsContainer.appendChild(b);
+            });
+            
+            if(window.lucide) window.lucide.createIcons();
+
+            m.classList.remove('hidden');
+            requestAnimationFrame(() => {
+                m.classList.remove('opacity-0');
+                s.classList.remove('scale-75');
+            });
+        };
+
+        window.closeDialog = function(isFromHistory = false) {
+            if (!isFromHistory) { history.back(); return; }
+            const m = document.getElementById('custom-dialog');
+            const s = document.getElementById('custom-dialog-sheet');
+            
+            s.classList.add('scale-75');
+            m.classList.add('opacity-0');
+            setTimeout(() => m.classList.add('hidden'), 300);
+        };
+
         // FITUR BACKUP & RESTORE DATA
         window.exportData = async function() {
             try {
                 const data = await localforage.getItem('pdf_epub_master');
                 if (!data || data.length === 0) {
-                    alert(wikiLang === 'id' ? "Tidak ada buku untuk di-backup." : "No books to backup.");
+                    showDialog(
+                        wikiLang === 'id' ? "Gagal Backup" : "Backup Failed", 
+                        wikiLang === 'id' ? "Ga ada buku yang bisa di-backup, bro. Tambahin buku dulu." : "No books to backup.",
+                        "info",
+                        [{ text: "Oke", primary: true }]
+                    );
                     return;
                 }
                 const dataStr = JSON.stringify(data);
@@ -762,14 +834,24 @@
                 const a = document.createElement('a');
                 a.href = url;
                 const date = new Date().toISOString().split('T')[0];
-                a.download = `Baca_Backup_${date}.json`;
+                const filename = `Baca_Backup_${date}.json`;
+                a.download = filename;
                 document.body.appendChild(a);
                 a.click();
                 document.body.removeChild(a);
                 URL.revokeObjectURL(url);
+
+                // Notifikasi berhasil + instruksi cek folder unduhan
+                showDialog(
+                    wikiLang === 'id' ? "Backup Berhasil!" : "Backup Success!", 
+                    wikiLang === 'id' ? `File (${filename}) udah di-download. Coba cek di folder Unduhan (Downloads) HP atau PC lu.` : `File (${filename}) downloaded. Check your device's Downloads folder.`,
+                    "check-circle",
+                    [{ text: "Mengerti", primary: true }]
+                );
+
             } catch (err) {
                 console.error("Backup failed:", err);
-                alert("Backup gagal: " + err.message);
+                showDialog("Error", "Backup gagal: " + err.message, "alert-triangle", [{ text: "Tutup", primary: true }]);
             }
         };
 
@@ -786,17 +868,34 @@
                     const isValid = parsedData.every(b => b.id && b.title && b.nodes);
                     if (!isValid) throw new Error("File backup rusak atau tidak kompatibel.");
                     
-                    const confirmMsg = wikiLang === 'id' ? "PERINGATAN: Semua data buku saat ini akan tertimpa oleh file backup. Anda yakin ingin melanjutkan?" : "WARNING: Current books will be completely replaced by the backup. Continue?";
-                    if (confirm(confirmMsg)) {
-                        await localforage.setItem('pdf_epub_master', parsedData);
-                        library = parsedData;
-                        renderLibrary(DOM.globalSearch.value);
-                        alert(wikiLang === 'id' ? "Pemulihan data berhasil!" : "Data restored successfully!");
-                        _closeModalAction('global-settings-modal', 'global-settings-sheet', false, false);
-                    }
+                    showDialog(
+                        wikiLang === 'id' ? "Konfirmasi Restore" : "Confirm Restore",
+                        wikiLang === 'id' ? "PERINGATAN: Semua data buku saat ini akan ketimpa total sama file backup ini. Yakin mau lanjut?" : "WARNING: Current books will be completely replaced by the backup. Continue?",
+                        "alert-triangle",
+                        [
+                            { text: "Batal", primary: false },
+                            { text: "Lanjut", primary: true, action: async () => {
+                                window.closeDialog();
+                                await localforage.setItem('pdf_epub_master', parsedData);
+                                library = parsedData;
+                                renderLibrary(DOM.globalSearch.value);
+                                _closeModalAction('global-settings-modal', 'global-settings-sheet', false, false);
+                                
+                                setTimeout(() => {
+                                    showDialog(
+                                        wikiLang === 'id' ? "Restore Berhasil!" : "Restore Success!",
+                                        wikiLang === 'id' ? "Data aplikasi lu udah berhasil dipulihin." : "Your data has been successfully restored.",
+                                        "check-circle",
+                                        [{ text: "Oke", primary: true }]
+                                    );
+                                }, 400);
+                            }}
+                        ]
+                    );
+
                 } catch (err) {
                     console.error("Restore failed:", err);
-                    alert((wikiLang === 'id' ? "Gagal memulihkan: " : "Failed to restore: ") + err.message);
+                    showDialog("Error", (wikiLang === 'id' ? "Gagal memulihkan: " : "Failed to restore: ") + err.message, "alert-circle", [{ text: "Tutup", primary: true }]);
                 } finally {
                     event.target.value = ''; 
                 }
@@ -871,13 +970,23 @@
         window.executeBatchDelete = async function() {
             if(selectedForDelete.length === 0) return;
             const d = i18n[wikiLang] || i18n['id'];
-            if(confirm(d.deleteConfirm)) {
-                const toDeleteSet = new Set(selectedForDelete);
-                library = library.filter(b => !toDeleteSet.has(b.id));
-                await localforage.setItem('pdf_epub_master', library);
-                toggleBatchDelete(); 
-                renderLibrary(DOM.globalSearch.value); 
-            }
+            
+            showDialog(
+                "Hapus Buku",
+                d.deleteConfirm,
+                "trash-2",
+                [
+                    { text: "Batal", primary: false },
+                    { text: "Hapus", primary: true, action: async () => {
+                        window.closeDialog();
+                        const toDeleteSet = new Set(selectedForDelete);
+                        library = library.filter(b => !toDeleteSet.has(b.id));
+                        await localforage.setItem('pdf_epub_master', library);
+                        toggleBatchDelete(); 
+                        renderLibrary(DOM.globalSearch.value); 
+                    }}
+                ]
+            );
         };
 
         function renderNodeText(text, annots) {
@@ -1039,15 +1148,57 @@
             if(isScale) { s.classList.add('scale-75', 'translate-y-12'); } else { s.classList.add('translate-y-full'); }
             m.classList.add('opacity-0'); setTimeout(() => m.classList.add('hidden'), 300);
         }
+
+        // SWIPE TO DISMISS UNTUK MODAL SETTINGS
+        const settingsSheet = document.getElementById('global-settings-sheet');
+        let touchStartY = 0;
+        let initialScrollTop = 0;
+        let isPulling = false;
+
+        settingsSheet.addEventListener('touchstart', (e) => {
+            touchStartY = e.touches[0].clientY;
+            initialScrollTop = settingsSheet.scrollTop;
+            settingsSheet.style.transition = 'none'; 
+        }, { passive: true });
+
+        settingsSheet.addEventListener('touchmove', (e) => {
+            if (initialScrollTop <= 0) {
+                const touchCurrentY = e.touches[0].clientY;
+                const deltaY = touchCurrentY - touchStartY;
+
+                if (deltaY > 0) { 
+                    isPulling = true;
+                    if(e.cancelable) e.preventDefault(); 
+                    const pullDistance = deltaY * 0.4;
+                    settingsSheet.style.transform = `translateY(${pullDistance}px)`;
+                }
+            }
+        }, { passive: false });
+
+        settingsSheet.addEventListener('touchend', (e) => {
+            if (!isPulling) return;
+            isPulling = false;
+            settingsSheet.style.transition = 'transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1)';
+            
+            const touchEndY = e.changedTouches[0].clientY;
+            const deltaY = touchEndY - touchStartY;
+
+            if (deltaY > 80) { 
+                history.back(); 
+                setTimeout(() => { settingsSheet.style.transform = ''; }, 400);
+            } else {
+                settingsSheet.style.transform = ''; 
+            }
+        });
         
         applyThemeToDOM();
 
-        if (!localStorage.getItem('first_time_seen_v3')) {
+        if (!localStorage.getItem('first_time_seen_v4')) {
             setTimeout(() => { openModal('welcome-modal', 'welcome-sheet', true); }, 500);
         }
         window.closeWelcome = function(isFromHistory = false) {
             _closeModalAction('welcome-modal', 'welcome-sheet', true, isFromHistory || (window.location.hash !== '#modal-welcome'));
-            localStorage.setItem('first_time_seen_v3', 'true');
+            localStorage.setItem('first_time_seen_v4', 'true');
         };
 
         let typoPrefs = JSON.parse(localStorage.getItem('typo_prefs')) || { size: '1.2rem', align: 'left', font: 'Lora' };
@@ -1109,7 +1260,6 @@
             const handleStart = (e) => {
                 if (isBatchDeleteMode) return;
                 isPressing = true; hasLongPressed = false;
-                // PERBAIKAN WAKTU TEKAN (Long Press) -> dipercepat jadi 400ms
                 pressTimer = setTimeout(() => { if (isPressing) { hasLongPressed = true; window.openBookOptions(book.id); } }, 400);
             };
             const handleEnd = () => { isPressing = false; clearTimeout(pressTimer); };
@@ -1229,11 +1379,20 @@
         window.triggerDeleteView = async function() {
             if(!activeOptsId) return;
             const d = i18n[wikiLang] || i18n['id'];
-            if(confirm(d.deleteConfirm)) {
-                library = library.filter(b => b.id !== activeOptsId); 
-                await localforage.setItem('pdf_epub_master', library); 
-                history.back(); setTimeout(() => renderLibrary(DOM.globalSearch.value), 350);
-            }
+            showDialog(
+                "Hapus Permanen",
+                d.deleteConfirm,
+                "trash-2",
+                [
+                    { text: "Batal", primary: false },
+                    { text: "Hapus", primary: true, action: async () => {
+                        window.closeDialog();
+                        library = library.filter(b => b.id !== activeOptsId); 
+                        await localforage.setItem('pdf_epub_master', library); 
+                        history.back(); setTimeout(() => renderLibrary(DOM.globalSearch.value), 350);
+                    }}
+                ]
+            );
         };
 
         window.triggerEditView = function() {
@@ -1589,11 +1748,21 @@
 
         window.deleteNoteInsideModal = function() {
             const d = i18n[wikiLang] || i18n['id'];
-            if(confirm(d.deleteNoteConfirm)) {
-                activeAnnotationId = editingAnnotId;
-                deleteAnnotationById();
-                history.back();
-            }
+            
+            showDialog(
+                "Hapus Catatan",
+                d.deleteNoteConfirm,
+                "trash-2",
+                [
+                    { text: "Batal", primary: false },
+                    { text: "Hapus", primary: true, action: () => {
+                        window.closeDialog();
+                        activeAnnotationId = editingAnnotId;
+                        deleteAnnotationById();
+                        history.back(); // close note modal
+                    }}
+                ]
+            );
         }
 
         window.deleteAnnotationById = async function() {
@@ -1718,7 +1887,10 @@
                 if (ext === 'pdf') await handlePdf(file, bookTitle);
                 else if (ext === 'epub') await handleEpub(file, bookTitle);
                 else throw new Error("Hanya PDF/EPUB.");
-            } catch (err) { alert(`Gagal: ${err.message}`); console.error(err); } 
+            } catch (err) { 
+                showDialog("Gagal Buka Buku", err.message, "alert-triangle", [{text: "Tutup", primary: true}]);
+                console.error(err); 
+            } 
             finally { setTimeout(() => { DOM.load.classList.add('hidden'); DOM.file.value = ''; }, 500); }
         });
 
