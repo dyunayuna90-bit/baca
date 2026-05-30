@@ -6,6 +6,7 @@
 
 **Baca.** Baca. is a lightweight, local-first e-book reader (EPUB & PDF) built because I wanted a beautiful reading experience without the bloat. It runs entirely on web-native tech with zero backend. No servers, no tracking, no cloud uploads. Your books are processed and stored 100% locally on your device for absolute privacy.
 
+## Logo
 <img width="3264" height="1836" alt="20260530_151407" src="https://github.com/user-attachments/assets/55c85162-c2f3-40a6-8e83-480fde8fa934" />
 
 
@@ -15,7 +16,8 @@ The UI of **Baca.** is anything but static. We deeply adopted the **Material 3 E
  * **Immersive Reading Mode:** Navigation elements (headers, search panels) intuitively slide out of the way as you scroll down to focus on reading, giving you a 100% distraction-free canvas.
  * **10 Vibrant Palettes:** Choose from 10 meticulously crafted Material 3 color palettes (including the elegant *Warm Teal*) that dynamically shift the entire app's accent and mood.
  * **True AMOLED Dark Mode:** Features a pitch-black dark mode optimized for OLED/AMOLED screens to save battery, complete with perfectly symmetrical and satisfying toggle switches.
-   
+
+## 📷 Screenshot
 <img width="3264" height="1820" alt="20260530_064040" src="https://github.com/user-attachments/assets/fd49fca3-5340-4e44-bf2d-8f84d834000e" />
 
 ## 🚀 Key Features
