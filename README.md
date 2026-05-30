@@ -19,8 +19,7 @@ The UI of **Baca.** is anything but static. We deeply adopted the **Material 3 E
  * **Bilingual Support:** Interface is fully available in English and Indonesian.
    
 ## 📦 Download & Installation
-The first stable release is ready. You can grab the source code or check out the v1.0.0 release using the link below:
-👉 **Download Release v1.0.0** https://github.com/dyunayuna90-bit/baca./releases/tag/v1.0.0**
+is in the release menu
 
 ## 🛠️ Tech Stack
  * **HTML5, CSS3, Vanilla JavaScript** (Zero framework bloat for the core logic).
