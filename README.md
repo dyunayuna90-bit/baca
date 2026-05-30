@@ -4,7 +4,7 @@
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg?style=for-the-badge)](https://opensource.org/licenses/MIT)
 [![Download Latest Release](https://img.shields.io/github/v/release/dyunayuna90-bit/baca.?style=for-the-badge&logo=android&color=3DDC84&label=DOWNLOAD%20APK)](https://github.com/dyunayuna90-bit/baca./releases/latest)
 
-**Baca.** Baca. is a lightweight, local-first e-book reader (EPUB & PDF) built because I wanted a beautiful reading experience without the bloat. It runs entirely on web-native tech with zero backend. No servers, no tracking, no cloud uploads. Your books are processed and stored 100% locally on your device for absolute privacy.
+**Baca.** is a lightweight, local-first e-book reader (EPUB & PDF) built because I wanted a beautiful reading experience without the bloat. It runs entirely on web-native tech with zero backend. No servers, no tracking, no cloud uploads. Your books are processed and stored 100% locally on your device for absolute privacy.
 
 ## Logo
 <img width="3264" height="1836" alt="20260530_151407" src="https://github.com/user-attachments/assets/55c85162-c2f3-40a6-8e83-480fde8fa934" />
