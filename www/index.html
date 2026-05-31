@@ -100,7 +100,7 @@
         .modal-content { transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1), border-radius 0.4s ease; transform-origin: bottom; }
         .side-panel { transition: transform 0.5s cubic-bezier(0.34, 1.56, 0.64, 1), opacity 0.3s ease; }
 
-        .reader-text-container { column-gap: 2rem; column-rule: 1px solid var(--md-sys-color-surface-variant); }
+        .reader-text-container { column-gap: 2rem; }
         @media (min-width: 768px) { .reader-text-container { column-count: 2; } }
 
         .progress-smooth { transition: width 0.4s cubic-bezier(0.34, 1.56, 0.64, 1); }
@@ -125,7 +125,7 @@
         .reader-dynamic-text { word-wrap: break-word; overflow-wrap: anywhere; hyphens: auto; }
         .reader-dynamic-text p { font-family: var(--reader-font) !important; font-size: var(--reader-size) !important; text-align: var(--reader-align) !important; line-height: var(--reader-line-height) !important; max-width: 100%; overflow-x: hidden; }
         .reader-dynamic-text h1 { font-family: var(--reader-font) !important; font-size: calc(var(--reader-size) * 1.8) !important; text-align: left !important; line-height: 1.3 !important; font-weight: bold; margin-top: 2rem; margin-bottom: 1.5rem; color: var(--md-sys-color-primary); }
-        .reader-dynamic-text h2 { font-family: var(--reader-font) !important; font-size: calc(var(--reader-size) * 1.4) !important; text-align: left !important; line-height: 1.4 !important; font-weight: bold; margin-top: 1.5rem; margin-bottom: 1rem; color: var(--md-sys-color-on-surface-variant); border-bottom: 1px solid var(--md-sys-color-surface-variant); padding-bottom: 0.5rem; opacity: 1; }
+        .reader-dynamic-text h2 { font-family: var(--reader-font) !important; font-size: calc(var(--reader-size) * 1.4) !important; text-align: left !important; line-height: 1.4 !important; font-weight: bold; margin-top: 1.5rem; margin-bottom: 1rem; color: var(--md-sys-color-on-surface-variant); padding-bottom: 0.5rem; opacity: 1; }
         ::-webkit-scrollbar { width: 0px; }
     </style>
 </head>
@@ -188,9 +188,9 @@
             <input type="file" id="doc-upload" accept=".epub,.pdf" class="hidden">
         </div>
         
-        <div id="batch-delete-bar" class="fixed bottom-6 left-1/2 -translate-x-1/2 bg-m3-surfaceVariant text-m3-onSurfaceVariant px-6 py-3 z-[60] translate-y-32 transition-transform duration-300 flex justify-between items-center rounded-full shadow-[0_8px_30px_rgba(0,0,0,0.2)] gap-4 w-max border border-m3-onSurfaceVariant/20 pointer-events-auto">
+        <div id="batch-delete-bar" class="fixed bottom-6 left-1/2 -translate-x-1/2 bg-m3-surfaceVariant text-m3-onSurfaceVariant px-6 py-3 z-[60] translate-y-32 transition-transform duration-300 flex justify-between items-center rounded-full shadow-[0_8px_30px_rgba(0,0,0,0.2)] gap-4 w-max pointer-events-auto">
             <span id="batch-delete-count" class="font-bold text-sm tracking-wide whitespace-nowrap">0 Terpilih</span>
-            <div class="flex gap-2 border-l border-m3-onSurfaceVariant/30 pl-4">
+            <div class="flex gap-2 pl-4">
                 <button onclick="toggleBatchDelete()" id="btn-batch-cancel" class="px-4 py-2 font-bold text-xs uppercase tracking-wider text-m3-onSurfaceVariant bg-transparent rounded-full btn-morph">Batal</button>
                 <button onclick="executeBatchDelete()" id="btn-batch-exec" class="px-4 py-2 font-bold text-xs uppercase tracking-wider bg-red-100 text-red-700 dark:bg-red-900/40 dark:text-red-400 rounded-full btn-morph shadow-sm">Hapus</button>
             </div>
@@ -208,7 +208,7 @@
             <p id="str-reader-loading" class="text-m3-primary font-bold tracking-widest uppercase text-xs animate-pulse">Memuat Buku...</p>
         </div>
 
-        <div id="reader-floating-header" class="absolute top-[calc(env(safe-area-inset-top,0px)+1.5rem)] left-1/2 -translate-x-1/2 bg-m3-surfaceVariant/90 backdrop-blur-md text-m3-onSurfaceVariant px-5 py-2 rounded-full z-30 pointer-events-none flex flex-col items-center shadow-sm max-w-[80%] transition-all duration-500 ease-[cubic-bezier(0.34,1.56,0.64,1)] border border-m3-onSurfaceVariant/10 translate-y-0 opacity-100">
+        <div id="reader-floating-header" class="absolute top-[calc(env(safe-area-inset-top,0px)+1.5rem)] left-1/2 -translate-x-1/2 bg-m3-surfaceVariant text-m3-onSurfaceVariant px-5 py-2 rounded-full z-30 pointer-events-none flex flex-col items-center shadow-sm max-w-[80%] transition-all duration-500 ease-[cubic-bezier(0.34,1.56,0.64,1)] translate-y-0 opacity-100">
             <span id="reader-title" class="font-bold truncate w-full text-center text-xs">Title</span>
             <span id="reader-progress-text" class="text-[0.6rem] font-bold opacity-80 uppercase tracking-widest mt-0.5">0%</span>
         </div>
@@ -233,11 +233,11 @@
                 <div class="space-y-6 pb-20">
                     <div>
                         <label id="str-set-search" class="text-xs font-bold opacity-70 block mb-3 uppercase tracking-wider">Pencarian</label>
-                        <div class="search-capsule bg-m3-surface p-1 rounded-full relative flex items-center h-14 border border-m3-onSurface/10 transition-all duration-300">
+                        <div class="search-capsule bg-m3-surface p-1 rounded-full relative flex items-center h-14 transition-all duration-300">
                             <i data-lucide="search" class="w-5 h-5 ml-4 opacity-70 text-m3-onSurface shrink-0 pointer-events-none"></i>
                             <input type="text" id="inbook-search-input" class="w-full bg-transparent border-none outline-none py-2 pl-3 pr-4 text-sm font-bold text-m3-onSurface placeholder:opacity-60" placeholder="Cari dalam buku...">
                         </div>
-                        <div id="search-results-panel" class="hidden mt-3 max-h-48 overflow-y-auto rounded-2xl bg-m3-surface text-xs shadow-md border border-m3-onSurface/5 pointer-events-auto flex-col gap-1 p-2"></div>
+                        <div id="search-results-panel" class="hidden mt-3 max-h-48 overflow-y-auto rounded-2xl bg-m3-surface text-xs shadow-md pointer-events-auto flex-col gap-1 p-2"></div>
                     </div>
 
                     <div>
@@ -314,12 +314,12 @@
 
     <!-- Welcome Modal -->
     <div id="welcome-modal" onclick="if(event.target === this) closeWelcome()" class="hidden modal-overlay fixed inset-0 bg-black/60 z-[200] flex items-center justify-center p-4 opacity-0">
-        <div class="modal-content bg-m3-surface w-full max-w-md rounded-[48px] overflow-hidden flex flex-col scale-75 translate-y-12 border-none" id="welcome-sheet">
+        <div class="modal-content bg-m3-surface w-full max-w-md rounded-[48px] overflow-hidden flex flex-col scale-75 translate-y-12" id="welcome-sheet">
             <div class="p-8 overflow-y-auto max-h-[75vh]">
                 <h2 id="str-wel-title" class="text-3xl font-bold text-m3-onSurface mb-2 tracking-tight">Selamat Datang di Baca.</h2>
                 <p id="str-wel-desc" class="text-m3-onSurfaceVariant mb-8 font-medium">Harap baca instruksi berikut untuk pengalaman membaca yang optimal.</p>
                 <div class="flex flex-col gap-4">
-                    <div class="bg-m3-surfaceVariant p-5 rounded-3xl pb-6 border-l-4 border-m3-primary">
+                    <div class="bg-m3-surfaceVariant p-5 rounded-3xl pb-6">
                         <i data-lucide="database-backup" class="text-m3-primary mb-3 w-6 h-6"></i>
                         <h3 id="str-wel-backup" class="font-bold mb-1 text-sm">Pencadangan Data</h3>
                         <p id="str-wel-backup-desc" class="text-xs opacity-80 leading-relaxed font-medium">Gunakan fitur Backup di menu Pengaturan. Cukup salin teks mentah (JSON) dan simpan dengan aman.</p>
@@ -336,7 +336,7 @@
                     </div>
                 </div>
             </div>
-            <div class="p-4 bg-m3-surface border-t border-m3-surfaceVariant">
+            <div class="p-4 bg-m3-surface">
                 <button id="str-wel-btn" onclick="closeWelcome()" class="w-full py-4 bg-m3-primary text-m3-onPrimary rounded-full font-bold btn-morph tracking-wide">Mengerti</button>
             </div>
         </div>
@@ -344,7 +344,7 @@
 
     <!-- Global Settings Modal -->
     <div id="global-settings-modal" onclick="if(event.target === this) history.back()" class="hidden modal-overlay fixed inset-0 bg-black/60 z-[100] flex items-end justify-center opacity-0">
-        <div class="modal-content bg-m3-surface w-full max-w-md rounded-t-[48px] p-6 pb-12 transform translate-y-full border-none max-h-[90dvh] overflow-y-auto hide-scroll will-change-transform" id="global-settings-sheet">
+        <div class="modal-content bg-m3-surface w-full max-w-md rounded-t-[48px] p-6 pb-12 transform translate-y-full max-h-[90dvh] overflow-y-auto hide-scroll will-change-transform" id="global-settings-sheet">
             <div class="w-12 h-1.5 bg-m3-onSurfaceVariant/30 rounded-full mx-auto mb-6 shrink-0 sticky top-0"></div>
             <h3 id="str-set-main-title" class="text-2xl font-bold mb-6 text-m3-onSurface">Pengaturan</h3>
             
@@ -367,34 +367,34 @@
             <h4 id="str-set-palette" class="text-xs font-bold opacity-70 mb-3 px-1 uppercase tracking-wider">Palet Tema</h4>
             <div class="grid grid-cols-5 gap-3 mb-4">
                 <!-- Orchid / Lilac (Sunset Violet) -->
-                <button onclick="setTheme('orchid')" class="btn-morph w-full aspect-square rounded-2xl border border-m3-onSurfaceVariant/10 transition-transform active:scale-90 shadow-sm" style="background: linear-gradient(135deg, #F472B6 0%, #8B5CF6 100%);" title="Sunset Orchid"></button>
+                <button onclick="setTheme('orchid')" class="btn-morph w-full aspect-square rounded-2xl transition-transform active:scale-90 shadow-sm" style="background-color: #8B5CF6;" title="Sunset Orchid"></button>
                 
                 <!-- Olive Green (Organic Sage Olive - Nyaman & Tenang) -->
-                <button onclick="setTheme('olive')" class="btn-morph w-full aspect-square rounded-2xl border border-m3-onSurfaceVariant/10 transition-transform active:scale-90 shadow-sm" style="background: linear-gradient(135deg, #A1C986 0%, #4F6F2E 100%);" title="Organic Olive"></button>
+                <button onclick="setTheme('olive')" class="btn-morph w-full aspect-square rounded-2xl transition-transform active:scale-90 shadow-sm" style="background-color: #4F6F2E;" title="Organic Olive"></button>
                 
                 <!-- Coral Electric (Terracotta Dusk) -->
-                <button onclick="setTheme('coral')" class="btn-morph w-full aspect-square rounded-2xl border border-m3-onSurfaceVariant/10 transition-transform active:scale-90 shadow-sm" style="background: linear-gradient(135deg, #FFB5A5 0%, #D95232 100%);" title="Terracotta Coral"></button>
+                <button onclick="setTheme('coral')" class="btn-morph w-full aspect-square rounded-2xl transition-transform active:scale-90 shadow-sm" style="background-color: #D95232;" title="Terracotta Coral"></button>
                 
                 <!-- Teal Cyber (Oceanic Deep Teal) -->
-                <button onclick="setTheme('teal')" class="btn-morph w-full aspect-square rounded-2xl border border-m3-onSurfaceVariant/10 transition-transform active:scale-90 shadow-sm" style="background: linear-gradient(135deg, #5CD5EC 0%, #006A7B 100%);" title="Oceanic Teal"></button>
+                <button onclick="setTheme('teal')" class="btn-morph w-full aspect-square rounded-2xl transition-transform active:scale-90 shadow-sm" style="background-color: #006A7B;" title="Oceanic Teal"></button>
                 
                 <!-- Lavender Night (Regal Purple & Plum) -->
-                <button onclick="setTheme('lavender')" class="btn-morph w-full aspect-square rounded-2xl border border-m3-onSurfaceVariant/10 transition-transform active:scale-90 shadow-sm" style="background: linear-gradient(135deg, #D6BBFF 0%, #5E17EB 100%);" title="Regal Lavender"></button>
+                <button onclick="setTheme('lavender')" class="btn-morph w-full aspect-square rounded-2xl transition-transform active:scale-90 shadow-sm" style="background-color: #5E17EB;" title="Regal Lavender"></button>
                 
                 <!-- Amber Rose (Crimson Rosewood - Klasik Vintage) -->
-                <button onclick="setTheme('rose')" class="btn-morph w-full aspect-square rounded-2xl border border-m3-onSurfaceVariant/10 transition-transform active:scale-90 shadow-sm" style="background: linear-gradient(135deg, #F9A8D4 0%, #BE123C 100%);" title="Crimson Rose"></button>
+                <button onclick="setTheme('rose')" class="btn-morph w-full aspect-square rounded-2xl transition-transform active:scale-90 shadow-sm" style="background-color: #B91C1C;" title="Crimson Rose"></button>
                 
                 <!-- Lime Punch (Forest Lime - Neon tapi Terkendali) -->
-                <button onclick="setTheme('lime')" class="btn-morph w-full aspect-square rounded-2xl border border-m3-onSurfaceVariant/10 transition-transform active:scale-90 shadow-sm" style="background: linear-gradient(135deg, #E1FF85 0%, #3E5F00 100%);" title="Forest Lime"></button>
+                <button onclick="setTheme('lime')" class="btn-morph w-full aspect-square rounded-2xl transition-transform active:scale-90 shadow-sm" style="background-color: #4C6A00;" title="Forest Lime"></button>
                 
                 <!-- Sand Breeze (Classic Sepia Parchment) -->
-                <button onclick="setTheme('sand')" class="btn-morph w-full aspect-square rounded-2xl border border-m3-onSurfaceVariant/10 transition-transform active:scale-90 shadow-sm" style="background: linear-gradient(135deg, #FFE0B2 0%, #8D6E63 100%);" title="Warm Sand"></button>
+                <button onclick="setTheme('sand')" class="btn-morph w-full aspect-square rounded-2xl transition-transform active:scale-90 shadow-sm" style="background-color: #6D4C41;" title="Warm Sand"></button>
                 
                 <!-- Monochrome Tech (Grey slate - Arsitektural Minimalis) -->
-                <button onclick="setTheme('monochrome')" class="btn-morph w-full aspect-square rounded-2xl border border-m3-onSurfaceVariant/10 transition-transform active:scale-90 shadow-sm" style="background: linear-gradient(135deg, #ECEFF1 0%, #37474F 100%);" title="Monochrome Slate"></button>
+                <button onclick="setTheme('monochrome')" class="btn-morph w-full aspect-square rounded-2xl transition-transform active:scale-90 shadow-sm" style="background-color: #37474F;" title="Monochrome Slate"></button>
                 
                 <!-- Blueberry (Electric Cobalt & Royal Blue) -->
-                <button onclick="setTheme('blueberry')" class="btn-morph w-full aspect-square rounded-2xl border border-m3-onSurfaceVariant/10 transition-transform active:scale-90 shadow-sm" style="background: linear-gradient(135deg, #80CAFF 0%, #1A237E 100%);" title="Electric Cobalt"></button>
+                <button onclick="setTheme('blueberry')" class="btn-morph w-full aspect-square rounded-2xl transition-transform active:scale-90 shadow-sm" style="background-color: #1A237E;" title="Electric Cobalt"></button>
             </div>
             
             <h4 id="str-set-lang" class="text-xs font-bold opacity-70 mb-3 px-1 mt-6 uppercase tracking-wider">Bahasa</h4>
@@ -408,7 +408,7 @@
                 <p id="gemini-desc" class="text-[10px] text-m3-onSurfaceVariant opacity-80 px-1 leading-relaxed">Tambahkan API Key untuk mendapatkan penjelasan pintar langsung dari AI Gemini.</p>
                 <div class="flex flex-col gap-2">
                     <div class="relative">
-                        <select id="gemini-model-select" onchange="saveGeminiModel()" class="appearance-none w-full bg-m3-surfaceVariant text-m3-onSurfaceVariant p-3 pr-10 rounded-2xl font-bold text-xs outline-none border border-transparent focus:border-m3-primary cursor-pointer">
+                        <select id="gemini-model-select" onchange="saveGeminiModel()" class="appearance-none w-full bg-m3-surfaceVariant text-m3-onSurfaceVariant p-3 pr-10 rounded-2xl font-bold text-xs outline-none focus:border-m3-primary cursor-pointer">
                             <option value="gemini-2.5-flash">Gemini 2.5 Flash</option>
                             <option value="gemini-2.5-flash-lite">Gemini 2.5 Flash Lite</option>
                             <option value="gemini-2.0-flash">Gemini 2.0 Flash</option>
@@ -417,7 +417,7 @@
                         <i data-lucide="chevron-down" class="absolute right-3 top-1/2 -translate-y-1/2 w-4 h-4 pointer-events-none opacity-60"></i>
                     </div>
                     <div class="flex gap-2">
-                        <input type="password" id="gemini-api-key" placeholder="Gemini API Key..." class="flex-1 bg-m3-surfaceVariant text-m3-onSurfaceVariant p-3 rounded-2xl font-mono text-xs outline-none border border-transparent focus:border-m3-primary">
+                        <input type="password" id="gemini-api-key" placeholder="Gemini API Key..." class="flex-1 bg-m3-surfaceVariant text-m3-onSurfaceVariant p-3 rounded-2xl font-mono text-xs outline-none focus:border-m3-primary">
                         <button onclick="saveGeminiKey()" class="px-4 py-3 bg-m3-primary text-m3-onPrimary rounded-2xl font-bold btn-morph text-xs shadow-sm"><i data-lucide="save" class="w-4 h-4"></i></button>
                     </div>
                 </div>
@@ -451,7 +451,7 @@
     </div>
     <!-- Modal Raw Backup (Copy to Clipboard) -->
     <div id="raw-backup-modal" onclick="if(event.target === this) history.back()" class="hidden modal-overlay fixed inset-0 bg-black/60 z-[200] flex items-center justify-center p-4 opacity-0 transition-opacity">
-        <div class="modal-content bg-m3-surface w-full max-w-md rounded-[32px] p-6 transform scale-75 border-none shadow-2xl transition-transform flex flex-col max-h-[80vh]" id="raw-backup-sheet">
+        <div class="modal-content bg-m3-surface w-full max-w-md rounded-[32px] p-6 transform scale-75 shadow-2xl transition-transform flex flex-col max-h-[80vh]" id="raw-backup-sheet">
             <h3 class="text-xl font-bold mb-2 text-m3-onSurface" id="str-raw-bak-title">Data Backup Mentah</h3>
             <p class="text-xs text-m3-onSurfaceVariant mb-4" id="str-raw-bak-desc">Karena batasan sistem perangkat, silakan salin teks di bawah ini dan simpan ke dalam Note/Pesan WhatsApp/File teks dengan aman.</p>
             <textarea id="raw-backup-textarea" class="w-full flex-1 bg-m3-surfaceVariant text-m3-onSurfaceVariant p-3 rounded-xl font-mono text-[10px] outline-none resize-none mb-4 min-h-[150px]" readonly></textarea>
@@ -464,7 +464,7 @@
 
     <!-- Modal Raw Restore (Paste from Clipboard) -->
     <div id="raw-restore-modal" onclick="if(event.target === this) history.back()" class="hidden modal-overlay fixed inset-0 bg-black/60 z-[200] flex items-center justify-center p-4 opacity-0 transition-opacity">
-        <div class="modal-content bg-m3-surface w-full max-w-md rounded-[32px] p-6 transform scale-75 border-none shadow-2xl transition-transform flex flex-col max-h-[80vh]" id="raw-restore-sheet">
+        <div class="modal-content bg-m3-surface w-full max-w-md rounded-[32px] p-6 transform scale-75 shadow-2xl transition-transform flex flex-col max-h-[80vh]" id="raw-restore-sheet">
             <h3 class="text-xl font-bold mb-2 text-m3-onSurface" id="str-raw-res-title">Pulihkan Data</h3>
             <p class="text-xs text-m3-onSurfaceVariant mb-4" id="str-raw-res-desc">Paste teks mentah (JSON) backup lu di kotak ini, ATAU pilih file JSON dari perangkat.</p>
             <textarea id="raw-restore-textarea" class="w-full flex-1 bg-m3-surfaceVariant text-m3-onSurfaceVariant p-3 rounded-xl font-mono text-[10px] outline-none resize-none mb-4 min-h-[150px]" placeholder="Paste di sini..."></textarea>
@@ -480,7 +480,7 @@
 
     <!-- Book Options Modal -->
     <div id="b-opt-modal" onclick="if(event.target === this) history.back()" class="hidden modal-overlay fixed inset-0 bg-black/60 z-[100] flex items-end justify-center opacity-0 p-4 pb-8 transition-opacity">
-        <div class="modal-content bg-m3-surface shadow-2xl w-full max-w-sm rounded-[32px] p-6 transform translate-y-full border-none" id="b-opt-sheet">
+        <div class="modal-content bg-m3-surface shadow-2xl w-full max-w-sm rounded-[32px] p-6 transform translate-y-full" id="b-opt-sheet">
             <div class="w-12 h-1.5 bg-m3-onSurfaceVariant/30 rounded-full mx-auto mb-6"></div>
             <h3 id="opt-title" class="text-base font-bold mb-6 text-m3-onSurface text-center truncate px-2">Book Options</h3>
             <div class="flex flex-col gap-3">
@@ -494,21 +494,21 @@
 
     <!-- Edit Book Data Modal -->
     <div id="edit-modal" onclick="if(event.target === this) history.back()" class="hidden modal-overlay fixed inset-0 bg-black/60 z-[120] flex items-center justify-center opacity-0 p-4">
-        <div class="modal-content bg-m3-surface w-full max-w-sm rounded-[48px] p-8 transform scale-75 translate-y-12 border-none" id="edit-sheet">
+        <div class="modal-content bg-m3-surface w-full max-w-sm rounded-[48px] p-8 transform scale-75 translate-y-12" id="edit-sheet">
             <h3 id="str-edit-title" class="text-xl font-bold mb-6 text-m3-onSurface">Edit Detail</h3>
             <input type="hidden" id="edit-book-id">
             
             <label id="str-edit-book-title" class="text-xs font-bold opacity-70 block mb-2 uppercase tracking-wider">Judul Buku</label>
-            <input type="text" id="edit-book-title" class="w-full bg-m3-surfaceVariant text-m3-onSurfaceVariant p-4 rounded-2xl mb-5 font-bold outline-none border border-transparent focus:border-m3-primary">
+            <input type="text" id="edit-book-title" class="w-full bg-m3-surfaceVariant text-m3-onSurfaceVariant p-4 rounded-2xl mb-5 font-bold outline-none focus:border-m3-primary">
             
             <label id="str-edit-book-cover" class="text-xs font-bold opacity-70 block mb-2 uppercase tracking-wider">Gambar Sampul</label>
             <input type="file" id="edit-book-cover" accept="image/*" class="w-full text-xs mb-5 font-bold file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-xs file:font-bold file:bg-m3-primaryContainer file:text-m3-onPrimaryContainer hover:file:bg-m3-primaryContainer/80">
             
             <label id="str-edit-book-shape" class="text-xs font-bold opacity-70 block mb-2 uppercase tracking-wider">Bentuk Kartu</label>
             <div class="grid grid-cols-2 gap-2 mb-8">
-                <button onclick="selectShape('default')" id="shape-default" class="btn-morph p-3 bg-m3-surfaceVariant text-m3-onSurfaceVariant rounded-xl font-bold text-xs border border-transparent">Dinamis</button>
-                <button onclick="selectShape('rounded')" id="shape-rounded" class="btn-morph p-3 bg-m3-surfaceVariant text-m3-onSurfaceVariant rounded-xl font-bold text-xs border border-transparent">Bulat</button>
-                <button onclick="selectShape('square')" id="shape-square" class="btn-morph p-3 bg-m3-surfaceVariant text-m3-onSurfaceVariant rounded-xl font-bold text-xs border border-transparent">Kotak</button>
+                <button onclick="selectShape('default')" id="shape-default" class="btn-morph p-3 bg-m3-surfaceVariant text-m3-onSurfaceVariant rounded-xl font-bold text-xs">Dinamis</button>
+                <button onclick="selectShape('rounded')" id="shape-rounded" class="btn-morph p-3 bg-m3-surfaceVariant text-m3-onSurfaceVariant rounded-xl font-bold text-xs">Bulat</button>
+                <button onclick="selectShape('square')" id="shape-square" class="btn-morph p-3 bg-m3-surfaceVariant text-m3-onSurfaceVariant rounded-xl font-bold text-xs">Kotak</button>
             </div>
             <input type="hidden" id="edit-book-shape" value="square">
 
@@ -520,7 +520,7 @@
     </div>
 
     <!-- Floating Text Selection Menu -->
-    <div id="selection-menu" onmousedown="event.preventDefault()" ontouchstart="event.preventDefault()" class="hidden fixed z-50 bg-m3-surfaceVariant text-m3-onSurfaceVariant rounded-full px-2 py-1 flex items-center gap-1 border border-m3-onSurfaceVariant/20 pointer-events-auto transition-all opacity-0 scale-75" style="top: -100px; left: 0px;">
+    <div id="selection-menu" onmousedown="event.preventDefault()" ontouchstart="event.preventDefault()" class="hidden fixed z-50 bg-m3-surfaceVariant text-m3-onSurfaceVariant rounded-full px-2 py-1 flex items-center gap-1 pointer-events-auto transition-all opacity-0 scale-75" style="top: -100px; left: 0px;">
         <button onpointerdown="event.preventDefault(); applyAnnotation('yellow')" class="w-8 h-8 rounded-full bg-[#FDE047] flex items-center justify-center btn-morph"><div class="w-4 h-4 bg-[#EAB308] rounded-full"></div></button>
         <button onpointerdown="event.preventDefault(); applyAnnotation('green')" class="w-8 h-8 rounded-full bg-[#86EFAC] flex items-center justify-center btn-morph"><div class="w-4 h-4 bg-[#22C55E] rounded-full"></div></button>
         <button onpointerdown="event.preventDefault(); applyAnnotation('pink')" class="w-8 h-8 rounded-full bg-[#F9A8D4] flex items-center justify-center btn-morph"><div class="w-4 h-4 bg-[#EC4899] rounded-full"></div></button>
@@ -540,7 +540,7 @@
 
     <!-- Note Create/Edit Modal -->
     <div id="note-modal" onclick="if(event.target === this) history.back()" class="hidden modal-overlay fixed inset-0 bg-black/60 z-[120] flex items-center justify-center opacity-0 p-4">
-        <div class="modal-content bg-m3-surface w-full max-w-sm rounded-[48px] p-6 transform scale-75 translate-y-12 border-none" id="note-sheet">
+        <div class="modal-content bg-m3-surface w-full max-w-sm rounded-[48px] p-6 transform scale-75 translate-y-12" id="note-sheet">
             <h3 id="str-note-title" class="text-lg font-bold mb-4 text-m3-onSurface flex items-center gap-2"><i data-lucide="notebook-pen" class="w-5 h-5"></i> Catatan</h3>
             
             <div class="flex gap-4 justify-center mb-4">
@@ -549,7 +549,7 @@
                  <button onclick="setNoteColor('pink')" id="nc-pink" class="w-8 h-8 rounded-full bg-[#F9A8D4] ring-2 ring-offset-2 ring-transparent transition-all btn-morph"></button>
             </div>
 
-            <textarea id="note-input-text" class="w-full h-32 bg-m3-surfaceVariant text-m3-onSurfaceVariant p-4 rounded-2xl mb-5 font-bold outline-none border border-transparent focus:border-m3-primary resize-none" placeholder="Tuliskan catatan..."></textarea>
+            <textarea id="note-input-text" class="w-full h-32 bg-m3-surfaceVariant text-m3-onSurfaceVariant p-4 rounded-2xl mb-5 font-bold outline-none resize-none focus:border-m3-primary" placeholder="Tuliskan catatan..."></textarea>
             
             <div class="flex gap-2">
                 <button id="btn-delete-note" onclick="deleteNoteInsideModal()" class="py-3 px-5 bg-red-100 text-red-700 dark:bg-red-900/40 dark:text-red-400 font-bold rounded-full btn-morph flex items-center justify-center hidden"><i data-lucide="trash-2" class="w-5 h-5"></i></button>
@@ -561,7 +561,7 @@
 
     <!-- AI Definition Modal -->
     <div id="ai-modal" onclick="if(event.target === this) history.back()" class="hidden modal-overlay fixed inset-0 bg-black/60 z-[120] flex items-end sm:items-center justify-center opacity-0 pb-0 sm:pb-0 p-0 sm:p-4">
-        <div class="modal-content bg-m3-surface w-full max-w-md sm:rounded-[48px] rounded-t-[48px] p-6 pb-12 sm:pb-6 transform translate-y-full flex flex-col max-h-[85vh] border-none" id="ai-sheet">
+        <div class="modal-content bg-m3-surface w-full max-w-md sm:rounded-[48px] rounded-t-[48px] p-6 pb-12 sm:pb-6 transform translate-y-full flex flex-col max-h-[85vh]" id="ai-sheet">
             <div class="w-12 h-1.5 bg-m3-onSurfaceVariant/30 rounded-full mx-auto mb-6 sm:hidden"></div>
             <div class="flex items-center justify-between mb-4 shrink-0">
                 <h3 id="str-ai-title" class="text-lg font-bold text-m3-onSurface flex items-center gap-2"><i data-lucide="search" class="w-5 h-5 text-m3-primary"></i> Penjelasan</h3>
@@ -600,46 +600,47 @@
         pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.16.105/pdf.worker.min.js';
 
         // UPDATE: Material 3 Expressive & Highly Curated Color Palettes 
+        // Desain asimetris, kaya warna, kontras tinggi, ekspresif murni tanpa gradasi/border
         const M3_PALETTES = {
-            orchid: { // Sunset Orchid - Elegan, dinamis, transisi ungu ke pink sunset mewah
-                light: `--md-sys-color-primary:#7C3AED;--md-sys-color-on-primary:#FFFFFF;--md-sys-color-primary-container:#FBCFE8;--md-sys-color-on-primary-container:#4C1D95;--md-sys-color-secondary-container:#EDE9FE;--md-sys-color-on-secondary-container:#1E1B4B;--md-sys-color-tertiary-container:#FCE7F3;--md-sys-color-on-tertiary-container:#701A75;--md-sys-color-background:#FAF5FF;--md-sys-color-on-background:#2E1065;--md-sys-color-surface:#FFFFFF;--md-sys-color-on-surface:#1A0933;--md-sys-color-surface-variant:#F3E8FF;--md-sys-color-on-surface-variant:#6B21A8;`,
-                dark: `--md-sys-color-primary:#D8B4FE;--md-sys-color-on-primary:#3B0764;--md-sys-color-primary-container:#6B21A8;--md-sys-color-on-primary-container:#FDF4FF;--md-sys-color-secondary-container:#4C1D95;--md-sys-color-on-secondary-container:#E9D5FF;--md-sys-color-tertiary-container:#4A044E;--md-sys-color-on-tertiary-container:#FCE7F3;--md-sys-color-background:#0E0518;--md-sys-color-on-background:#F5D0FE;--md-sys-color-surface:#140924;--md-sys-color-on-surface:#FDF4FF;--md-sys-color-surface-variant:#3B0764;--md-sys-color-on-surface-variant:#F3E8FF;`
+            orchid: { // Sunset Orchid - Kombinasi asimetris ungu muda dengan pink sunset mewah
+                light: `--md-sys-color-primary:#8B5CF6;--md-sys-color-on-primary:#FFFFFF;--md-sys-color-primary-container:#FBCFE8;--md-sys-color-on-primary-container:#4C1D95;--md-sys-color-secondary-container:#F0EDF7;--md-sys-color-on-secondary-container:#2E1065;--md-sys-color-tertiary-container:#FCE7F3;--md-sys-color-on-tertiary-container:#701A75;--md-sys-color-background:#F5EEFF;--md-sys-color-on-background:#2E1065;--md-sys-color-surface:#FFFFFF;--md-sys-color-on-surface:#1A0933;--md-sys-color-surface-variant:#E9D5FF;--md-sys-color-on-surface-variant:#4C1D95;`,
+                dark: `--md-sys-color-primary:#D28DFF;--md-sys-color-on-primary:#25004D;--md-sys-color-primary-container:#49215B;--md-sys-color-on-primary-container:#FDF4FF;--md-sys-color-secondary-container:#321142;--md-sys-color-on-secondary-container:#ECD3FF;--md-sys-color-tertiary-container:#F4ABFF;--md-sys-color-on-tertiary-container:#3B0764;--md-sys-color-background:#130A1A;--md-sys-color-on-background:#F0EDF7;--md-sys-color-surface:#180F21;--md-sys-color-on-surface:#F5E9FF;--md-sys-color-surface-variant:#49215B;--md-sys-color-on-surface-variant:#E9D5FF;`
             },
-            olive: { // Organic Olive Green - Nyaman maksimal di mata, kombinasi matcha & sage murni
-                light: `--md-sys-color-primary:#4F6F2E;--md-sys-color-on-primary:#FFFFFF;--md-sys-color-primary-container:#D6E8C5;--md-sys-color-on-primary-container:#152B05;--md-sys-color-secondary-container:#E6EFE0;--md-sys-color-on-secondary-container:#2C3A1F;--md-sys-color-tertiary-container:#FEF9C3;--md-sys-color-on-tertiary-container:#451A03;--md-sys-color-background:#F4F8F1;--md-sys-color-on-background:#1A2E05;--md-sys-color-surface:#FBFDF9;--md-sys-color-on-surface:#152B05;--md-sys-color-surface-variant:#E1EAD8;--md-sys-color-on-surface-variant:#3F5231;`, 
-                dark: `--md-sys-color-primary:#A1C986;--md-sys-color-on-primary:#183803;--md-sys-color-primary-container:#334E1C;--md-sys-color-on-primary-container:#D6E8C5;--md-sys-color-secondary-container:#2B3B20;--md-sys-color-on-secondary-container:#C4D1B9;--md-sys-color-tertiary-container:#422006;--md-sys-color-on-tertiary-container:#FEF9C3;--md-sys-color-background:#0B1107;--md-sys-color-on-background:#ECFCCB;--md-sys-color-surface:#11180D;--md-sys-color-on-surface:#ECFCCB;--md-sys-color-surface-variant:#232E1C;--md-sys-color-on-surface-variant:#CCD8C2;` 
+            olive: { // Matcha Rose - Hijau matcha organik berpadu dengan pink pastel
+                light: `--md-sys-color-primary:#4F6F2E;--md-sys-color-on-primary:#FFFFFF;--md-sys-color-primary-container:#FCE7F3;--md-sys-color-on-primary-container:#500724;--md-sys-color-secondary-container:#E6EFE0;--md-sys-color-on-secondary-container:#2C3A1F;--md-sys-color-tertiary-container:#D6E8C5;--md-sys-color-on-tertiary-container:#152B05;--md-sys-color-background:#F7F8F4;--md-sys-color-on-background:#152B05;--md-sys-color-surface:#FFFFFF;--md-sys-color-on-surface:#152B05;--md-sys-color-surface-variant:#E1EAD8;--md-sys-color-on-surface-variant:#3F5231;`, 
+                dark: `--md-sys-color-primary:#A1C986;--md-sys-color-on-primary:#183803;--md-sys-color-primary-container:#450A0A;--md-sys-color-on-primary-container:#FEE2E2;--md-sys-color-secondary-container:#2B3B20;--md-sys-color-on-secondary-container:#C4D1B9;--md-sys-color-tertiary-container:#2E1216;--md-sys-color-on-tertiary-container:#FBCFE8;--md-sys-color-background:#0E130B;--md-sys-color-on-background:#E6EFE0;--md-sys-color-surface:#131B10;--md-sys-color-on-surface:#E6EFE0;--md-sys-color-surface-variant:#232E1C;--md-sys-color-on-surface-variant:#CCD8C2;` 
             },
-            coral: { // Terracotta Coral - Hangat, bersahabat, bergaya retro-modern
-                light: `--md-sys-color-primary:#D95232;--md-sys-color-on-primary:#FFFFFF;--md-sys-color-primary-container:#FFE3DC;--md-sys-color-on-primary-container:#3E0E00;--md-sys-color-secondary-container:#FBECE9;--md-sys-color-on-secondary-container:#522A20;--md-sys-color-tertiary-container:#E2E8F0;--md-sys-color-on-tertiary-container:#0F172A;--md-sys-color-background:#FFF7F5;--md-sys-color-on-background:#3E0E00;--md-sys-color-surface:#FFFBFA;--md-sys-color-on-surface:#3E0E00;--md-sys-color-surface-variant:#FFD9D1;--md-sys-color-on-surface-variant:#7C3526;`,
-                dark: `--md-sys-color-primary:#FFB5A5;--md-sys-color-on-primary:#5F1605;--md-sys-color-primary-container:#812D19;--md-sys-color-on-primary-container:#FFE3DC;--md-sys-color-secondary-container:#5D3F37;--md-sys-color-on-secondary-container:#FFD9D4;--md-sys-color-tertiary-container:#1E293B;--md-sys-color-on-tertiary-container:#F1F5F9;--md-sys-color-background:#180C08;--md-sys-color-on-background:#FFD9D4;--md-sys-color-surface:#20120E;--md-sys-color-on-surface:#FFD9D4;--md-sys-color-surface-variant:#533F3A;--md-sys-color-on-surface-variant:#FFB5A5;`
+            coral: { // Sunset Terracotta - Jingga terracota hangat bertemu dengan cyan laut
+                light: `--md-sys-color-primary:#D95232;--md-sys-color-on-primary:#FFFFFF;--md-sys-color-primary-container:#CFFAFE;--md-sys-color-on-primary-container:#083344;--md-sys-color-secondary-container:#FFE3DC;--md-sys-color-on-secondary-container:#5F1605;--md-sys-color-tertiary-container:#FFEBE7;--md-sys-color-on-tertiary-container:#3E0E00;--md-sys-color-background:#FFF8F7;--md-sys-color-on-background:#3E0E00;--md-sys-color-surface:#FFFFFF;--md-sys-color-on-surface:#3E0E00;--md-sys-color-surface-variant:#FFD9D1;--md-sys-color-on-surface-variant:#7C3526;`,
+                dark: `--md-sys-color-primary:#FFB5A5;--md-sys-color-on-primary:#5F1605;--md-sys-color-primary-container:#083344;--md-sys-color-on-primary-container:#CFFAFE;--md-sys-color-secondary-container:#42211C;--md-sys-color-on-secondary-container:#FFD9D4;--md-sys-color-tertiary-container:#20120E;--md-sys-color-on-tertiary-container:#FFE3DC;--md-sys-color-background:#1C100E;--md-sys-color-on-background:#FFD9D4;--md-sys-color-surface:#211412;--md-sys-color-on-surface:#FFD9D4;--md-sys-color-surface-variant:#533F3A;--md-sys-color-on-surface-variant:#FFB5A5;`
             },
-            teal: { // Oceanic Teal - Nuansa kedalaman samudra dengan kontras tinggi aksen minty breeze
-                light: `--md-sys-color-primary:#006A7B;--md-sys-color-on-primary:#FFFFFF;--md-sys-color-primary-container:#E0F2FE;--md-sys-color-on-primary-container:#002026;--md-sys-color-secondary-container:#DCF2F1;--md-sys-color-on-secondary-container:#1D4D4F;--md-sys-color-tertiary-container:#F0FDFA;--md-sys-color-on-tertiary-container:#0F172A;--md-sys-color-background:#F2FAF9;--md-sys-color-on-background:#002026;--md-sys-color-surface:#FFFFFF;--md-sys-color-on-surface:#002026;--md-sys-color-surface-variant:#CCE7EC;--md-sys-color-on-surface-variant:#004F5D;`,
-                dark: `--md-sys-color-primary:#5CD5EC;--md-sys-color-on-primary:#003640;--md-sys-color-primary-container:#004F5D;--md-sys-color-on-primary-container:#B6F0FC;--md-sys-color-secondary-container:#1D4D4F;--md-sys-color-on-secondary-container:#A7F3D0;--md-sys-color-tertiary-container:#115E59;--md-sys-color-on-tertiary-container:#F0FDFA;--md-sys-color-background:#031417;--md-sys-color-on-background:#B6F0FC;--md-sys-color-surface:#061C20;--md-sys-color-on-surface:#B6F0FC;--md-sys-color-surface-variant:#304D54;--md-sys-color-on-surface-variant:#B6F0FC;`
+            teal: { // Oceanic Amber - Hijau toska pekat samudra dengan aksen kuning amber neon
+                light: `--md-sys-color-primary:#006A7B;--md-sys-color-on-primary:#FFFFFF;--md-sys-color-primary-container:#FEF08A;--md-sys-color-on-primary-container:#422006;--md-sys-color-secondary-container:#DCF2F1;--md-sys-color-on-secondary-container:#1D4D4F;--md-sys-color-tertiary-container:#F0FDFA;--md-sys-color-on-tertiary-container:#0F172A;--md-sys-color-background:#F0F8F9;--md-sys-color-on-background:#002026;--md-sys-color-surface:#FFFFFF;--md-sys-color-on-surface:#002026;--md-sys-color-surface-variant:#CCE7EC;--md-sys-color-on-surface-variant:#004F5D;`,
+                dark: `--md-sys-color-primary:#5CD5EC;--md-sys-color-on-primary:#003640;--md-sys-color-primary-container:#422006;--md-sys-color-on-primary-container:#FEF08A;--md-sys-color-secondary-container:#133234;--md-sys-color-on-secondary-container:#B6F0FC;--md-sys-color-tertiary-container:#0E343A;--md-sys-color-on-tertiary-container:#F0FDFA;--md-sys-color-background:#051417;--md-sys-color-on-background:#B6F0FC;--md-sys-color-surface:#0A1B1F;--md-sys-color-on-surface:#B6F0FC;--md-sys-color-surface-variant:#304D54;--md-sys-color-on-surface-variant:#5CD5EC;`
             },
-            lavender: { // Regal Lavender - Mewah berwibawa khas keluarga kerajaan
-                light: `--md-sys-color-primary:#5E17EB;--md-sys-color-on-primary:#FFFFFF;--md-sys-color-primary-container:#E8DFFF;--md-sys-color-on-primary-container:#1D0061;--md-sys-color-secondary-container:#F1EBFF;--md-sys-color-on-secondary-container:#3C00A6;--md-sys-color-tertiary-container:#FDF4FF;--md-sys-color-on-tertiary-container:#3B0764;--md-sys-color-background:#F7F5FC;--md-sys-color-on-background:#1D0061;--md-sys-color-surface:#FCFAFF;--md-sys-color-on-surface:#1D0061;--md-sys-color-surface-variant:#E8DFFF;--md-sys-color-on-surface-variant:#5E17EB;`,
-                dark: `--md-sys-color-primary:#C4B5FD;--md-sys-color-on-primary:#2E1065;--md-sys-color-primary-container:#4C1D95;--md-sys-color-on-primary-container:#EDE9FE;--md-sys-color-secondary-container:#3C00A6;--md-sys-color-on-secondary-container:#E8DFFF;--md-sys-color-tertiary-container:#3B0764;--md-sys-color-on-tertiary-container:#FDF4FF;--md-sys-color-background:#090412;--md-sys-color-on-background:#EDE9FE;--md-sys-color-surface:#110A1E;--md-sys-color-on-surface:#EDE9FE;--md-sys-color-surface-variant:#3C00A6;--md-sys-color-on-surface-variant:#E8DFFF;`
+            lavender: { // Plum Sand - Ungu royal anggun dipadukan dengan karamel pasir hangat
+                light: `--md-sys-color-primary:#5E17EB;--md-sys-color-on-primary:#FFFFFF;--md-sys-color-primary-container:#FFE0B2;--md-sys-color-on-primary-container:#3E2723;--md-sys-color-secondary-container:#F1EBFF;--md-sys-color-on-secondary-container:#3C00A6;--md-sys-color-tertiary-container:#FDF4FF;--md-sys-color-on-tertiary-container:#3B0764;--md-sys-color-background:#F7F4FD;--md-sys-color-on-background:#1D0061;--md-sys-color-surface:#FFFFFF;--md-sys-color-on-surface:#1D0061;--md-sys-color-surface-variant:#E8DFFF;--md-sys-color-on-surface-variant:#5E17EB;`,
+                dark: `--md-sys-color-primary:#C4B5FD;--md-sys-color-on-primary:#2E1065;--md-sys-color-primary-container:#4E342E;--md-sys-color-on-primary-container:#FFE0B2;--md-sys-color-secondary-container:#241142;--md-sys-color-on-secondary-container:#E8DFFF;--md-sys-color-tertiary-container:#3B0764;--md-sys-color-on-tertiary-container:#FDF4FF;--md-sys-color-background:#0C0817;--md-sys-color-on-background:#EDE9FE;--md-sys-color-surface:#120E21;--md-sys-color-on-surface:#EDE9FE;--md-sys-color-surface-variant:#3C00A6;--md-sys-color-on-surface-variant:#C4B5FD;`
             },
-            rose: { // Crimson Rosewood - Mewah klasik bergaya vintage
-                light: `--md-sys-color-primary:#B91C1C;--md-sys-color-on-primary:#FFFFFF;--md-sys-color-primary-container:#FEE2E2;--md-sys-color-on-primary-container:#450A0A;--md-sys-color-secondary-container:#FCE8E6;--md-sys-color-on-secondary-container:#7C2D12;--md-sys-color-tertiary-container:#FFF1F2;--md-sys-color-on-tertiary-container:#4C0519;--md-sys-color-background:#FFF5F5;--md-sys-color-on-background:#450A0A;--md-sys-color-surface:#FFFBFB;--md-sys-color-on-surface:#450A0A;--md-sys-color-surface-variant:#FCA5A5;--md-sys-color-on-surface-variant:#B91C1C;`, 
-                dark: `--md-sys-color-primary:#FCA5A5;--md-sys-color-on-primary:#450A0A;--md-sys-color-primary-container:#7F1D1D;--md-sys-color-on-primary-container:#FEE2E2;--md-sys-color-secondary-container:#881337;--md-sys-color-on-secondary-container:#FDA4AF;--md-sys-color-tertiary-container:#4C0519;--md-sys-color-on-tertiary-container:#FFF1F2;--md-sys-color-background:#1F0505;--md-sys-color-on-background:#FEE2E2;--md-sys-color-surface:#260C0C;--md-sys-color-on-surface:#FEE2E2;--md-sys-color-surface-variant:#7F1D1D;--md-sys-color-on-surface-variant:#FCA5A5;` 
+            rose: { // Crimson Moss - Merah mawar klasik dipadukan dengan hijau mint lumut segar
+                light: `--md-sys-color-primary:#B91C1C;--md-sys-color-on-primary:#FFFFFF;--md-sys-color-primary-container:#DCF2D1;--md-sys-color-on-primary-container:#1F3B10;--md-sys-color-secondary-container:#FCE8E6;--md-sys-color-on-secondary-container:#7C2D12;--md-sys-color-tertiary-container:#FFF1F2;--md-sys-color-on-tertiary-container:#4C0519;--md-sys-color-background:#FFF5F5;--md-sys-color-on-background:#450A0A;--md-sys-color-surface:#FFFFFF;--md-sys-color-on-surface:#450A0A;--md-sys-color-surface-variant:#FCA5A5;--md-sys-color-on-surface-variant:#B91C1C;`, 
+                dark: `--md-sys-color-primary:#FCA5A5;--md-sys-color-on-primary:#450A0A;--md-sys-color-primary-container:#1F3B10;--md-sys-color-on-primary-container:#DCF2D1;--md-sys-color-secondary-container:#501414;--md-sys-color-on-secondary-container:#FEE2E2;--md-sys-color-tertiary-container:#4C0519;--md-sys-color-on-tertiary-container:#FFF1F2;--md-sys-color-background:#1F0B0B;--md-sys-color-on-background:#FEE2E2;--md-sys-color-surface:#261212;--md-sys-color-on-surface:#FEE2E2;--md-sys-color-surface-variant:#7F1D1D;--md-sys-color-on-surface-variant:#FCA5A5;` 
             },
-            lime: { // Forest Lime - Limau neon diredam oleh hijau hutan misterius
-                light: `--md-sys-color-primary:#4C6A00;--md-sys-color-on-primary:#FFFFFF;--md-sys-color-primary-container:#E1FF85;--md-sys-color-on-primary-container:#132000;--md-sys-color-secondary-container:#F2FFCC;--md-sys-color-on-secondary-container:#2C3C00;--md-sys-color-tertiary-container:#F0FDF4;--md-sys-color-on-tertiary-container:#166534;--md-sys-color-background:#FAFCF2;--md-sys-color-on-background:#132000;--md-sys-color-surface:#FCFDF7;--md-sys-color-on-surface:#132000;--md-sys-color-surface-variant:#D1E897;--md-sys-color-on-surface-variant:#4C6A00;`,
-                dark: `--md-sys-color-primary:#C5E85C;--md-sys-color-on-primary:#253600;--md-sys-color-primary-container:#3A5000;--md-sys-color-on-primary-container:#E1FF85;--md-sys-color-secondary-container:#212E00;--md-sys-color-on-secondary-container:#D2F175;--md-sys-color-tertiary-container:#14532D;--md-sys-color-on-tertiary-container:#F0FDF4;--md-sys-color-background:#0A0E02;--md-sys-color-on-background:#E1FF85;--md-sys-color-surface:#0F1404;--md-sys-color-on-surface:#E1FF85;--md-sys-color-surface-variant:#3A5000;--md-sys-color-on-surface-variant:#C5E85C;`
+            lime: { // Forest Berry - Hijau limau elektrik berpadu kontras dengan berry ungu fuchsia
+                light: `--md-sys-color-primary:#4C6A00;--md-sys-color-on-primary:#FFFFFF;--md-sys-color-primary-container:#FCE7F3;--md-sys-color-on-primary-container:#470A24;--md-sys-color-secondary-container:#F2FFCC;--md-sys-color-on-secondary-container:#2C3C00;--md-sys-color-tertiary-container:#F0FDF4;--md-sys-color-on-tertiary-container:#166534;--md-sys-color-background:#FAFBF3;--md-sys-color-on-background:#132000;--md-sys-color-surface:#FFFFFF;--md-sys-color-on-surface:#132000;--md-sys-color-surface-variant:#D1E897;--md-sys-color-on-surface-variant:#4C6A00;`,
+                dark: `--md-sys-color-primary:#C5E85C;--md-sys-color-on-primary:#253600;--md-sys-color-primary-container:#4A044E;--md-sys-color-on-primary-container:#FCE7F3;--md-sys-color-secondary-container:#1E2B00;--md-sys-color-on-secondary-container:#D2F175;--md-sys-color-tertiary-container:#14532D;--md-sys-color-on-tertiary-container:#F0FDF4;--md-sys-color-background:#0C1004;--md-sys-color-on-background:#E1FF85;--md-sys-color-surface:#12160A;--md-sys-color-on-surface:#E1FF85;--md-sys-color-surface-variant:#3A5000;--md-sys-color-on-surface-variant:#C5E85C;`
             },
-            sand: { // Warm Sand - Kombinasi sepia kertas antik berpadu dengan karamel hangat
-                light: `--md-sys-color-primary:#6D4C41;--md-sys-color-on-primary:#FFFFFF;--md-sys-color-primary-container:#FFE0B2;--md-sys-color-on-primary-container:#3E2723;--md-sys-color-secondary-container:#F5F5DC;--md-sys-color-on-secondary-container:#5D4037;--md-sys-color-tertiary-container:#FFF8E1;--md-sys-color-on-tertiary-container:#6D4C41;--md-sys-color-background:#FDFBF7;--md-sys-color-on-background:#3E2723;--md-sys-color-surface:#FFFDF9;--md-sys-color-on-surface:#3E2723;--md-sys-color-surface-variant:#EFEBE9;--md-sys-color-on-surface-variant:#6D4C41;`,
-                dark: `--md-sys-color-primary:#D7CCC8;--md-sys-color-on-primary:#3E2723;--md-sys-color-primary-container:#5D4037;--md-sys-color-on-primary-container:#FFE0B2;--md-sys-color-secondary-container:#3E2723;--md-sys-color-on-secondary-container:#F5F5DC;--md-sys-color-tertiary-container:#241A17;--md-sys-color-on-tertiary-container:#FFF8E1;--md-sys-color-background:#130E0C;--md-sys-color-on-background:#FFE0B2;--md-sys-color-surface:#1C1412;--md-sys-color-on-surface:#FFE0B2;--md-sys-color-surface-variant:#4E342E;--md-sys-color-on-surface-variant:#D7CCC8;`
+            sand: { // Desert Oasis - Cokelat pasir gurun berpadu dengan biru elektrik royal
+                light: `--md-sys-color-primary:#6D4C41;--md-sys-color-on-primary:#FFFFFF;--md-sys-color-primary-container:#DBEAFE;--md-sys-color-on-primary-container:#1E3A8A;--md-sys-color-secondary-container:#F5F5DC;--md-sys-color-on-secondary-container:#5D4037;--md-sys-color-tertiary-container:#FFF8E1;--md-sys-color-on-tertiary-container:#6D4C41;--md-sys-color-background:#FAF7F2;--md-sys-color-on-background:#3E2723;--md-sys-color-surface:#FFFFFF;--md-sys-color-on-surface:#3E2723;--md-sys-color-surface-variant:#EFEBE9;--md-sys-color-on-surface-variant:#6D4C41;`,
+                dark: `--md-sys-color-primary:#D7CCC8;--md-sys-color-on-primary:#3E2723;--md-sys-color-primary-container:#1E3A8A;--md-sys-color-on-primary-container:#DBEAFE;--md-sys-color-secondary-container:#3E2723;--md-sys-color-on-secondary-container:#F5F5DC;--md-sys-color-tertiary-container:#241A17;--md-sys-color-on-tertiary-container:#FFF8E1;--md-sys-color-background:#15100E;--md-sys-color-on-background:#FFE0B2;--md-sys-color-surface:#1F1614;--md-sys-color-on-surface:#FFE0B2;--md-sys-color-surface-variant:#4E342E;--md-sys-color-on-surface-variant:#D7CCC8;`
             },
-            monochrome: { // Monochrome Slate - Abu-abu gelap arsitektural minimalis futuristik
-                light: `--md-sys-color-primary:#37474F;--md-sys-color-on-primary:#FFFFFF;--md-sys-color-primary-container:#ECEFF1;--md-sys-color-on-primary-container:#1A237E;--md-sys-color-secondary-container:#CFD8DC;--md-sys-color-on-secondary-container:#263238;--md-sys-color-tertiary-container:#F5F5F5;--md-sys-color-on-tertiary-container:#212121;--md-sys-color-background:#ECEFF1;--md-sys-color-on-background:#212121;--md-sys-color-surface:#FAFAFA;--md-sys-color-on-surface:#212121;--md-sys-color-surface-variant:#ECEFF1;--md-sys-color-on-surface-variant:#546E7A;`, 
-                dark: `--md-sys-color-primary:#CFD8DC;--md-sys-color-on-primary:#263238;--md-sys-color-primary-container:#455A64;--md-sys-color-on-primary-container:#ECEFF1;--md-sys-color-secondary-container:#263238;--md-sys-color-on-secondary-container:#ECEFF1;--md-sys-color-tertiary-container:#212121;--md-sys-color-on-tertiary-container:#F5F5F5;--md-sys-color-background:#101416;--md-sys-color-on-background:#ECEFF1;--md-sys-color-surface:#151A1D;--md-sys-color-on-surface:#ECEFF1;--md-sys-color-surface-variant:#37474F;--md-sys-color-on-surface-variant:#CFD8DC;` 
+            monochrome: { // Carbon Amber - Abu-abu slate arsitektural dipadukan dengan kuning amber pekat
+                light: `--md-sys-color-primary:#37474F;--md-sys-color-on-primary:#FFFFFF;--md-sys-color-primary-container:#FEF08A;--md-sys-color-on-primary-container:#422006;--md-sys-color-secondary-container:#CFD8DC;--md-sys-color-on-secondary-container:#263238;--md-sys-color-tertiary-container:#F5F5F5;--md-sys-color-on-tertiary-container:#212121;--md-sys-color-background:#F1F3F4;--md-sys-color-on-background:#212121;--md-sys-color-surface:#FFFFFF;--md-sys-color-on-surface:#212121;--md-sys-color-surface-variant:#ECEFF1;--md-sys-color-on-surface-variant:#546E7A;`, 
+                dark: `--md-sys-color-primary:#CFD8DC;--md-sys-color-on-primary:#263238;--md-sys-color-primary-container:#422006;--md-sys-color-on-primary-container:#FEF08A;--md-sys-color-secondary-container:#263238;--md-sys-color-on-secondary-container:#ECEFF1;--md-sys-color-tertiary-container:#212121;--md-sys-color-on-tertiary-container:#F5F5F5;--md-sys-color-background:#121618;--md-sys-color-on-background:#ECEFF1;--md-sys-color-surface:#1A1F21;--md-sys-color-on-surface:#ECEFF1;--md-sys-color-surface-variant:#37474F;--md-sys-color-on-surface-variant:#CFD8DC;` 
             },
-            blueberry: { // Electric Cobalt - Biru elektrik cerah dipadu dengan warna malam biru pekat
-                light: `--md-sys-color-primary:#1A237E;--md-sys-color-on-primary:#FFFFFF;--md-sys-color-primary-container:#80CAFF;--md-sys-color-on-primary-container:#00153B;--md-sys-color-secondary-container:#C2ECFF;--md-sys-color-on-secondary-container:#001E45;--md-sys-color-tertiary-container:#E8EAF6;--md-sys-color-on-tertiary-container:#1A237E;--md-sys-color-background:#E8F4FD;--md-sys-color-on-background:#00153B;--md-sys-color-surface:#F4F9FF;--md-sys-color-on-surface:#00153B;--md-sys-color-surface-variant:#C2ECFF;--md-sys-color-on-surface-variant:#1A237E;`, 
-                dark: `--md-sys-color-primary:#80CAFF;--md-sys-color-on-primary:#00153B;--md-sys-color-primary-container:#1A237E;--md-sys-color-on-primary-container:#C2ECFF;--md-sys-color-secondary-container:#00346B;--md-sys-color-on-secondary-container:#80CAFF;--md-sys-color-tertiary-container:#001E45;--md-sys-color-on-tertiary-container:#E8EAF6;--md-sys-color-background:#040A1A;--md-sys-color-on-background:#C2ECFF;--md-sys-color-surface:#07122E;--md-sys-color-on-surface:#C2ECFF;--md-sys-color-surface-variant:#1A237E;--md-sys-color-on-surface-variant:#80CAFF;` 
+            blueberry: { // Cobalt Coral - Biru cobalt elektrik berpasangan dengan coral pink lembut
+                light: `--md-sys-color-primary:#1A237E;--md-sys-color-on-primary:#FFFFFF;--md-sys-color-primary-container:#FFD9D1;--md-sys-color-on-primary-container:#7C3526;--md-sys-color-secondary-container:#C2ECFF;--md-sys-color-on-secondary-container:#001E45;--md-sys-color-tertiary-container:#E8EAF6;--md-sys-color-on-tertiary-container:#1A237E;--md-sys-color-background:#EEF4FC;--md-sys-color-on-background:#00153B;--md-sys-color-surface:#FFFFFF;--md-sys-color-on-surface:#00153B;--md-sys-color-surface-variant:#C2ECFF;--md-sys-color-on-surface-variant:#1A237E;`, 
+                dark: `--md-sys-color-primary:#80CAFF;--md-sys-color-on-primary:#00153B;--md-sys-color-primary-container:#7C3526;--md-sys-color-on-primary-container:#FFD9D1;--md-sys-color-secondary-container:#00346B;--md-sys-color-on-secondary-container:#80CAFF;--md-sys-color-tertiary-container:#001E45;--md-sys-color-on-tertiary-container:#E8EAF6;--md-sys-color-background:#050A1A;--md-sys-color-on-background:#C2ECFF;--md-sys-color-surface:#0A1128;--md-sys-color-on-surface:#C2ECFF;--md-sys-color-surface-variant:#1A237E;--md-sys-color-on-surface-variant:#80CAFF;` 
             }
         };
 
@@ -974,7 +975,7 @@
             setTimeout(() => m.classList.add('hidden'), 300);
         };
 
-                // FITUR BACKUP HYBRID (Capacitor File System + Fallback Raw Tanpa Gambar)
+        // FITUR BACKUP HYBRID (Capacitor File System + Fallback Raw Tanpa Gambar)
         window.exportData = async function() {
             try {
                 const data = await localforage.getItem('pdf_epub_master');
@@ -1246,8 +1247,8 @@
             const metaTheme = document.querySelector('meta[name="theme-color"]');
             if(metaTheme) {
                 if(isDark && isAmoled) metaTheme.setAttribute("content", "#000000");
-                else if (isDark) metaTheme.setAttribute("content", "#0B0314");
-                else metaTheme.setAttribute("content", "#FAF5FF");
+                else if (isDark) metaTheme.setAttribute("content", "#0E0518");
+                else metaTheme.setAttribute("content", "#F5EEFF");
             }
 
             const bg = document.getElementById('theme-switch-bg');
@@ -1460,8 +1461,8 @@
             let bgStyle = ""; let textOverlay = ""; let baseClass = "";
             if(book.coverBase64) {
                 bgStyle = `background-image: url('${book.coverBase64}'); background-size: cover; background-position: top center;`;
-                baseClass = "text-white border-none outline-none ring-0 shadow-lg"; 
-                textOverlay = `<div class="absolute inset-x-0 bottom-0 h-[80%] bg-gradient-to-t from-black via-black/40 to-transparent pointer-events-none z-0 rounded-b-inherit border-none outline-none"></div>`;
+                baseClass = "text-white ring-0 shadow-lg"; 
+                textOverlay = `<div class="absolute inset-x-0 bottom-0 h-[80%] bg-gradient-to-t from-black via-black/40 to-transparent pointer-events-none z-0 rounded-b-inherit"></div>`;
             } else {
                 // Kombinasi warna acak Material 3 ekspresif yang kontras & indah
                 const colors = [
@@ -1504,7 +1505,7 @@
                 openBook(book); 
             });
 
-            card.className = `${baseClass} ${shapeClass} ${dimensionClass} p-4 relative cursor-pointer card-morph flex flex-col justify-between overflow-hidden border-none outline-none ring-0`;
+            card.className = `${baseClass} ${shapeClass} ${dimensionClass} p-4 relative cursor-pointer card-morph flex flex-col justify-between overflow-hidden ring-0`;
             card.style = bgStyle;
 
             let batchOverlayHTML = '';
@@ -1519,16 +1520,16 @@
             if (isSlider) {
                 card.innerHTML = `
                     ${textOverlay}
-                    <div class="relative z-10 flex flex-col h-full justify-between pointer-events-none border-none">
+                    <div class="relative z-10 flex flex-col h-full justify-between pointer-events-none">
                         <div class="flex justify-between w-full items-start">
                             <span class="inline-block text-[0.65rem] font-bold px-2 py-0.5 bg-black/40 rounded-full text-white uppercase tracking-widest">${book.type}</span>
                         </div>
-                        <div class="mt-auto flex flex-col border-none">
+                        <div class="mt-auto flex flex-col">
                             <h3 class="font-bold text-sm leading-tight line-clamp-2 drop-shadow-md ${book.coverBase64 ? 'text-white' : ''}">${book.title}</h3>
-                            <div class="w-full mt-2 border-none">
+                            <div class="w-full mt-2">
                                 <div class="flex justify-between text-[0.65rem] font-bold opacity-90 mb-1 ${book.coverBase64 ? 'text-white' : ''}"><span>${progress}%</span></div>
-                                <div class="h-1.5 w-full bg-black/20 dark:bg-white/20 rounded-full overflow-hidden border-none">
-                                    <div class="h-full ${book.coverBase64 ? 'bg-white' : 'bg-m3-primary dark:bg-m3-primaryContainer'} rounded-full border-none" style="width: ${progress}%"></div>
+                                <div class="h-1.5 w-full bg-black/20 dark:bg-white/20 rounded-full overflow-hidden">
+                                    <div class="h-full ${book.coverBase64 ? 'bg-white' : 'bg-m3-primary dark:bg-m3-primaryContainer'} rounded-full" style="width: ${progress}%"></div>
                                 </div>
                             </div>
                         </div>
@@ -1538,18 +1539,18 @@
                 card.innerHTML = `
                     ${batchOverlayHTML}
                     ${textOverlay}
-                    <div class="relative z-10 flex flex-col h-full justify-between pointer-events-none border-none">
+                    <div class="relative z-10 flex flex-col h-full justify-between pointer-events-none">
                         <div class="flex justify-end w-full"></div>
-                        <div class="mt-auto flex flex-col border-none">
+                        <div class="mt-auto flex flex-col">
                             ${book.coverBase64 ? '' : '<i data-lucide="book" class="w-6 h-6 mb-2 opacity-80"></i>'}
                             <h3 class="font-bold text-sm leading-tight mt-1 line-clamp-3 drop-shadow-md ${book.coverBase64 ? 'text-white' : ''}">${book.title}</h3>
                             <span class="inline-block mt-2 mb-2 text-[0.6rem] font-bold px-2 py-0.5 bg-black/40 rounded-full text-white uppercase tracking-widest self-start">${book.type}</span>
-                            <div class="w-full border-none">
+                            <div class="w-full">
                                 <div class="flex justify-between text-[0.6rem] font-bold opacity-90 mb-1 ${book.coverBase64 ? 'text-white' : ''}">
                                     <span>${progress}%</span>
                                 </div>
-                                <div class="h-1.5 w-full bg-black/20 dark:bg-white/20 rounded-full overflow-hidden border-none">
-                                    <div class="h-full ${book.coverBase64 ? 'bg-white' : 'bg-m3-primary dark:bg-m3-primaryContainer'} rounded-full border-none" style="width: ${progress}%"></div>
+                                <div class="h-1.5 w-full bg-black/20 dark:bg-white/20 rounded-full overflow-hidden">
+                                    <div class="h-full ${book.coverBase64 ? 'bg-white' : 'bg-m3-primary dark:bg-m3-primaryContainer'} rounded-full" style="width: ${progress}%"></div>
                                 </div>
                             </div>
                         </div>
@@ -1690,7 +1691,7 @@
                         el = document.createElement(node.tag); el.innerHTML = renderNodeText(node.text, annots); el.id = `node-${i}`;
                         if (node.tag === 'h1' || node.tag === 'h2') {
                             hCounter++; currentHeadingId = el.id; 
-                            el.className = node.tag === 'h1' ? "text-3xl font-bold tracking-tight mt-12 mb-6 text-m3-primary leading-snug break-words" : "text-xl font-bold mt-10 mb-4 text-m3-onSurfaceVariant border-b border-m3-surfaceVariant pb-2 break-words";
+                            el.className = node.tag === 'h1' ? "text-3xl font-bold tracking-tight mt-12 mb-6 text-m3-primary leading-snug break-words" : "text-xl font-bold mt-10 mb-4 text-m3-onSurfaceVariant pb-2 break-words";
                             const tocItem = document.createElement('button'); tocItem.id = `toc-btn-${el.id}`;
                             tocItem.className = `text-left text-sm p-3 rounded-2xl hover:bg-m3-surface transition-all duration-300 ${node.tag==='h1'?'font-bold text-m3-primary':'ml-4 opacity-80'}`;
                             tocItem.textContent = node.text;
@@ -2047,7 +2048,7 @@
                         if (dataGemini.candidates && dataGemini.candidates.length > 0) {
                             const aiText = dataGemini.candidates[0].content.parts[0].text.replace(/\n/g, '<br>');
                             const shortModel = model.replace('gemini-', '');
-                            geminiHtml = `<div class="mb-4 p-4 bg-m3-primaryContainer text-m3-onPrimaryContainer rounded-2xl border border-m3-primary/20 shadow-sm"><div class="flex items-center justify-between mb-2"><div class="flex items-center gap-1.5"><span class="font-bold text-xs uppercase tracking-wider text-m3-primary">Gemini AI</span></div><span class="text-[9px] font-bold opacity-70 px-2 py-0.5 bg-black/10 dark:bg-white/10 rounded-full">${shortModel}</span></div><p class="text-sm font-medium leading-relaxed">${aiText}</p></div>`;
+                            geminiHtml = `<div class="mb-4 p-4 bg-m3-primaryContainer text-m3-onPrimaryContainer rounded-2xl shadow-sm"><div class="flex items-center justify-between mb-2"><div class="flex items-center gap-1.5"><span class="font-bold text-xs uppercase tracking-wider text-m3-primary">Gemini AI</span></div><span class="text-[9px] font-bold opacity-70 px-2 py-0.5 bg-black/10 dark:bg-white/10 rounded-full">${shortModel}</span></div><p class="text-sm font-medium leading-relaxed">${aiText}</p></div>`;
                         }
                     } catch(e) {}
                 }
@@ -2072,7 +2073,7 @@
                                 const defs = m.definitions.slice(0, 2).map(def => `<li class="mb-1">${def.definition}</li>`).join('');
                                 return `<div class="mb-2"><span class="italic text-xs font-bold text-m3-primary">${m.partOfSpeech}</span><ul class="list-disc pl-4 mt-1 text-sm">${defs}</ul></div>`;
                             }).join('');
-                            dictHtml += `<div class="mt-4 pt-4 border-t border-m3-onSurfaceVariant/10"><p class="mb-2 text-xs text-m3-onSurfaceVariant/60 font-bold uppercase tracking-wider block">Dictionary (EN)</p>${meaningsHtml}</div>`;
+                            dictHtml += `<div class="mt-4 pt-4"><p class="mb-2 text-xs text-m3-onSurfaceVariant/60 font-bold uppercase tracking-wider block">Dictionary (EN)</p>${meaningsHtml}</div>`;
                         }
                     } catch(e) {}
                 }
@@ -2089,12 +2090,12 @@
                                 }
                             });
                         });
-                        if(wiktMeanings) { dictHtml += `<div class="mt-4 pt-4 border-t border-m3-onSurfaceVariant/10"><p class="mb-2 text-xs text-m3-onSurfaceVariant/60 font-bold uppercase tracking-wider block">Wiktionary (${wikiLang.toUpperCase()})</p>${wiktMeanings}</div>`; }
+                        if(wiktMeanings) { dictHtml += `<div class="mt-4 pt-4"><p class="mb-2 text-xs text-m3-onSurfaceVariant/60 font-bold uppercase tracking-wider block">Wiktionary (${wikiLang.toUpperCase()})</p>${wiktMeanings}</div>`; }
                     } catch(e) {}
                 }
 
                 const extLinks = `
-                    <div class="mt-4 pt-4 border-t border-m3-onSurfaceVariant/10 flex gap-2 flex-wrap items-center">
+                    <div class="mt-4 pt-4 flex gap-2 flex-wrap items-center">
                         <span class="text-xs font-bold opacity-50 uppercase tracking-wider w-full mb-1">External Search:</span>
                         <a href="https://{wikiLang}.wikipedia.org/wiki/Special:Search?search=${q}" target="_blank" class="text-m3-primary/90 hover:text-m3-primary font-bold inline-flex items-center gap-1 text-xs bg-m3-primary/10 hover:bg-m3-primary/20 transition-all px-3 py-1.5 rounded-full">Wiki <i data-lucide="external-link" class="w-3 h-3"></i></a>
                         <a href="https://kbbi.web.id/${q}" target="_blank" class="text-m3-primary/90 hover:text-m3-primary font-bold inline-flex items-center gap-1 text-xs bg-m3-primary/10 hover:bg-m3-primary/20 transition-all px-3 py-1.5 rounded-full">KBBI <i data-lucide="external-link" class="w-3 h-3"></i></a>
